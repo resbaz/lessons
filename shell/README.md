@@ -1,13 +1,11 @@
 Shell teaching content
 =======================
 
-This directory contains the shell related content that I teach at Software Carpentry bootcamps. 
-
 ## Novice lessons
 
 ### 1. Files and directories 
 
-(novice/01-filedir.md)  
+(swc-novice/01-filedir.md)  
 
 * The file system is responsible for managing information on disk.
 * Information is stored in files, which are stored in directories (folders).
@@ -28,7 +26,7 @@ This directory contains the shell related content that I teach at Software Carpe
 
 ### 2. Creating things 
 
-(novice/02-create.md)  
+(swc-novice/02-create.md)  
 
 * Unix documentation uses '^A' to mean "control-A".
 * The shell does not have a trash bin: once something is deleted, it's really gone.
@@ -41,7 +39,7 @@ This directory contains the shell related content that I teach at Software Carpe
 
 ### 3. Pipes and filters 
 
-(novice/03-pipefilter.md)  
+(swc-novice/03-pipefilter.md)  
 
 * Use wildcards to match filenames.
 * '*' is a wildcard pattern that matches zero or more characters in a pathname.
@@ -60,7 +58,7 @@ This directory contains the shell related content that I teach at Software Carpe
 
 ### 4. Loops 
 
-(novice/04-loop.md)  
+(swc-novice/04-loop.md)  
 
 * Use a for loop to repeat commands once for every thing in a list.
 * Use `$name` to expand a variable (i.e., get its value).
@@ -74,7 +72,7 @@ This directory contains the shell related content that I teach at Software Carpe
 
 ### 5. Shell scripts  
 
-(novice/05-script.md)
+(swc-novice/05-script.md)
 
 * Save commands in files (usually called shell scripts) for re-use.
 * Use `bash filename` to run saved commands.
@@ -86,7 +84,7 @@ This directory contains the shell related content that I teach at Software Carpe
 
 ### 6. Finding things
 
-(novice/06-find.md)  
+(swc-novice/06-find.md)  
 
 * Everything is stored as bytes, but the bytes in binary files do not represent characters.
 * Use nested loops to run commands for every combination of two lists of things.

@@ -1,8 +1,7 @@
 Git teaching content
 ====================
 
-This directory contains the Git related content that I teach at Software Carpentry 
-bootcamps. The first two lessons (`00-intro.md` and `01-backup.md`) are the same for
+The first two lessons (`00-intro.md` and `01-backup.md`) are the same for
 both novice and intermediate audiences, but after that the content diverges. 
 * The novice lessons cover the bare minimum that a lone researcher (i.e. not collaborating 
 with others) needs to know in order to get started with version control. 

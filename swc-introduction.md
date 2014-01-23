@@ -47,13 +47,12 @@ Why do researchers need help with programming?
 Who is this guy teaching us?
 ---
 Similar to most [qualified](http://software-carpentry.org/badges/index.html) Software Carpentry instructors, I'm a 
-research scientist and not a professional software developer (see my 
-[bio](https://github.com/DamienIrving/CV/blob/master/CV.md)). This avoids a well-known teaching phenomenon called 
+research scientist and not a professional software developer. This avoids a well-known teaching phenomenon called 
 *expert blind spot*. In other words, Software Carpentry instructors can still remember what it's like to not understand 
 this stuff, which makes them better teachers.
 
 For a more in depth discussion of the history, syllabus and benefits of Software Carpentry, 
-check out this [talk I gave at PyCon Australia](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under).
+check out this [talk from the 2013 PyCon Australia Conference](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under).
 
 
 What is the teaching format?
