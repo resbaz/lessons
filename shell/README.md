@@ -1,7 +1,10 @@
 Shell teaching content
 =======================
 
-## Novice lessons
+The markdown (.md) notes in this directory are mostly complete, but in places are missing figures. Students may
+therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/shell/index.html) version of the notes, which is maintained by Software Carpentry. 
+
+## Novice lesson summary
 
 ### 1. Files and directories 
 
