@@ -6,24 +6,14 @@ concepts that all programming depends on. We simply use Python in our lessons be
 
 1.  we have to use *something* for examples;
 2.  it's free, well-documented, and runs almost everywhere;
-3.  it has a large (and growing) user base among scientists; and
+3.  it has a large (and growing) user base among researchers; and
 4.  experience shows that it's easier for novices to pick up than most other languages.
 
 See [here](http://drclimate.wordpress.com/2013/06/11/picking-the-right-programming-language/) for a discussion
 of how Python compares to the many other programming languages out there.
 
 Each lesson is saved as a separate IPython notebook. To view these notebooks, you can 
-either navigate to associated nbviewer page, 
-
-[01-numpy.ipynb](http://nbviewer.ipython.org/7572409)  
-[02-func.ipynb](http://nbviewer.ipython.org/7572464)  
-[03-loop.ipynb](http://nbviewer.ipython.org/7572490)  
-[04-cond.ipynb](http://nbviewer.ipython.org/7572504)  
-[05-defensive.ipynb](http://nbviewer.ipython.org/7572521)  
-[06-cmdline.ipynb](http://nbviewer.ipython.org/7572536)  
-
-
-or clone my lessons repository,
+either read from the corresponding Software Carpentry [webpage](http://software-carpentry.org/v5/novice/python/index.html), or clone this lessons repository,
 
     git clone https://github.com/resbaz/lessons.git
 
@@ -33,7 +23,7 @@ then navigate to the `python` directory and fire up the IPython notebook:
     ipython notebook &
 
 
-## Novice lessons
+## Novice lesson summary
 
 ### 1. Introduction to Data Analysis
 
