@@ -1,0 +1,1 @@
+The version 5 Software Carpentry teaching materials are currently being developed. In the meantime, some nice [teaching notes](http://nicercode.github.io/2014-02-18-UTS/lessons/) have been archived from a [bootcamp held at the University of Technology, Sydney](http://nicercode.github.io/2014-02-18-UTS/) in February 2014. 
