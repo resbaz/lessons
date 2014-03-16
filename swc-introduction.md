@@ -32,6 +32,8 @@ usually true).
 
 Why do researchers need help with programming?
 ---
+There's a serious answer:  
+
 1. The volume of data available to researchers is growing exponentially, which means a simple Excel 
    spreadsheet just doesn't cut it in today's world of [big data](http://en.wikipedia.org/wiki/Big_data). 
 2. Most researchers are self taught programmers. As a result, they spend hours doing things that 
@@ -42,6 +44,11 @@ Why do researchers need help with programming?
    [waking up to this problem](http://drclimate.wordpress.com/2013/06/30/the-future-of-journal-submissions/), 
    and are beginning to require that people submit their code along with their manuscript (a terrifying prospect 
    for most researchers!).
+
+... and also a more humorous take from PhD comics:  
+* [Scratch That](http://phdcomics.com/comics.php?f=1689)
+* [Programming Skills](http://phdcomics.com/comics.php?f=1688)
+* [The Magic Code](http://phdcomics.com/comics.php?f=1687)
 
 
 Who is this guy teaching us?
