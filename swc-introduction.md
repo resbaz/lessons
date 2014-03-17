@@ -51,12 +51,11 @@ There's a serious answer:
 * [The Magic Code](http://phdcomics.com/comics.php?f=1687)
 
 
-Who is this guy teaching us?
+Who teaches at a bootcamp?
 ---
-Similar to most [qualified](http://software-carpentry.org/badges/index.html) Software Carpentry instructors, I'm a 
-research scientist and not a professional software developer. This avoids a well-known teaching phenomenon called 
-*expert blind spot*. In other words, Software Carpentry instructors can still remember what it's like to not understand 
-this stuff, which makes them better teachers.
+Most [qualified](http://software-carpentry.org/badges/index.html) Software Carpentry instructors are
+research scientists and not professional software developers. This avoids a well-known teaching phenomenon called
+*expert blind spot*. In other words, Software Carpentry instructors can still remember what it's like to not understand this stuff, which makes them better teachers.
 
 For a more in depth discussion of the history, syllabus and benefits of Software Carpentry, 
 check out this [talk from the 2013 PyCon Australia Conference](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under).
