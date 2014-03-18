@@ -258,12 +258,12 @@ Of course, this introduces another tradeoff between flexibility and complexity.
     `uniq` to print a list of the unique species appearing in each of
     those files separately.
 
-2.  Write a shell script called `longest.sh` that takes the name of a
+2.  Write a shell script called `most_recent.sh` that takes the name of a
     directory and a filename extension as its parameters, and prints out
     the name of the most recently modified file in that directory with
     that extension. For example:
 
-        $ bash largest.sh /tmp/data pdb
+        $ bash most_recent.sh /tmp/data pdb
 
     would print the name of the PDB file in `/tmp/data` that has been
     changed most recently.
