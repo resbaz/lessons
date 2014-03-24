@@ -1,0 +1,56 @@
+Welcome to the Software Carpentry Bootcamp
+
+ATTENDANCE LIST
+
+
+
+FAQ's
+
+How can I connect to the wifi?
+- UniMelb people: UniWireless
+- Other institutions: eduroam
+- Last resort:
+  - Network name: belkin.281 [5GHz]
+  - Password: 4a24668e
+
+What are the important URLs?
+- Etherpad: https://etherpad.mozilla.org/swc-combine
+- Website: http://resbaz.github.io/2014-03-18-combine/
+
+Teaching materials and challenges: 
+- http://software-carpentry.org/v5/, OR
+- git clone https://github.com/resbaz/lessons.git
+
+
+SOFTWARE INSTALLATION SOLUTIONS
+
+I can't import ipythonblocks...
+- Open a bash shell terminal and type "easy_install ipythonblocks" (without the quotation marks) 
+  - You may get an error message about a missing module called ez_setup. If so, you'll need to do "easy_install ez_setup" first. 
+- When you relaunch the IPython notepad, it should be available.
+
+I'm having trouble installing the software...
+- You might find the solution here: https://github.com/swcarpentry/bc/wiki/Configuration-Problems-and-Solutions
+
+It is impossible for me to install the software on my machine...
+- You can either create an account at SageMathCloud (https://cloud.sagemath.com/) and work from there, or simply pair up with somebody who has a laptop.
+
+I didn't install Anaconda as the default Python...
+- Run "/usr/bin/anaconda/bin/python"
+
+How do I change directory in the IPython notebook?
+- The following command doesn't work: !cd
+- Instead, try:
+    import os
+    os.chdir("/path/to/change/to")
+
+
+LINKS
+
+- The shell on windows: https://github.com/resbaz/lessons/blob/master/shell/windows.md
+- Best practices for scientific computing: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001745
+- A Scientist's Nightmare: Software Problem Leads to Five Retractions: http://www.sciencemag.org/content/314/5807/1856
+- The how, what and why of testing your code: http://drclimate.wordpress.com/2013/10/10/testing-your-code/
+- An overview of version control: http://drclimate.wordpress.com/2012/11/16/version-control/
+- Backing up your work: http://drclimate.wordpress.com/2013/04/16/backing-up-your-work/
+- Summary of why attending a bootcamp is so important: http://software-carpentry.org/blog/2013/11/why-attend-bootcamp.html
