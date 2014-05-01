@@ -1,4 +1,4 @@
-# MATLAB teaching content
+# Matlab teaching content
 
 The first ever Matlab bootcamp was held in Manchester in January 2014 (see [here](http://www.walkingrandomly.com/?p=5324) and [here](http://software-carpentry.org/blog/2014/01/feedback-manchester-matlab-bootcamp.html) for blog posts about the event; the official event page is [here](http://apawlik.github.io/2014-01-14-manchester/)). The instructors from that event have written up the teaching materials so that they can be included in the Software Carpentry GitHub repository. An advance copy of those open source materials are what is included in this directory.
 
@@ -8,7 +8,7 @@ MathWorks have indicated that they are happy to support delivery of this course 
 
 ## Prerequisite knowledge
 
-It's not recommended to enter the bootcamp with no previous MATLAB knowledge. As pre-work for the bootcamp, we strongly recommend the [interactive online tutorial](https://www.mathworks.co.uk/academia/student_center/tutorials/) this is available free of charge for academic users. This contains more than three hours of introductory MATLAB materials and provides suitable prerequisite training prior to attendance at a MATLAB-based bootcamp.
+It's not recommended to enter the bootcamp with no previous Matlab knowledge. As pre-work for the bootcamp, we strongly recommend the [interactive online tutorial](https://www.mathworks.co.uk/academia/student_center/tutorials/) this is available free of charge for academic users. This contains more than three hours of introductory MATLAB materials and provides suitable prerequisite training prior to attendance at a Matlab-based bootcamp.
 
 
 ## Installation instructions
@@ -33,22 +33,22 @@ Staff and students at the University of Melbourne are able to install Matlab on 
 
 * While still in the License Centre, select the "Download Products" link and follow the instructions on each dialog box in the download procedure
 * Start the MathWorks installer
-  * Windows: Double-click the setup.exe file. 
-  * Macintosh: Double-click the InstallForMacOSX file.
-  * Linux/Unix: Run the install script.
+  * Windows: Double-click the setup.exe file 
+  * Macintosh: Double-click the InstallForMacOSX file
+  * Linux/Unix: Run the install script
 * Choose "Log in with a MathWorks Account" and follow the prompts
 
 ### Alternatively...
 
-If you have any trouble following the steps above, you can find more detailed instructions [here](https://docs.google.com/file/d/0B6C-GRMoX9XQenllRHpadzVCRHM/edit?pli=1).
+If you have any trouble following the steps above, you can find more detailed instructions [here](https://docs.google.com/file/d/0B6C-GRMoX9XQenllRHpadzVCRHM/edit?pli=1). You'll need to following information depending on whether you are a student or staff member:
 * Staff: 
-  * Page 1-8 to 1-10 shows how to access the Mathworks site to create an account and download the software
+  * Page 1-8 to 1-10 shows how to access the MathWorks site to create an account and download the software
   * Page 1-11 to 1-17 instructs the user on how to install and activate the software 
   * Activation Key: 24759-36418-71647-13382-89362
   * License: 342764
   * End Users: Total Academic Headcount (TAH) Campus
 * Students: 
-  * Page 1-34 to 1-36 shows how to access the Mathworks site to create an account and download the software
+  * Page 1-34 to 1-36 shows how to access the MathWorks site to create an account and download the software
   * Page 1-37 to 1-42 instructs the user on how to install and activate the software 
   * Activation Key: 18098-22076-81253-90866-03229
   * License: 932357
