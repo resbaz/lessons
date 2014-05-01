@@ -18,7 +18,7 @@ Staff and students at the University of Melbourne are able to install Matlab on 
 ### 1. Create a MathWorks account  
 
 * At the [MathWorks website](http://www.mathworks.com.au/), select the "Create Account" link in the top right hand corner
-* Enter the relevant personal details, noting that you'll need to use your university email address in order to obtain Matlab for free
+* Enter your personal details, noting that you'll need to use your university email address in order to obtain Matlab for free
 * When asked how you will use MathWorks software, select "Academic use"
 
 ### 2. Create a license 
@@ -38,7 +38,18 @@ Staff and students at the University of Melbourne are able to install Matlab on 
   * Linux/Unix: Run the install script.
 * Choose "Log in with a MathWorks Account" and follow the prompts
 
+### Alternatively...
 
-If you have any trouble following the steps above, you can find more detailed instructions [here](https://docs.google.com/file/d/0B6C-GRMoX9XQenllRHpadzVCRHM/edit?pli=1).  
-* Staff: Page 1-8 to 1-10 shows how to access the Mathworks site to create an account and download the software. Page 1-11 to 1-17 instructs the user on how to install and activate the software (Activation Key: 24759-36418-71647-13382-89362; License: 342764; End Users: Total Academic Headcount (TAH) Campus)
-* Students: Page 1-34 to 1-36 shows how to access the Mathworks site to create an account and download the software. Page 1-37 to 1-42 instructs the user on how to install and activate the software (Activation Key: 18098-22076-81253-90866-03229; License: 932357; End Users: Total Academic Headcount (TAH) Student)
+If you have any trouble following the steps above, you can find more detailed instructions [here](https://docs.google.com/file/d/0B6C-GRMoX9XQenllRHpadzVCRHM/edit?pli=1).
+* Staff: 
+  * Page 1-8 to 1-10 shows how to access the Mathworks site to create an account and download the software
+  * Page 1-11 to 1-17 instructs the user on how to install and activate the software 
+  * Activation Key: 24759-36418-71647-13382-89362
+  * License: 342764
+  * End Users: Total Academic Headcount (TAH) Campus
+* Students: 
+  * Page 1-34 to 1-36 shows how to access the Mathworks site to create an account and download the software
+  * Page 1-37 to 1-42 instructs the user on how to install and activate the software 
+  * Activation Key: 18098-22076-81253-90866-03229
+  * License: 932357
+  * End Users: Total Academic Headcount (TAH) Student
