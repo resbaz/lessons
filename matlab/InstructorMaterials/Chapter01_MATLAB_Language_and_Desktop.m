@@ -64,24 +64,42 @@
 % applicable to everyone.
 
 %% The MATLAB Desktop.
-% It's worth introducing the four main components of the MATLAB Desktop
-% (the screen that appears when MATLAB is started). The four main
+% It's worth introducing the five main components of the MATLAB Desktop
+% (the screen that appears when MATLAB is started). The five main
 % components are:
 %
+% * The Toolstrip
 % * The Current Folder Browser (CFB)
 % * The Command Window
 % * The Command History
 % * The Workspace Browser
 %
-% Recommendations: Show people how to change folders, how to identify which
-% folder they are working in, and how to add/remove directories to/from 
-% their MATLAB path. Understanding how to manipulate the path to ensure 
-% that code files are visible is a key point.
-% Show some basic commands at the command window and emphasise that they
-% are recorded in the command history. Show how to recall commands from the
-% command history. Explain that the Workspace Browser stores your current
-% MATLAB data (variables).
+% Using the many helpful buttons, drop-down menus and user interface elements
+% in the Toolstrip, simple data processing tasks can be accomplished much like 
+% they would be using Microsoft Excel. For example:
+% * Import 'MedicalData.txt' using the 'Import Data' button in the 'Home' tab
+%   (discuss the various file types that can be imported)
+% * Plot the data using some of the options in the 'plots' tab
+% * (Recommendations: During this example show people how to change folders, 
+%   how to identify which folder they are working in, and how to add/remove 
+%   directories to/from their MATLAB path. Understanding how to manipulate the 
+%   path to ensure that code files are visible is a key point. Show some basic 
+%   commands at the command window and emphasise that they are recorded in the 
+%   command history. Show how to recall commands from the command history. 
+%   Explain that the Workspace Browser stores your current MATLAB data (variables).)
+%
+% Once you've created a nice figure or successfully imported a data file, you can
+% export the code associated with that task (do this as an example). When you want 
+% to repeat the task next week, month, or year, you can then simply run the script 
+% or call the function that you exported.
 
+% While this is a hugely convenient feature, once you've been using Matlab for a while
+% you'll see that the Toolstrip only contains buttons and menus for very common and 
+% relatively simple tasks. Instead of simply exporting default code from your interactive 
+% sessions, as some point you're going to want/need to write your own Matlab code. The 
+% rest of this bootcamp will therefore focus on a series of best pratices for doing 
+% just that.
+%
 %% The MATLAB Editor.
 % The MATLAB Editor is used to write, edit, run, debug and publish MATLAB
 % code. We will collect our code into a script in this initial chapter of
