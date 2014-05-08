@@ -1,10 +1,10 @@
 Welcome to the Software Carpentry Bootcamp
 
-ATTENDANCE LIST
+## ATTENDANCE LIST
 
 
 
-FAQ's
+## FAQ's
 
 How can I connect to the wifi?
 - UniMelb people: UniWireless
@@ -18,11 +18,13 @@ What are the important URLs?
 - Website: http://resbaz.github.io/2014-03-18-combine/
 
 Teaching materials and challenges: 
-- http://software-carpentry.org/v5/, OR
+- http://www.software-carpentry.org/lessons.html, OR
 - git clone https://github.com/resbaz/lessons.git
 
 
-SOFTWARE INSTALLATION SOLUTIONS
+## SOFTWARE INSTALLATION SOLUTIONS
+
+# Python
 
 I can't import ipythonblocks...
 - Open a bash shell terminal and type "easy_install ipythonblocks"  (without the quotation marks) 
@@ -45,7 +47,7 @@ I'm having trouble installing the software...
 - You might find the solution here: https://github.com/swcarpentry/bc/wiki/Configuration-Problems-and-Solutions
 
 It is impossible for me to install the software on my machine...
-- You can either create an account at SageMathCloud (https://cloud.sagemath.com/) and work from there, or simply pair up with somebody who has a laptop.
+- You can either create an account at SageMathCloud (https://cloud.sagemath.com/) or Wakari (https://wakari.io/) and work from there, or simply pair up with somebody who has a laptop.
 
 I didn't install Anaconda as the default Python...
 - Run "/usr/bin/anaconda/bin/python"
@@ -60,7 +62,7 @@ Using git on a Mac and having problems?
 - Try going to the app store and install xcode.
 
 
-LINKS
+## LINKS
 
 - The shell on windows: https://github.com/resbaz/lessons/blob/master/shell/windows.md
 - Best practices for scientific computing: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001745
