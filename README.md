@@ -10,7 +10,7 @@ teaches programming skills to researchers.
 There are a number of Software Carpentry lessons that are currently being developed that we would be interested in including in our courses:  
 
 * IPython parallel intermediate lesson (see [lesson](https://github.com/cfriedline/bc/blob/swc-ipython-parallel-lesson/intermediate/python/05-ipython-parallel.md) and [pull request](https://github.com/swcarpentry/bc/pull/438/files))
-* Python spatial mapping novive lesson (see [pull request](https://github.com/swcarpentry/bc/pull/387))
+* Python spatial mapping novice lesson (see [pull request](https://github.com/swcarpentry/bc/pull/387))
 * Make intermediate lesson (see [lesson](https://github.com/swcarpentry/bc/tree/master/intermediate/make))
 * Python multiprocessing intermediate lesson (see [lesson](https://github.com/swcarpentry/bc/blob/master/intermediate/python/04-multiprocessing.md))
 
