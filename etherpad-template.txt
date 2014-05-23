@@ -27,6 +27,7 @@ Teaching materials and challenges:
 # Python
 
 I can't import ipythonblocks...
+- (conda install ipythonblocks might work?)
 - Open a bash shell terminal and type "easy_install ipythonblocks"  (without the quotation marks) 
 - If that doesn't work, try one or more of the following:
 
