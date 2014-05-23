@@ -5,7 +5,21 @@ This repository contains the teaching materials used by the Research Bazaar.
 
 The directory prefix "swc" indicates that the materials are taken largely from 
 [Software Carpentry](http://software-carpentry.org/), which is a volunteer organisation that
-teaches programming skills to researchers.  
+teaches programming skills to researchers.    
+
+There are a number of Software Carpentry lessons that are currently being developed that we would be interested in including in our courses:  
+
+* IPython parallel intermediate lesson (see [lesson](https://github.com/cfriedline/bc/blob/swc-ipython-parallel-lesson/intermediate/python/05-ipython-parallel.md) and [pull request](https://github.com/swcarpentry/bc/pull/438/files))
+* Python spatial mapping novive lesson (see [pull request](https://github.com/swcarpentry/bc/pull/387))
+* Make intermediate lesson (see [lesson](https://github.com/swcarpentry/bc/tree/master/intermediate/make))
+* Python multiprocessing intermediate lesson (see [lesson](https://github.com/swcarpentry/bc/blob/master/intermediate/python/04-multiprocessing.md))
+
+Note that the materials in the Software Carpentry [bc repo](https://github.com/swcarpentry/bc) are organised as follows:  
+
+* The `gh-pages` branch has the complete, mature materials
+* The `master` branch has materials that are still being refined, but are good enough to use as they are
+* All other development is tracked via [issues](https://github.com/swcarpentry/bc/issues) or [pull requests](https://github.com/swcarpentry/bc/pulls)
+
 
 ### Contributing new material
 
