@@ -12,13 +12,13 @@ organisation).
 
 What gets taught at a bootcamp?
 ---
-Our goal is to teach a handful of basic computing skills, so that researchers can get more done in less time. Our goal is 
+Our goal is to teach a handful of [best practices in scientific computing](http://arxiv.org/abs/1210.0530), so that 
+researchers can get more done in less time. Our goal is 
 not to produce professional programmers. By way of analogy, we think every researcher should know about as much about
 computing as they do about statistics. Most researchers don't have a degree in statistics, but at some point they've 
 learned what correlation means, what statistical significance is, and so on. 
 
-Our syllabus focuses on well established [best practices in scientific computing](http://arxiv.org/abs/1210.0530) and 
-covers three major domains:
+The syllabus covers three major domains:
 
 1. The command line
 2. Programming fundamentals (readability, defensive programming, testing, etc) 
@@ -65,10 +65,11 @@ What is the teaching format?
 ---
 The syllabus is delivered via lecture/demonstration interspersed with regular challenges to be worked on in pairs.
 During the lectures most people open a terminal window or IPython notebook and follow along, trying out new commands
-and ideas as they're introduced. Other people prefer just to sit back and watch. There is no need to take notes, as
-copies of all the teaching materials are available at this GitHub page.
+and ideas as they're introduced. Other people prefer just to sit back and watch. There's no need to take notes, as
+copies of all the teaching materials are available on the Software Carpentry website (see [here](http://www.software-carpentry.org/lessons.html)).
 
-At any point during the bootcamp it's inevitable that some people will be finding
+If you're having trouble at any point, put up a red post-it note and a helper will come to your aid. If things are
+going well, put a green one up. In fact, at any point during the bootcamp it's inevitable that some people will be finding
 the material too easy, while others will be struggling to keep up. In this case the former
 should help the latter - Software Carpentry is as much about fostering supportive 
 computing communities as it is about actually teaching the nuts and bolts of programming. 
