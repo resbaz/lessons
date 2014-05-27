@@ -41,7 +41,7 @@ There's a serious answer:
 3. This rapid increase in data, coupled with the low computational competency of the community, has resulted in 
    something of an [irreproducibility crisis](http://www.nature.com/nature/focus/reproducibility/index.html) in 
    published research. However, the world's most prominent journals are 
-   [waking up to this problem](http://drclimate.wordpress.com/2013/06/30/the-future-of-journal-submissions/), 
+   [waking up to this problem](http://drclimate.wordpress.com/2014/03/18/the-future-of-journal-submissions/), 
    and are beginning to require that people submit their code along with their manuscript (a terrifying prospect 
    for most researchers!).
 
@@ -53,9 +53,10 @@ There's a serious answer:
 
 Who teaches at a bootcamp?
 ---
-Most [qualified](http://software-carpentry.org/badges/index.html) Software Carpentry instructors are
+Most [qualified](http://www.software-carpentry.org/pages/team.html) Software Carpentry instructors are
 research scientists and not professional software developers. This avoids a well-known teaching phenomenon called
-*expert blind spot*. In other words, Software Carpentry instructors can still remember what it's like to not understand this stuff, which makes them better teachers.
+*expert blind spot*. In other words, Software Carpentry instructors can still remember what it's like to not understand 
+this stuff, which makes them better teachers.
 
 For a more in depth discussion of the history, syllabus and benefits of Software Carpentry, 
 check out this [talk from the 2013 PyCon Australia Conference](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under).
