@@ -2,7 +2,7 @@ We make use of the Software Carpentry novice and intermediate level python teach
 
 ### Novice lessons
 
-The core novice python lessons are available [here](https://github.com/swcarpentry/bc/tree/master/novice/python) at the Software Carpentry github bc repo. They can also be viewed at the [lessons page](http://www.software-carpentry.org/lessons.html) of their website. Some extra novice lessons on exceptions and numbers can also be found [here](https://github.com/swcarpentry/bc/tree/master/novice/extras). 
+The core novice python lessons are available [here](https://github.com/swcarpentry/bc/tree/master/novice/python) at the Software Carpentry github bc repo. They can also be viewed at the [lessons page](http://www.software-carpentry.org/lessons.html) of their website. Some extra novice lessons on exceptions and numbers can also be found [here](https://github.com/swcarpentry/bc/tree/master/novice/extras) at the bc repo and also at the lessons page. 
 
 
 ### Intermediate lessons
