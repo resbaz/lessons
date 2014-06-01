@@ -2,7 +2,7 @@ We make use of the Software Carpentry novice and intermediate level git teaching
 
 ### Novice lessons
 
-The core novice git lessons are available [here](https://github.com/swcarpentry/bc/tree/master/novice/git) at the Software Carpentry github bc repo. They can also be viewed at the [lessons page](http://www.software-carpentry.org/lessons.html) of their website. Some extra novice lessons on branching and merging can also be found [here](https://github.com/swcarpentry/bc/tree/master/novice/extras). 
+The core novice git lessons are available [here](https://github.com/swcarpentry/bc/tree/master/novice/git) at the Software Carpentry github bc repo. They can also be viewed at the [lessons page](http://www.software-carpentry.org/lessons.html) of their website. Some extra novice lessons on branching and merging can also be found [here](https://github.com/swcarpentry/bc/tree/master/novice/extras) at the bc repo and also on the lessons page. 
 
 
 ### Intermediate lessons
