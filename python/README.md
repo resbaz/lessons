@@ -1,14 +1,16 @@
-Python teaching content
-=======================
+We make use of the Software Carpentry novice and intermediate level python teaching materials. 
 
-It should be noted that the real goal of these lessons isn't to teach Python, but to teach the basic 
-concepts that all programming depends on. We simply use Python in our lessons because:
+## Novice lessons
 
-1.  we have to use *something* for examples;
-2.  it's free, well-documented, and runs almost everywhere;
-3.  it has a large (and growing) user base among researchers; and
-4.  experience shows that it's easier for novices to pick up than most other languages.
+The core novice python lessons are available [here](https://github.com/swcarpentry/bc/tree/master/novice/python) at the Software Carpentry github bc repo. They can also be viewed at the [lessons page](http://www.software-carpentry.org/lessons.html) of their website. Some extra novice lessons on exceptions and numbers can also be found [here](https://github.com/swcarpentry/bc/tree/master/novice/extras). 
 
-See [here](http://drclimate.wordpress.com/2013/06/11/picking-the-right-programming-language/) for a discussion
+
+## Intermediate lessons
+
+Some intermediate level python lessons are available [here](https://github.com/swcarpentry/bc/blob/master/intermediate/python). They are currently incomplete.
+
+
+## Other useful resources
+* See [here](http://drclimate.wordpress.com/2013/06/11/picking-the-right-programming-language/) for a discussion
 of how Python compares to the many other programming languages out there.
 
