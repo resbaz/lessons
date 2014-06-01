@@ -1,14 +1,8 @@
-Shell teaching content
-=======================
+We make use of the Software Carpentry novice level shell lessons. Markdown versions of those lessons can be found [here](https://github.com/swcarpentry/bc/tree/master/novice/shell) at the Software Carpentry bc repo. They can also be viewed at the [lessons page](http://www.software-carpentry.org/lessons.html) of the Software Carpentry website.  
 
-The markdown (.md) notes in this directory are mostly complete, but in places are missing figures. Students may
-therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/shell/index.html) version of the notes, which is maintained by Software Carpentry. 
-
-## Novice lesson summary
+If people are wondering whether they need to attend the shell part of a bootcamp, they can refer to this summary of the teaching content:
 
 ### 1. Files and directories 
-
-(swc-novice/01-filedir.md)  
 
 * The file system is responsible for managing information on disk.
 * Information is stored in files, which are stored in directories (folders).
@@ -29,8 +23,6 @@ therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/s
 
 ### 2. Creating things 
 
-(swc-novice/02-create.md)  
-
 * Unix documentation uses '^A' to mean "control-A".
 * The shell does not have a trash bin: once something is deleted, it's really gone.
 * `mkdir path` creates a new directory.
@@ -41,8 +33,6 @@ therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/s
 
 
 ### 3. Pipes and filters 
-
-(swc-novice/03-pipefilter.md)  
 
 * Use wildcards to match filenames.
 * '*' is a wildcard pattern that matches zero or more characters in a pathname.
@@ -61,8 +51,6 @@ therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/s
 
 ### 4. Loops 
 
-(swc-novice/04-loop.md)  
-
 * Use a for loop to repeat commands once for every thing in a list.
 * Use `$name` to expand a variable (i.e., get its value).
 * Do not use spaces, quotes, or wildcard characters such as '*' or '?' in filenames, as 
@@ -75,8 +63,6 @@ therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/s
 
 ### 5. Shell scripts  
 
-(swc-novice/05-script.md)
-
 * Save commands in files (usually called shell scripts) for re-use.
 * Use `bash filename` to run saved commands.
 * `$*` refers to all of a shell script's command-line parameters.
@@ -86,8 +72,6 @@ therefore also wish to refer to [this](http://software-carpentry.org/v5/novice/s
 
 
 ### 6. Finding things
-
-(swc-novice/06-find.md)  
 
 * Everything is stored as bytes, but the bytes in binary files do not represent characters.
 * Use nested loops to run commands for every combination of two lists of things.
