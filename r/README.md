@@ -1,6 +1,6 @@
 We make use of the novice and intermediate level Software Carpentry R teaching materials.  
 
-## Novice lessons
+### Novice lessons
 
 A group coordinated by John Blischak is curretnly re-writing the Software Carpentry 
 version 5 (i.e. latest) novice Python teaching materials in R. See the relevant 
@@ -17,7 +17,7 @@ archived from a
 in February 2014. The GitHub repository for these notes can be found 
 [here](https://github.com/nicercode/2014-02-18-UTS). 
 
-## Intermediate lessons
+### Intermediate lessons
 
 The intermediate level Software Carpentry R teaching materials can be found 
 [here](https://github.com/swcarpentry/bc/tree/master/intermediate/r). They are complete 
