@@ -13,6 +13,7 @@ There are a number of Software Carpentry lessons that are currently being develo
 * Python multiprocessing intermediate lesson (see [lesson](https://github.com/swcarpentry/bc/blob/master/intermediate/python/04-multiprocessing.md))
 * Bioinformatics capstone example (see [issue](https://github.com/swcarpentry/bc/issues/532))
 * Medical imaging capstone example (see [pull request](https://github.com/swcarpentry/bc/pull/529))
+* (There's also some useful [examples](https://github.com/rossant/ipython-minibook) of using IPython for parallel computing in the [IPython mini-book](http://ipython.rossant.net/))
 
 Note that the materials in the Software Carpentry [bc repo](https://github.com/swcarpentry/bc) are organised as follows:  
 
