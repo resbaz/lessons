@@ -64,10 +64,11 @@ check out this [talk from the 2013 PyCon Australia Conference](http://pyvideo.or
 
 What is the teaching format?
 ---
-The syllabus is delivered via lecture/demonstration interspersed with regular challenges to be worked on in pairs.
-During the lectures most people open a terminal window or IPython notebook and follow along, trying out new commands
-and ideas as they're introduced. Other people prefer just to sit back and watch. There's no need to take notes, as
-copies of all the teaching materials are available on the Software Carpentry website (see [here](http://www.software-carpentry.org/lessons.html)).
+The syllabus is delivered via lecture/demonstration (via live coding most of the time) interspersed with regular challenges to be 
+worked on in pairs. During the live coding participants usually sit back and watch, and then during the challenges they have an 
+opportunty to try things out and ask questions (i.e. it is not expected that participants will follow along with the live coding 
+on their own machine). There's no need to take notes, as copies of all the teaching materials are available on the Software
+Carpentry website (see [here](http://www.software-carpentry.org/lessons.html)).
 
 If you're having trouble at any point, put up a red post-it note and a helper will come to your aid. If things are
 going well, put a green one up. In fact, at any point during the bootcamp it's inevitable that some people will be finding
