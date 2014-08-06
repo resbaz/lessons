@@ -16,6 +16,11 @@ Show the audience the four main tabs:
 * History
 * Chat
 
+Discuss the options for exporting documents:
+
+* PDF
+* LaTeX (i.e. if you don't like the default PDF styles, you can download the raw LaTeX file and compile it yourself)
+
 ### 3. Web-friendly LaTeX
 
 LaTeX is great for writing research articles (particularly those with mathematical equations) but it was made
@@ -23,7 +28,7 @@ with the printed page in mind (see [here](https://authorea.com/users/3/articles/
 discussion). The team at Authorea have therefore put together a web-friendly LaTeX 
 [cheat sheet](https://authorea.com/users/3/articles/6868/_show_article). 
 
-**Challenge:** Use the cheat sheet to produce a document that briefly summarises you current research.
+**Challenge:** Use the cheat sheet to produce a document that briefly summarises you current research. Export that document in your favorite PDF style.
 
 ### 4. Version control
 
