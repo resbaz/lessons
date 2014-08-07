@@ -1,5 +1,9 @@
 ## Authorea lesson plan
 
+Objectives of the workshop
+> To raise awareness of authorea as a collaborative maunscript authoring tool 
+> To give the basic tools and pointers to getting started with authorea
+
 ### 1. Authorea in context
 
 Discuss Authorea in the context of other online editors and it's place in the open science movement as an
@@ -10,6 +14,7 @@ Points to convey:
 * Track Changes, bibliography and cross referencing is a pain.
 * Math formula in Word is clumsy.
 * LaTex and Authorea could be a solution. Git in the background.
+* Point to decision [flow diagram](https://docs.google.com/presentation/d/1JQA6NyItxiKtkmGBWiGL9Bqk0asU064Cr3FF1ZT_nq8/edit#slide=id.p).
 
 **Challenge:** Create an Authorea account.
 
