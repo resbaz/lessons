@@ -5,9 +5,22 @@
 Discuss Authorea in the context of other online editors and it's place in the open science movement as an
 alternative pre-print server. This is all covered in [this post](http://resbaz.tumblr.com/post/88732843274/authorea-a-review).
 
+Points to convey:
+* Most authors are used to Microsoft Word. Not ideal for collaborative documents.
+* Track Changes, bibliography and cross referencing is a pain.
+* Math formula in Word is clumsy.
+* LaTex and Authorea could be a solution. Git in the background.
+
 **Challenge:** Create an Authorea account.
 
+* Create a document. 
+* Add authors to document and share.
+
 ### 2. Basic functionality
+
+Overview the structure of a document:
+* Article. Title, Abstract, Introduction, Methods, Results, Discussion, Bibliography.
+* Chapters.
 
 Show the audience the four main tabs:
 
