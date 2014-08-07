@@ -2,6 +2,8 @@
 
 Objectives of the workshop
 > To raise awareness of authorea as a collaborative maunscript authoring tool 
+
+
 > To give the basic tools and pointers to getting started with authorea
 
 ### 1. Authorea in context
