@@ -27,5 +27,6 @@ The notes here are for a two hour workshop with a break in between.
 
 ##Useful Weblinks
 
-[Authorea Homepage](https://authorea.com/)
-[Authorea Help](https://authorea.com/help)
++[Authorea Homepage](https://authorea.com/)
+
++[Authorea Help](https://authorea.com/help)
