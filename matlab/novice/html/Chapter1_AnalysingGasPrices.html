@@ -1,0 +1,388 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Chapter 01 - Analysing Gas Prices</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-08-22"><meta name="DC.source" content="Chapter1_AnalysingGasPrices.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Chapter 01 - Analysing Gas Prices</h1><!--introduction--><p>This is the first Chapter</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Objectives</a></li><li><a href="#3">Matlab's graphical user interface</a></li><li><a href="#4">Loading Data</a></li><li><a href="#7">Manipulating Data</a></li><li><a href="#9">FIRST CHALLENGE</a></li><li><a href="#10">Plotting</a></li><li><a href="#11">SECOND CHALLENGE</a></li><li><a href="#12">Scripts, Comments</a></li><li><a href="#13">Wrapping up</a></li><li><a href="#14">THIRD CHALLENGE</a></li><li><a href="#15">Key Points</a></li><li><a href="#16">Next Steps</a></li></ul></div><p>We are studying gas prices acr, and need to analyze a data set. The data set is stored in comma-separated values (CSV) format: each row holds information for a single year, and the columns represent different countries. The first few rows of our first file look like this:</p><pre>1 Average Annual Gasoline (Petrol) Retail Prices in Selected Countries [$US per gallon]
+2 Source: US Dept. of Energy
+3 http://www.eia.doe.gov/emeu/aer/txt/ptb1108.html
+4
+5 Year	Australia	Canada      France      Germany     Italy       Japan       Mexico      South Korea     UK      USA
+6 1990                1.87        3.63        2.65        4.59        3.16        1.00        2.05            2.82	1.16
+7 1991    1.96        1.92        3.45        2.90        4.50        3.46        1.30        2.49            3.01	1.14
+8 1992    1.89        1.73        3.56        3.27        4.53        3.58        1.50        2.65            3.06	1.13
+9 1993    1.73        1.57        3.41        3.07        3.68        4.16        1.56        2.88            2.84	1.11</pre><p>We want to:</p><div><ul><li>load that data into memory,</li><li>calculate the average price in each country</li><li>plot the result.</li><li>To do all that, we'll have to learn a little bit about programming.</li></ul></div><h2>Objectives<a name="2"></a></h2><div><ul><li>Understand the Matlab GUI.</li><li>Load data from a csv-file into the program.</li><li>Assign values to variables.</li><li>Select individual values and subsections from data.</li><li>Perform operations on arrays of data.</li><li>Display simple graphs.</li></ul></div><h2>Matlab's graphical user interface<a name="3"></a></h2><p>Using the default setup, the matlab desktop contains several important sections:</p><div><ul><li>The Current Folder: The current folder is the directory that we are in at the moment. Since we normally don't want to save all our functions and files in one folder, we need to tell Matlab where to find our files. We point Matlab in the right direction by setting thep path to contain all folders that we want to work in. This is done in &gt; Home &gt; Set Path: Include all folders and subfolders you want to be in the path. In "Current Folder", these folders should stop being transparent now.</li><li>The Command Window: In the command window, we can run and debug our code. Everything that's typed into the command window is executed immediately.</li><li>Workspace: The workspace contains all variable names and assigned values that we currently work with. As long as they pop up in the workspace, they are universally available, which is why it's good to keep it clean to not accidentally overwriting a variable of function that you later use (can be cleaned up typing <tt>clear all</tt>).</li><li>Command History: The command history saves all commands you recently used. Double-clicking on one or a few will execute them again. They can also be exported directly into a script (right-click "Create script")</li><li>Search Documentation: On the top right of your screen, you can search for functions. Suggestions for functions that would do what you want to do will pop up. Clicking on them will open the documentation.</li></ul></div><h2>Loading Data<a name="4"></a></h2><p>Words are useful, but what's more useful are the sentences and stories we use them to build.</p><p>In order to load our gas price data, we need to import it in a meaningful format that lets us work with it. To do this, we need a function that reads in a file and converts it into a matrix. (Type "read file into matrix" in "Search Documentation". dlmread should pop up as a suggestion - click on that). We're using a function called dlmread. In the Matlab documentation centre, we can look at the syntax this function uses:</p><pre>M = dlmread(filename)
+M = dlmread(filename, delimiter)
+M = dlmread(filename, delimiter, R, C)
+M = dlmread(filename, delimiter, range)</pre><pre>M = dlmread(filename) reads the ASCII-delimited numeric data file filename, and returns the data in output matrix M. The filename input is a string enclosed in single quotes. dlmread infers the delimiter from the formatting of the file.
+M = dlmread(filename, delimiter) reads data from the file, using the specified delimiter. Use '\t' to specify a tab delimiter.
+M = dlmread(filename, delimiter, R, C) reads data whose upper left corner is at row R and column C in the file. Values R and C are zero-based, so that R=0, C=0 specifies the first value in the file.
+M = dlmread(filename, delimiter, range) reads the range specified by range = [R1 C1 R2 C2] where (R1,C1) is the upper left corner of the data to read and (R2,C2) is the lower right corner. You can also specify the range using spreadsheet notation, such as range = 'A1..B7'.</pre><p>When reading in our data, we want to be able to set a delimiter, and the number of rows that don't belong to the data, so we will be using <tt>dlmread(filename, delimiter, R, C)</tt>. Our function asks us for four different parameters: the filename, a delimiter - the character that separates our values, and the row and column of our first data value. Since we're dealing with a .csv(coma-seperated value) file, our delimiter is the comma. Our data starts in the 5th row and the 1st column:</p><pre class="codeinput">dlmread(<span class="string">'gasprices.csv'</span>,<span class="string">','</span>,5, 0)
+<span class="comment">% Our call to |dlmread('gasprices.csv',',',5, 1)| read our file, and asigns</span>
+<span class="comment">% it to a variable called |ans|. |ans| always just contains the last value</span>
+<span class="comment">% that we didn't explicitly assign to a variable. To prevent that and to be</span>
+<span class="comment">% able to recall the array we just loaded later, we assign it to a</span>
+<span class="comment">% variable, simply using |=|:</span>
+gasprices = dlmread(<span class="string">'gasprices.csv'</span>,<span class="string">','</span>,5, 0);
+<span class="comment">% A |;| at the end of the line supresses the output in the Command Window.</span>
+<span class="comment">% We can now find our data in the Workspace. Double-clicking on the</span>
+<span class="comment">% variablt name in the Workspace brings up our data for us to inspect.</span>
+<span class="comment">%</span>
+<span class="comment">% We can also recall it typing:</span>
+gasprices
+<span class="comment">%</span>
+<span class="comment">% The data we loaded is stored in an array. If we want to look at the</span>
+<span class="comment">% value of row 5 and column 3, we can do this by typing:</span>
+gasprices(5,3)
+</pre><pre class="codeoutput">
+ans =
+
+   1.0e+03 *
+
+  Columns 1 through 7
+
+    1.9900         0    0.0019    0.0036    0.0027    0.0046    0.0032
+    1.9910    0.0020    0.0019    0.0035    0.0029    0.0045    0.0035
+    1.9920    0.0019    0.0017    0.0036    0.0033    0.0045    0.0036
+    1.9930    0.0017    0.0016    0.0034    0.0031    0.0037    0.0042
+    1.9940    0.0018    0.0014    0.0036    0.0035    0.0037    0.0044
+    1.9950    0.0019    0.0015    0.0043    0.0040    0.0040    0.0044
+    1.9960    0.0021    0.0016    0.0044    0.0039    0.0044    0.0036
+    1.9970    0.0020    0.0016    0.0040    0.0035    0.0041    0.0033
+    1.9980    0.0016    0.0014    0.0039    0.0033    0.0038    0.0028
+    1.9990    0.0017    0.0015    0.0039    0.0034    0.0039    0.0033
+    2.0000    0.0019    0.0019    0.0038    0.0035    0.0038    0.0037
+    2.0010    0.0017    0.0017    0.0035    0.0034    0.0036    0.0033
+    2.0020    0.0018    0.0017    0.0036    0.0037    0.0037    0.0032
+    2.0030    0.0022    0.0020    0.0043    0.0046    0.0045    0.0035
+    2.0040    0.0027    0.0024    0.0050    0.0052    0.0053    0.0039
+    2.0050    0.0032    0.0029    0.0055    0.0057    0.0057    0.0043
+    2.0060    0.0035    0.0033    0.0059    0.0060    0.0061    0.0045
+    2.0070    0.0039    0.0036    0.0066    0.0069    0.0067    0.0045
+    2.0080    0.0045    0.0041    0.0075    0.0077    0.0076    0.0057
+
+  Columns 8 through 11
+
+    0.0010    0.0020    0.0028    0.0012
+    0.0013    0.0025    0.0030    0.0011
+    0.0015    0.0027    0.0031    0.0011
+    0.0016    0.0029    0.0028    0.0011
+    0.0015    0.0029    0.0030    0.0011
+    0.0011    0.0029    0.0032    0.0012
+    0.0013    0.0032    0.0033    0.0012
+    0.0015    0.0033    0.0038    0.0012
+    0.0015    0.0030    0.0041    0.0011
+    0.0018    0.0038    0.0043    0.0012
+    0.0020    0.0042    0.0046    0.0015
+    0.0022    0.0038    0.0041    0.0015
+    0.0022    0.0038    0.0042    0.0014
+    0.0020    0.0041    0.0047    0.0016
+    0.0020    0.0045    0.0056    0.0019
+    0.0022    0.0053    0.0060    0.0023
+    0.0023    0.0059    0.0064    0.0026
+    0.0024    0.0062    0.0071    0.0028
+    0.0025    0.0058    0.0074    0.0033
+
+
+gasprices =
+
+   1.0e+03 *
+
+  Columns 1 through 7
+
+    1.9900         0    0.0019    0.0036    0.0027    0.0046    0.0032
+    1.9910    0.0020    0.0019    0.0035    0.0029    0.0045    0.0035
+    1.9920    0.0019    0.0017    0.0036    0.0033    0.0045    0.0036
+    1.9930    0.0017    0.0016    0.0034    0.0031    0.0037    0.0042
+    1.9940    0.0018    0.0014    0.0036    0.0035    0.0037    0.0044
+    1.9950    0.0019    0.0015    0.0043    0.0040    0.0040    0.0044
+    1.9960    0.0021    0.0016    0.0044    0.0039    0.0044    0.0036
+    1.9970    0.0020    0.0016    0.0040    0.0035    0.0041    0.0033
+    1.9980    0.0016    0.0014    0.0039    0.0033    0.0038    0.0028
+    1.9990    0.0017    0.0015    0.0039    0.0034    0.0039    0.0033
+    2.0000    0.0019    0.0019    0.0038    0.0035    0.0038    0.0037
+    2.0010    0.0017    0.0017    0.0035    0.0034    0.0036    0.0033
+    2.0020    0.0018    0.0017    0.0036    0.0037    0.0037    0.0032
+    2.0030    0.0022    0.0020    0.0043    0.0046    0.0045    0.0035
+    2.0040    0.0027    0.0024    0.0050    0.0052    0.0053    0.0039
+    2.0050    0.0032    0.0029    0.0055    0.0057    0.0057    0.0043
+    2.0060    0.0035    0.0033    0.0059    0.0060    0.0061    0.0045
+    2.0070    0.0039    0.0036    0.0066    0.0069    0.0067    0.0045
+    2.0080    0.0045    0.0041    0.0075    0.0077    0.0076    0.0057
+
+  Columns 8 through 11
+
+    0.0010    0.0020    0.0028    0.0012
+    0.0013    0.0025    0.0030    0.0011
+    0.0015    0.0027    0.0031    0.0011
+    0.0016    0.0029    0.0028    0.0011
+    0.0015    0.0029    0.0030    0.0011
+    0.0011    0.0029    0.0032    0.0012
+    0.0013    0.0032    0.0033    0.0012
+    0.0015    0.0033    0.0038    0.0012
+    0.0015    0.0030    0.0041    0.0011
+    0.0018    0.0038    0.0043    0.0012
+    0.0020    0.0042    0.0046    0.0015
+    0.0022    0.0038    0.0041    0.0015
+    0.0022    0.0038    0.0042    0.0014
+    0.0020    0.0041    0.0047    0.0016
+    0.0020    0.0045    0.0056    0.0019
+    0.0022    0.0053    0.0060    0.0023
+    0.0023    0.0059    0.0064    0.0026
+    0.0024    0.0062    0.0071    0.0028
+    0.0025    0.0058    0.0074    0.0033
+
+
+ans =
+
+    1.4500
+
+</pre><h2>Manipulating Data<a name="7"></a></h2><p>We can also change single or multiple values in an array:</p><pre class="codeinput">gasprices(5,3) = 3.1;
+</pre><p><i>introduction of indexing in arrays, :, end, only work on or display a subsection of the array</i> <i>maybe convert all data into AUD</i> <i>compute the mean for each year, for each contry, and overall</i></p><h2>FIRST CHALLENGE<a name="9"></a></h2><p><i>load a file, do things to it</i></p><h2>Plotting<a name="10"></a></h2><p><i>introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the possibility to change things and then peek in the code what's happened.</i></p><h2>SECOND CHALLENGE<a name="11"></a></h2><p><i>load a file, do things to it, plot it?</i></p><h2>Scripts, Comments<a name="12"></a></h2><p>We normally don't want to run our code just once, but might want to run it again some time in the future. This is what we can use scripts for. In our case, we can simply export the code we just wrote (highlight section "Command History", right-click, "Create script"). We save the script as an .m file, which is the Matlab specific file format and give it a meaningful name. Our script does exactly the same thing as the Command Window, just not instantly. Which means, from here, we can re-run the code, change it; but we can now also debug and publish it. We'll look at debugging in the next lesson. For now, let's look at how to create a nice report from the script we just wrote.</p><p>If you look at your code in 2 months, you've most likely forgotton why you made certain decisions. This is why naming conventions and comments are extremely important. (open myfirstscript.m or write some useful comments into the script you just created.)</p><p>You can comment in different ways:</p><div><ul><li>use <tt>%%</tt> + space to split your code into meaningful cells. They don't have a functional use, but they keep code clear.</li><li>use <tt>%</tt> to have comments in line with your code</li><li>a comment right at the start of your script will pop up</li></ul></div><p>Another neat feature that Matlab has to offer, is, that it let's you automatically create a report. To do this, Matlab runs your script once, creates all images and combines everything into a nice document in your favourite format. Different comments will look differently in your report. <tt>%%</tt>, for example, will create a new headline. The toolbar ("Publish") is great help if you want your report to look nice. (Now hit the publish button and watch the magic.)</p><h2>Wrapping up<a name="13"></a></h2><p><i>save variables, save plots (as .fig and .jpg), clc, close all, clear all</i></p><h2>THIRD CHALLENGE<a name="14"></a></h2><p><i>create a script from the command history, comment, and hit the publish button</i></p><h2>Key Points<a name="15"></a></h2><h2>Next Steps<a name="16"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Chapter 01 - Analysing Gas Prices
+% This is the first Chapter
+
+%%
+% We are studying gas prices acr, and need to analyze a data set. The data set 
+% is stored in comma-separated values (CSV) format: each row holds information 
+% for a single year, and the columns represent different countries. 
+% The first few rows of our first file look like this:
+%
+% 
+%  1 Average Annual Gasoline (Petrol) Retail Prices in Selected Countries [$US per gallon]										
+% 2 Source: US Dept. of Energy										
+% 3 http://www.eia.doe.gov/emeu/aer/txt/ptb1108.html										
+% 4										
+% 5 Year	Australia	Canada      France      Germany     Italy       Japan       Mexico      South Korea     UK      USA
+% 6 1990                1.87        3.63        2.65        4.59        3.16        1.00        2.05            2.82	1.16
+% 7 1991    1.96        1.92        3.45        2.90        4.50        3.46        1.30        2.49            3.01	1.14
+% 8 1992    1.89        1.73        3.56        3.27        4.53        3.58        1.50        2.65            3.06	1.13
+% 9 1993    1.73        1.57        3.41        3.07        3.68        4.16        1.56        2.88            2.84	1.11
+% 
+%
+% We want to:
+% 
+% * load that data into memory,
+% * calculate the average price in each country
+% * plot the result.
+% * To do all that, we'll have to learn a little bit about programming.
+%
+
+%% Objectives
+%
+% * Understand the Matlab GUI.
+% * Load data from a csv-file into the program.
+% * Assign values to variables.
+% * Select individual values and subsections from data.
+% * Perform operations on arrays of data.
+% * Display simple graphs.
+
+%% Matlab's graphical user interface
+%  
+% Using the default setup, the matlab desktop contains several important
+% sections:
+%
+% * The Current Folder: The current folder is the directory that we are in
+% at the moment. Since we normally don't want to save all our functions and
+% files in one folder, we need to tell Matlab where to find our files. We
+% point Matlab in the right direction by setting thep path to contain all
+% folders that we want to work in. This is done in > Home > Set Path: 
+% Include all folders and subfolders you want to be in the path. In
+% "Current Folder", these folders should stop being transparent now. 
+% * The Command Window: In the command window, we can run and debug our
+% code. Everything that's typed into the command window is executed
+% immediately. 
+% * Workspace: The workspace contains all variable names and assigned
+% values that we currently work with. As long as they pop up in the
+% workspace, they are universally available, which is why it's good to keep
+% it clean to not accidentally overwriting a variable of function that you 
+% later use (can be cleaned up typing |clear all|).
+% * Command History: The command history saves all commands you recently
+% used. Double-clicking on one or a few will execute them again. They can
+% also be exported directly into a script (right-click "Create script")
+% * Search Documentation: On the top right of your screen, you can search
+% for functions. Suggestions for functions that would do what you want to
+% do will pop up. Clicking on them will open the documentation. 
+
+%% Loading Data
+% Words are useful, but what's more useful are the sentences and stories we use them to build. 
+%
+% In order to load our gas price data, we need to import it in a
+% meaningful format that lets us work with it. 
+% To do this, we need a function that reads in a file and converts it into
+% a matrix. (Type "read file into matrix" in "Search Documentation". dlmread should pop up as a suggestion - click on that).
+% We're using a function called dlmread. In the Matlab documentation centre, we can look
+% at the syntax this function uses:
+%
+%%
+% 
+%  M = dlmread(filename)
+% M = dlmread(filename, delimiter)
+% M = dlmread(filename, delimiter, R, C)
+% M = dlmread(filename, delimiter, range)
+%
+%  M = dlmread(filename) reads the ASCII-delimited numeric data file filename, and returns the data in output matrix M. The filename input is a string enclosed in single quotes. dlmread infers the delimiter from the formatting of the file.
+% M = dlmread(filename, delimiter) reads data from the file, using the specified delimiter. Use '\t' to specify a tab delimiter.
+% M = dlmread(filename, delimiter, R, C) reads data whose upper left corner is at row R and column C in the file. Values R and C are zero-based, so that R=0, C=0 specifies the first value in the file.
+% M = dlmread(filename, delimiter, range) reads the range specified by range = [R1 C1 R2 C2] where (R1,C1) is the upper left corner of the data to read and (R2,C2) is the lower right corner. You can also specify the range using spreadsheet notation, such as range = 'A1..B7'.
+%
+%%
+% When reading in our data, we want to be able to set a delimiter, and the
+% number of rows that don't belong to the data, so we will be using
+% |dlmread(filename, delimiter, R, C)|. Our function asks us for four
+% different parameters: the filename, a delimiter - the character that
+% separates our values, and the row and column of our first data value.
+% Since we're dealing with a .csv(coma-seperated value) file, our delimiter
+% is the comma. Our data starts in the 5th row and the 1st column:
+dlmread('gasprices.csv',',',5, 0)
+% Our call to |dlmread('gasprices.csv',',',5, 1)| read our file, and asigns 
+% it to a variable called |ans|. |ans| always just contains the last value
+% that we didn't explicitly assign to a variable. To prevent that and to be
+% able to recall the array we just loaded later, we assign it to a
+% variable, simply using |=|:
+gasprices = dlmread('gasprices.csv',',',5, 0);
+% A |;| at the end of the line supresses the output in the Command Window.
+% We can now find our data in the Workspace. Double-clicking on the
+% variablt name in the Workspace brings up our data for us to inspect. 
+%
+% We can also recall it typing:
+gasprices
+%
+% The data we loaded is stored in an array. If we want to look at the
+% value of row 5 and column 3, we can do this by typing:
+gasprices(5,3)
+
+
+%% Manipulating Data
+% We can also change single or multiple values in an array:
+gasprices(5,3) = 3.1;
+
+%%
+% _introduction of indexing in arrays, :, end, only work on or display a subsection of the array_
+% _maybe convert all data into AUD_
+% _compute the mean for each year, for each contry, and overall_ 
+
+
+%% FIRST CHALLENGE  
+% _load a file, do things to it_
+
+%% Plotting 
+% _introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the 
+% possibility to change things and then peek in the code what's happened._
+
+%% SECOND CHALLENGE  
+% _load a file, do things to it, plot it?_
+
+
+%% Scripts, Comments
+% We normally don't want to run our code just once, but might want to run
+% it again some time in the future. This is what we can use scripts for. In
+% our case, we can simply export the code we just wrote (highlight section 
+% "Command History", right-click, "Create script"). 
+% We save the script as an .m file, which is the Matlab specific file
+% format and give it a meaningful name. 
+% Our script does exactly the same thing as the Command Window, just not 
+% instantly. Which means, from here, we can re-run the code, change it; but
+% we can now also debug and publish it. We'll look at debugging in the next
+% lesson. For now, let's look at how to create a nice report from the
+% script we just wrote. 
+% 
+% If you look at your code in 2 months, you've most likely forgotton why
+% you made certain decisions. 
+% This is why naming conventions and comments are extremely important.
+% (open myfirstscript.m or write some useful comments into the script you
+% just created.)
+%
+% You can comment in different ways:
+%
+% * use |%%| + space to split your code into meaningful cells. They don't have a
+% functional use, but they keep code clear.
+% * use |%| to have comments in line with your code
+% * a comment right at the start of your script will pop up 
+%
+% Another neat feature that Matlab has to offer, is, that it let's you
+% automatically create a report. 
+% To do this, Matlab runs your script once, creates all images and combines
+% everything into a nice document in your favourite format.
+% Different comments will look differently in your report. 
+% |%%|, for example, will create a new headline.
+% The toolbar ("Publish") is great help if you want your report to look
+% nice. (Now hit the publish button and watch the magic.)
+
+%% Wrapping up
+% _save variables, save plots (as .fig and .jpg), clc, close all, clear all_
+
+
+%% THIRD CHALLENGE
+% _create a script from the command history, comment, and hit the publish button_
+
+%% Key Points
+
+%% Next Steps
+
+##### SOURCE END #####
+--></body></html>
