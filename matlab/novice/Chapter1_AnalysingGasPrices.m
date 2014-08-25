@@ -274,6 +274,9 @@ subplot(2, 1, 2);
 plot(min(inflammationData,2));
 title('Minimum inflammation');
 
+%% Challenge
+% 
+% # Modify the program to display the three plots on top of one another instead of side by side.
 
 %% Scripts, Comments
 % We normally don't want to run our code just once, but might want to run
@@ -311,36 +314,31 @@ title('Minimum inflammation');
 % The toolbar ("Publish") is great help if you want your report to look
 % nice. (Now hit the publish button and watch the magic.)
 
-%% Wrapping up
-
-Challenges
-
-Modify the program to display the three plots on top of one another instead of side by side.
-Key Points
-
-Import a library into a program using import libraryname.
-Use the numpy library to work with arrays in Python.
-Use variable = value to assign a value to a variable in order to record it in memory.
-Variables are created on demand whenever a value is assigned to them.
-Use print something to display the value of something.
-The expression array.shape gives the shape of an array.
-Use array[x, y] to select a single element from an array.
-Array indices start at 0, not 1.
-Use low:high to specify a slice that includes the indices from low to high-1.
-All the indexing and slicing that works on arrays also works on strings.
-Use # some kind of explanation to add comments to programs.
-Use array.mean(), array.max(), and array.min() to calculate simple statistics.
-Use array.mean(axis=0) or array.mean(axis=1) to calculate statistics across the specified axis.
-Use the pyplot library from matplotlib for creating simple visualizations.
-Next Steps
-
-Our work so far has convinced us that something's wrong with our first data file. We would like to check the other 11 the same way, but typing in the same commands repeatedly is tedious and error-prone. Since computers don't get bored (that we know of), we should create a way to do a complete analysis with a single command, and then figure out how to repeat that step once for each file. These operations are the subjects of the next two lessons.
-%%
-
-
-%% THIRD CHALLENGE
-% _create a script from the command history, comment, and hit the publish button_
 
 %% Key Points
+% 
+% * Import data into Matlab using |dlmread|
+% * Use variable = value to assign a value to a variable in order to record it in memory.
+% * Variables are created on demand whenever a value is assigned to them.
+% * Use |disp| to display the value of something.
+% * The expression size() gives the size of an array in a certain dimension.
+% * Use array(row, column) to select a single element from an array.
+% * Array indices start at 1.
+% * All the indexing and slicing that works on arrays also works on strings.
+% * Use |%| to add comments to programs.
+% * Use |mean|, |max|, and |min| to calculate simple statistics.
+% * Use |plot| and |surf| to create simple plots.
+% * Annotate your plots using |xlabel|, |ylabel|, and |title|.
+% * Use |hold on| (and |hold off|) to overlay different plots in one figure.
+% * Use |subplot| to create different plots next to each other in one figure.
+% * Use scripts to save your work for later.
+% * Use the publishing option to create a report from your script.
 
 %% Next Steps
+%
+% Our work so far has convinced us that something's wrong with our first data file. 
+% We would like to check the other 11 the same way, but typing in the same commands 
+% repeatedly is tedious and error-prone. Since computers don't get bored (that we know of),
+% we should create a way to do a complete analysis with a single command, and then
+% figure out how to repeat that step once for each file.
+% These operations are the subjects of the next two lessons.
