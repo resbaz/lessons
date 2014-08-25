@@ -194,107 +194,85 @@ disp('Last three characters:'); disp(element(4:6));
 % # What is the value of element(1:4)? What about element(4:end)? Or element(:)? 
 % # What is element(0)? 
 
-%%
-\
-
-Challenges
-
-Why do all of our plots stop just short of the upper end of our graph? Why are the vertical lines in our plot of the minimum inflammation per day not vertical?
-
-Create a plot showing the standard deviation of the inflammation data for each day across all patients.
-
-Wrapping Up
-It's very common to create an alias for a library when importing it in order to reduce the amount of typing we have to do. Here are our three plots side by side using aliases for numpy and pyplot:
-
-import numpy as np
-from matplotlib import pyplot as plt
-
-data = np.loadtxt(fname='inflammation-01.csv', delimiter=',')
-
-plt.figure(figsize=(10.0, 3.0))
-
-plt.subplot(1, 3, 1)
-plt.ylabel('average')
-plt.plot(data.mean(0))
-
-plt.subplot(1, 3, 2)
-plt.ylabel('max')
-plt.plot(data.max(0))
-
-plt.subplot(1, 3, 3)
-plt.ylabel('min')
-plt.plot(data.min(0))
-
-plt.tight_layout()
-plt.show()
-
-The first two lines re-load our libraries as np and plt, which are the aliases most Python programmers use. The call to loadtxt reads our data, and the rest of the program tells the plotting library how large we want the figure to be, that we're creating three sub-plots, what to draw for each one, and that we want a tight layout. (Perversely, if we leave out that call to plt.tight_layout(), the graphs will actually be squeezed together more closely.)
-
-Challenges
-
-Modify the program to display the three plots on top of one another instead of side by side.
-Key Points
-
-Import a library into a program using import libraryname.
-Use the numpy library to work with arrays in Python.
-Use variable = value to assign a value to a variable in order to record it in memory.
-Variables are created on demand whenever a value is assigned to them.
-Use print something to display the value of something.
-The expression array.shape gives the shape of an array.
-Use array[x, y] to select a single element from an array.
-Array indices start at 0, not 1.
-Use low:high to specify a slice that includes the indices from low to high-1.
-All the indexing and slicing that works on arrays also works on strings.
-Use # some kind of explanation to add comments to programs.
-Use array.mean(), array.max(), and array.min() to calculate simple statistics.
-Use array.mean(axis=0) or array.mean(axis=1) to calculate statistics across the specified axis.
-Use the pyplot library from matplotlib for creating simple visualizations.
-Next Steps
-
-Our work so far has convinced us that something's wrong with our first data file. We would like to check the other 11 the same way, but typing in the same commands repeatedly is tedious and error-prone. Since computers don't get bored (that we know of), we should create a way to do a complete analysis with a single command, and then figure out how to repeat that step once for each file. These operations are the subjects of the next two lessons.
-%%
-
 %% Plotting 
 % The mathematician Richard Hamming once said, "The purpose of computing is
 % insight, not numbers," and the best way to develop insight is often to
 % visualize data. Visualization deserves an entire lecture (or course) of
 % its own, but we can explore a few plotting features of Matlab here. 
-% First, let's just create a simple plot:
+% First, let's create a plot will all the data. To do this, we create a new figure and then  
+% display a three-dimensional surface plot using the |surf| command:
 
-%matplotlib inline
-The % at the start of the line signals that this is a command for the notebook, rather than a statement in Python. Next, we will import the pyplot module from matplotlib and use two of its functions to create and display a heat map of our data:
+figure;
+surf(inflammationData);
 
-from matplotlib import pyplot
-pyplot.imshow(data)
-pyplot.show()
+%%
+% Let's say we want to look at the plot from a specific angle. 3D figures come with the option of
+% setting a certain view direction:
 
-Blue regions in this heat map are low values, while red shows high values. As we can see, inflammation rises and falls over a 40-day period. Let's take a look at the average inflammation over time:
+view(2);
 
-ave_inflammation = data.mean(axis=0)
-pyplot.plot(ave_inflammation)
-pyplot.show()
+%%
+% Anoher thing we might want to do is lable out axes and give our plot a title.
+% We can do this using the commands |xlabel|, |ylabel|, and |title|.
 
-Here, we have put the average per day across all patients in the variable ave_inflammation, then asked pyplot to create and display a line graph of those values. The result is roughly a linear rise and fall, which is suspicious: based on other studies, we expect a sharper rise and slower fall. Let's have a look at two other statistics:
+xlabel('Patient');
+ylabel('Time');
+title('Inflammation data');
 
-print 'maximum inflammation per day'
-pyplot.plot(data.max(axis=0))
-pyplot.show()
+%%
+% Blue regions in this plot are low values, while red shows high values. 
+% As we can see, inflammation rises and falls over a 40-day period. 
+% Let's take a look at the average inflammation over time:
 
-print 'minimum inflammation per day'
-pyplot.plot(data.min(axis=0))
-pyplot.show()
-maximum inflammation per day
+ave_inflammation = mean(inflammationData,2);
+figure;
+plot(ave_inflammation);
+title('Average inflammation');
+xlabel('Days');
 
-minimum inflammation per day
+%%
+% Here, we have put the average per day across all patients in the
+% variable ave_inflammation, then asked pyplot to create and display
+% a line graph of those values using the |plot| function.
+% The result is roughly a linear rise and fall, which is suspicious:
+% based on other studies, we expect a sharper rise and slower fall.
+% Let's have a look at two other statistics, the maximum and minumum 
+% inflammation per day. Instead of plotting these into two separate 
+% figures, we now want to overlay both graphs in one figure.
+% We can do this, by holding the plot until all graphs are plotted and
+% releasing it again once we're done.
 
-The maximum value rises and falls perfectly smoothly, while the minimum seems to be a step function. Neither result seems particularly likely, so either there's a mistake in our calculations or something is wrong with our data.
+figure;
+title('Inflammation per day');
+hold on;
+plot(max(inflammationData,2));
+plot(min(inflammationData,2));
+xlabel('Days');
+legend('Maximum','Minimum');
+hold off;
 
-
-% _introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the 
-% possibility to change things and then peek in the code what's happened._
+%%
+% The maximum value rises and falls perfectly smoothly, while the minimum
+% seems to be a step function. Neither result seems particularly likely,
+% so either there's a mistake in our calculations or something is wrong with our data.
 
 %% SECOND CHALLENGE  
-% _load a file, do things to it, plot it?_
+
+%%
+% # Why do all of our plots stop just short of the upper end of our graph? Why are the vertical lines in our plot of the minimum inflammation per day not vertical?
+% # Create a plot showing the standard deviation of the inflammation data for each day across all patients using the |std| command.
+
+
+%% Creating subplots
+
+figure;
+subplot(2, 1, 1);
+plot(max(inflammationData,2));
+title('Maximum inflammation');
+
+subplot(2, 1, 2);
+plot(min(inflammationData,2));
+title('Minimum inflammation');
 
 
 %% Scripts, Comments
@@ -334,7 +312,30 @@ The maximum value rises and falls perfectly smoothly, while the minimum seems to
 % nice. (Now hit the publish button and watch the magic.)
 
 %% Wrapping up
-% _save variables, save plots (as .fig and .jpg), clc, close all, clear all_
+
+Challenges
+
+Modify the program to display the three plots on top of one another instead of side by side.
+Key Points
+
+Import a library into a program using import libraryname.
+Use the numpy library to work with arrays in Python.
+Use variable = value to assign a value to a variable in order to record it in memory.
+Variables are created on demand whenever a value is assigned to them.
+Use print something to display the value of something.
+The expression array.shape gives the shape of an array.
+Use array[x, y] to select a single element from an array.
+Array indices start at 0, not 1.
+Use low:high to specify a slice that includes the indices from low to high-1.
+All the indexing and slicing that works on arrays also works on strings.
+Use # some kind of explanation to add comments to programs.
+Use array.mean(), array.max(), and array.min() to calculate simple statistics.
+Use array.mean(axis=0) or array.mean(axis=1) to calculate statistics across the specified axis.
+Use the pyplot library from matplotlib for creating simple visualizations.
+Next Steps
+
+Our work so far has convinced us that something's wrong with our first data file. We would like to check the other 11 the same way, but typing in the same commands repeatedly is tedious and error-prone. Since computers don't get bored (that we know of), we should create a way to do a complete analysis with a single command, and then figure out how to repeat that step once for each file. These operations are the subjects of the next two lessons.
+%%
 
 
 %% THIRD CHALLENGE
