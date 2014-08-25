@@ -2,23 +2,29 @@
 % This is the first Chapter
 
 %%
-% We are studying inflammation in patients who have been given a new treatment for arthritis, and need to analyze the first dozen data sets. The data sets 
-% is stored in comma-separated values (CSV) format: each row holds information for a single patient, and the columns represent successive days. The first few rows of our first file look like this:
+% We are studying gas prices acr, and need to analyze a data set. The data set 
+% is stored in comma-separated values (CSV) format: each row holds information 
+% for a single year, and the columns represent different countries. 
+% The first few rows of our first file look like this:
 %
-%  0,0,1,3,1,2,4,7,8,3,3,3,10,5,7,4,7,7,12,18,6,13,11,11,7,7,4,6,8,8,4,4,5,7,3,4,2,3,0,0
-% 0,1,2,1,2,1,3,2,2,6,10,11,5,9,4,4,7,16,8,6,18,4,12,5,12,7,11,5,11,3,3,5,4,4,5,5,1,1,0,1
-% 0,1,1,3,3,2,6,2,5,9,5,7,4,5,4,15,5,11,9,10,19,14,12,17,7,12,11,7,4,2,10,5,4,2,2,3,2,2,1,1
-% 0,0,2,0,4,2,2,1,6,7,10,7,9,13,8,8,15,10,10,7,17,4,4,7,6,15,6,4,9,11,3,5,6,3,3,4,2,3,2,1
-% 0,1,1,3,3,1,3,5,2,4,4,7,6,5,3,10,8,10,6,17,9,14,9,7,13,9,12,6,7,7,9,6,3,2,2,4,2,0,1,1
+% 
+%  1 Average Annual Gasoline (Petrol) Retail Prices in Selected Countries [$US per gallon]										
+% 2 Source: US Dept. of Energy										
+% 3 http://www.eia.doe.gov/emeu/aer/txt/ptb1108.html										
+% 4										
+% 5 Year	Australia	Canada      France      Germany     Italy       Japan       Mexico      South Korea     UK      USA
+% 6 1990                1.87        3.63        2.65        4.59        3.16        1.00        2.05            2.82	1.16
+% 7 1991    1.96        1.92        3.45        2.90        4.50        3.46        1.30        2.49            3.01	1.14
+% 8 1992    1.89        1.73        3.56        3.27        4.53        3.58        1.50        2.65            3.06	1.13
+% 9 1993    1.73        1.57        3.41        3.07        3.68        4.16        1.56        2.88            2.84	1.11
 % 
 %
 % We want to:
 % 
 % * load that data into memory,
-% * calculate the average inflammation per day across all patients, and
+% * calculate the average price in each country
 % * plot the result.
-%
-% To do all that, we'll have to learn a little bit about programming.
+% * To do all that, we'll have to learn a little bit about programming.
 %
 
 %% Objectives
@@ -87,209 +93,39 @@
 % separates our values, and the row and column of our first data value.
 % Since we're dealing with a .csv(coma-seperated value) file, our delimiter
 % is the comma. Our data starts in the 5th row and the 1st column:
-dlmread('inflammation-01.csv',',',0, 0)
-
-%%
+dlmread('gasprices.csv',',',5, 0)
 % Our call to |dlmread('gasprices.csv',',',5, 1)| read our file, and asigns 
 % it to a variable called |ans|. |ans| always just contains the last value
 % that we didn't explicitly assign to a variable. To prevent that and to be
 % able to recall the array we just loaded later, we assign it to a
 % variable, simply using |=|:
-inflammationData = dlmread('inflammation-01.csv',',',0, 0);
-
-%%
+gasprices = dlmread('gasprices.csv',',',5, 0);
 % A |;| at the end of the line supresses the output in the Command Window.
 % We can now find our data in the Workspace. Double-clicking on the
 % variablt name in the Workspace brings up our data for us to inspect. 
 %
 % We can also recall it typing:
-% 
-%  inflammationData
+gasprices
+%
+% The data we loaded is stored in an array. If we want to look at the
+% value of row 5 and column 3, we can do this by typing:
+gasprices(5,3)
 
 
 %% Manipulating Data
-% Now that our data is in memory, we can start doing things with it. First, let's ask what class of thing inflammationData refers to:
-
-class(inflammationData)
-size(inflammationData)
+% We can also change single or multiple values in an array:
+gasprices(5,3) = 3.1;
 
 %%
-% The output tells us that data currently refers to an array of doubles
-% containing 60 rows and 40 columns.
-%
-% If we want to get a single value from the matrix, we must provide an index in round parentheses, just as we do in math:
-disp('First value in data:'); disp(inflammationData(1,1));
+% _introduction of indexing in arrays, :, end, only work on or display a subsection of the array_
+% _maybe convert all data into AUD_
+% _compute the mean for each year, for each contry, and overall_ 
 
-disp('Middle value in data:'); disp(inflammationData(31,21));
-
-inflammationData(5,3) = 2;
-
-%%
-% Programming languages like Fortran and MATLAB start counting at 1, because 
-% that's what human beings have done for thousands of years. Languages 
-% in the C family (including C++, Java, Perl, and Python) count from 0 
-% because that's simpler for computers to do.
-%
-% An index like (31, 21) selects a single element of an array, but we can
-% select whole sections as well. For example, we can select the first ten 
-% days (columns) of values for the first four (rows) patients like this:
-disp(inflammationData(1:4, 1:10));
-
-%% 
-% The slice 1:4 means, "Start at index 1 and go up to, including, 
-% index 4.".
-%
-% We don't have to start slices at 1:
-disp(inflammationData(5:10, 1:10));
-
-%%
-% and we don't have to take all the values in the slice. If we provide a 
-% stride, Matlab takes values spaced that far apart:
-disp(inflammationData(1:3:10, 1:2:10));
-
-%% 
-% Here, we have taken rows 1, 4, 7, and 10, and columns 1, 3, 5, 7, and 9.
-%
-% We can also look at only one row and all colums.
-% If we just use ':' on its own, the slice includes everything in that dimension:
-disp(inflammationData(5, :));
-
-%%
-% Or use the handy key word |end|, displaying 
-disp(inflammationData(50:end, 30:end));
-
-%% 
-% With arrays, we can also perform common mathematical operations. 
-% If we want to find the average inflammation for all patients (each row is one patient)
-% we can just ask the array for its mean value in that dimension (row = dimension 1):
-mean(inflammationData,1)
-
-%% 
-% If we want to find the average inflammation for all days we use dimension 2:
-mean(inflammationData,2)
-
-%%
-% The overall mean for all patients and all days can be computed using the 
-% mean twice:
-mean(mean(inflammationData))
-
-%% 
-% |mean| is a function. If variables are nouns, functions are verbs: 
-% they are what the thing in question knows how to do. 
-%
-% Matlab arrays have lots of useful methods:
-
-disp('Maximum inflammation:'); disp(max(max(inflammationData)));
-disp('Minimum inflammation:'); disp(min(min(inflammationData)));
 
 %% FIRST CHALLENGE  
-%
-% A subsection of an array is called a slice. We can take slices of character strings as well:
-element = 'oxygen';
-disp('First three characters:'); disp(element(1:3));
-disp('Last three characters:'); disp(element(4:6));
-
-%%
-% 
-% # What is the value of element(1:4)? What about element(4:end)? Or element(:)? 
-% # What is element(0)? 
-
-%%
-\
-
-Challenges
-
-Why do all of our plots stop just short of the upper end of our graph? Why are the vertical lines in our plot of the minimum inflammation per day not vertical?
-
-Create a plot showing the standard deviation of the inflammation data for each day across all patients.
-
-Wrapping Up
-It's very common to create an alias for a library when importing it in order to reduce the amount of typing we have to do. Here are our three plots side by side using aliases for numpy and pyplot:
-
-import numpy as np
-from matplotlib import pyplot as plt
-
-data = np.loadtxt(fname='inflammation-01.csv', delimiter=',')
-
-plt.figure(figsize=(10.0, 3.0))
-
-plt.subplot(1, 3, 1)
-plt.ylabel('average')
-plt.plot(data.mean(0))
-
-plt.subplot(1, 3, 2)
-plt.ylabel('max')
-plt.plot(data.max(0))
-
-plt.subplot(1, 3, 3)
-plt.ylabel('min')
-plt.plot(data.min(0))
-
-plt.tight_layout()
-plt.show()
-
-The first two lines re-load our libraries as np and plt, which are the aliases most Python programmers use. The call to loadtxt reads our data, and the rest of the program tells the plotting library how large we want the figure to be, that we're creating three sub-plots, what to draw for each one, and that we want a tight layout. (Perversely, if we leave out that call to plt.tight_layout(), the graphs will actually be squeezed together more closely.)
-
-Challenges
-
-Modify the program to display the three plots on top of one another instead of side by side.
-Key Points
-
-Import a library into a program using import libraryname.
-Use the numpy library to work with arrays in Python.
-Use variable = value to assign a value to a variable in order to record it in memory.
-Variables are created on demand whenever a value is assigned to them.
-Use print something to display the value of something.
-The expression array.shape gives the shape of an array.
-Use array[x, y] to select a single element from an array.
-Array indices start at 0, not 1.
-Use low:high to specify a slice that includes the indices from low to high-1.
-All the indexing and slicing that works on arrays also works on strings.
-Use # some kind of explanation to add comments to programs.
-Use array.mean(), array.max(), and array.min() to calculate simple statistics.
-Use array.mean(axis=0) or array.mean(axis=1) to calculate statistics across the specified axis.
-Use the pyplot library from matplotlib for creating simple visualizations.
-Next Steps
-
-Our work so far has convinced us that something's wrong with our first data file. We would like to check the other 11 the same way, but typing in the same commands repeatedly is tedious and error-prone. Since computers don't get bored (that we know of), we should create a way to do a complete analysis with a single command, and then figure out how to repeat that step once for each file. These operations are the subjects of the next two lessons.
-%%
+% _load a file, do things to it_
 
 %% Plotting 
-% The mathematician Richard Hamming once said, "The purpose of computing is
-% insight, not numbers," and the best way to develop insight is often to
-% visualize data. Visualization deserves an entire lecture (or course) of
-% its own, but we can explore a few plotting features of Matlab here. 
-% First, let's just create a simple plot:
-
-%matplotlib inline
-The % at the start of the line signals that this is a command for the notebook, rather than a statement in Python. Next, we will import the pyplot module from matplotlib and use two of its functions to create and display a heat map of our data:
-
-from matplotlib import pyplot
-pyplot.imshow(data)
-pyplot.show()
-
-Blue regions in this heat map are low values, while red shows high values. As we can see, inflammation rises and falls over a 40-day period. Let's take a look at the average inflammation over time:
-
-ave_inflammation = data.mean(axis=0)
-pyplot.plot(ave_inflammation)
-pyplot.show()
-
-Here, we have put the average per day across all patients in the variable ave_inflammation, then asked pyplot to create and display a line graph of those values. The result is roughly a linear rise and fall, which is suspicious: based on other studies, we expect a sharper rise and slower fall. Let's have a look at two other statistics:
-
-print 'maximum inflammation per day'
-pyplot.plot(data.max(axis=0))
-pyplot.show()
-
-print 'minimum inflammation per day'
-pyplot.plot(data.min(axis=0))
-pyplot.show()
-maximum inflammation per day
-
-minimum inflammation per day
-
-The maximum value rises and falls perfectly smoothly, while the minimum seems to be a step function. Neither result seems particularly likely, so either there's a mistake in our calculations or something is wrong with our data.
-
-
 % _introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the 
 % possibility to change things and then peek in the code what's happened._
 
