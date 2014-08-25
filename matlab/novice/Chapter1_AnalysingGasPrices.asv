@@ -255,41 +255,6 @@ Our work so far has convinced us that something's wrong with our first data file
 %%
 
 %% Plotting 
-% The mathematician Richard Hamming once said, "The purpose of computing is
-% insight, not numbers," and the best way to develop insight is often to
-% visualize data. Visualization deserves an entire lecture (or course) of
-% its own, but we can explore a few plotting features of Matlab here. 
-% First, let's just create a simple plot:
-
-%matplotlib inline
-The % at the start of the line signals that this is a command for the notebook, rather than a statement in Python. Next, we will import the pyplot module from matplotlib and use two of its functions to create and display a heat map of our data:
-
-from matplotlib import pyplot
-pyplot.imshow(data)
-pyplot.show()
-
-Blue regions in this heat map are low values, while red shows high values. As we can see, inflammation rises and falls over a 40-day period. Let's take a look at the average inflammation over time:
-
-ave_inflammation = data.mean(axis=0)
-pyplot.plot(ave_inflammation)
-pyplot.show()
-
-Here, we have put the average per day across all patients in the variable ave_inflammation, then asked pyplot to create and display a line graph of those values. The result is roughly a linear rise and fall, which is suspicious: based on other studies, we expect a sharper rise and slower fall. Let's have a look at two other statistics:
-
-print 'maximum inflammation per day'
-pyplot.plot(data.max(axis=0))
-pyplot.show()
-
-print 'minimum inflammation per day'
-pyplot.plot(data.min(axis=0))
-pyplot.show()
-maximum inflammation per day
-
-minimum inflammation per day
-
-The maximum value rises and falls perfectly smoothly, while the minimum seems to be a step function. Neither result seems particularly likely, so either there's a mistake in our calculations or something is wrong with our data.
-
-
 % _introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the 
 % possibility to change things and then peek in the code what's happened._
 

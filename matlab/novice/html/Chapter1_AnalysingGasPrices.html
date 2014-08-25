@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Chapter 01 - Analysing Gas Prices</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-08-22"><meta name="DC.source" content="Chapter1_AnalysingGasPrices.m"><style type="text/css">
+      --><title>Chapter 01 - Analysing Gas Prices</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-08-25"><meta name="DC.source" content="Chapter1_AnalysingGasPrices.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,170 +66,310 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Chapter 01 - Analysing Gas Prices</h1><!--introduction--><p>This is the first Chapter</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Objectives</a></li><li><a href="#3">Matlab's graphical user interface</a></li><li><a href="#4">Loading Data</a></li><li><a href="#7">Manipulating Data</a></li><li><a href="#9">FIRST CHALLENGE</a></li><li><a href="#10">Plotting</a></li><li><a href="#11">SECOND CHALLENGE</a></li><li><a href="#12">Scripts, Comments</a></li><li><a href="#13">Wrapping up</a></li><li><a href="#14">THIRD CHALLENGE</a></li><li><a href="#15">Key Points</a></li><li><a href="#16">Next Steps</a></li></ul></div><p>We are studying gas prices acr, and need to analyze a data set. The data set is stored in comma-separated values (CSV) format: each row holds information for a single year, and the columns represent different countries. The first few rows of our first file look like this:</p><pre>1 Average Annual Gasoline (Petrol) Retail Prices in Selected Countries [$US per gallon]
-2 Source: US Dept. of Energy
-3 http://www.eia.doe.gov/emeu/aer/txt/ptb1108.html
-4
-5 Year	Australia	Canada      France      Germany     Italy       Japan       Mexico      South Korea     UK      USA
-6 1990                1.87        3.63        2.65        4.59        3.16        1.00        2.05            2.82	1.16
-7 1991    1.96        1.92        3.45        2.90        4.50        3.46        1.30        2.49            3.01	1.14
-8 1992    1.89        1.73        3.56        3.27        4.53        3.58        1.50        2.65            3.06	1.13
-9 1993    1.73        1.57        3.41        3.07        3.68        4.16        1.56        2.88            2.84	1.11</pre><p>We want to:</p><div><ul><li>load that data into memory,</li><li>calculate the average price in each country</li><li>plot the result.</li><li>To do all that, we'll have to learn a little bit about programming.</li></ul></div><h2>Objectives<a name="2"></a></h2><div><ul><li>Understand the Matlab GUI.</li><li>Load data from a csv-file into the program.</li><li>Assign values to variables.</li><li>Select individual values and subsections from data.</li><li>Perform operations on arrays of data.</li><li>Display simple graphs.</li></ul></div><h2>Matlab's graphical user interface<a name="3"></a></h2><p>Using the default setup, the matlab desktop contains several important sections:</p><div><ul><li>The Current Folder: The current folder is the directory that we are in at the moment. Since we normally don't want to save all our functions and files in one folder, we need to tell Matlab where to find our files. We point Matlab in the right direction by setting thep path to contain all folders that we want to work in. This is done in &gt; Home &gt; Set Path: Include all folders and subfolders you want to be in the path. In "Current Folder", these folders should stop being transparent now.</li><li>The Command Window: In the command window, we can run and debug our code. Everything that's typed into the command window is executed immediately.</li><li>Workspace: The workspace contains all variable names and assigned values that we currently work with. As long as they pop up in the workspace, they are universally available, which is why it's good to keep it clean to not accidentally overwriting a variable of function that you later use (can be cleaned up typing <tt>clear all</tt>).</li><li>Command History: The command history saves all commands you recently used. Double-clicking on one or a few will execute them again. They can also be exported directly into a script (right-click "Create script")</li><li>Search Documentation: On the top right of your screen, you can search for functions. Suggestions for functions that would do what you want to do will pop up. Clicking on them will open the documentation.</li></ul></div><h2>Loading Data<a name="4"></a></h2><p>Words are useful, but what's more useful are the sentences and stories we use them to build.</p><p>In order to load our gas price data, we need to import it in a meaningful format that lets us work with it. To do this, we need a function that reads in a file and converts it into a matrix. (Type "read file into matrix" in "Search Documentation". dlmread should pop up as a suggestion - click on that). We're using a function called dlmread. In the Matlab documentation centre, we can look at the syntax this function uses:</p><pre>M = dlmread(filename)
+  </style></head><body><div class="content"><h1>Chapter 01 - Analysing Gas Prices</h1><!--introduction--><p>This is the first Chapter</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Objectives</a></li><li><a href="#3">Matlab's graphical user interface</a></li><li><a href="#4">Loading Data</a></li><li><a href="#9">Manipulating Data</a></li><li><a href="#11">FIRST CHALLENGE</a></li><li><a href="#12">Plotting</a></li><li><a href="#13">SECOND CHALLENGE</a></li><li><a href="#14">Scripts, Comments</a></li><li><a href="#15">Wrapping up</a></li><li><a href="#16">THIRD CHALLENGE</a></li><li><a href="#17">Key Points</a></li><li><a href="#18">Next Steps</a></li></ul></div><p>We are studying inflammation in patients who have been given a new treatment for arthritis, and need to analyze the first dozen data sets. The data sets is stored in comma-separated values (CSV) format: each row holds information for a single patient, and the columns represent successive days. The first few rows of our first file look like this:</p><pre>0,0,1,3,1,2,4,7,8,3,3,3,10,5,7,4,7,7,12,18,6,13,11,11,7,7,4,6,8,8,4,4,5,7,3,4,2,3,0,0
+0,1,2,1,2,1,3,2,2,6,10,11,5,9,4,4,7,16,8,6,18,4,12,5,12,7,11,5,11,3,3,5,4,4,5,5,1,1,0,1
+0,1,1,3,3,2,6,2,5,9,5,7,4,5,4,15,5,11,9,10,19,14,12,17,7,12,11,7,4,2,10,5,4,2,2,3,2,2,1,1
+0,0,2,0,4,2,2,1,6,7,10,7,9,13,8,8,15,10,10,7,17,4,4,7,6,15,6,4,9,11,3,5,6,3,3,4,2,3,2,1
+0,1,1,3,3,1,3,5,2,4,4,7,6,5,3,10,8,10,6,17,9,14,9,7,13,9,12,6,7,7,9,6,3,2,2,4,2,0,1,1</pre><p>We want to:</p><div><ul><li>load that data into memory,</li><li>calculate the average inflammation per day across all patients, and</li><li>plot the result.</li></ul></div><p>To do all that, we'll have to learn a little bit about programming.</p><h2>Objectives<a name="2"></a></h2><div><ul><li>Understand the Matlab GUI.</li><li>Load data from a csv-file into the program.</li><li>Assign values to variables.</li><li>Select individual values and subsections from data.</li><li>Perform operations on arrays of data.</li><li>Display simple graphs.</li></ul></div><h2>Matlab's graphical user interface<a name="3"></a></h2><p>Using the default setup, the matlab desktop contains several important sections:</p><div><ul><li>The Current Folder: The current folder is the directory that we are in at the moment. Since we normally don't want to save all our functions and files in one folder, we need to tell Matlab where to find our files. We point Matlab in the right direction by setting thep path to contain all folders that we want to work in. This is done in &gt; Home &gt; Set Path: Include all folders and subfolders you want to be in the path. In "Current Folder", these folders should stop being transparent now.</li><li>The Command Window: In the command window, we can run and debug our code. Everything that's typed into the command window is executed immediately.</li><li>Workspace: The workspace contains all variable names and assigned values that we currently work with. As long as they pop up in the workspace, they are universally available, which is why it's good to keep it clean to not accidentally overwriting a variable of function that you later use (can be cleaned up typing <tt>clear all</tt>).</li><li>Command History: The command history saves all commands you recently used. Double-clicking on one or a few will execute them again. They can also be exported directly into a script (right-click "Create script")</li><li>Search Documentation: On the top right of your screen, you can search for functions. Suggestions for functions that would do what you want to do will pop up. Clicking on them will open the documentation.</li></ul></div><h2>Loading Data<a name="4"></a></h2><p>Words are useful, but what's more useful are the sentences and stories we use them to build.</p><p>In order to load our gas price data, we need to import it in a meaningful format that lets us work with it. To do this, we need a function that reads in a file and converts it into a matrix. (Type "read file into matrix" in "Search Documentation". dlmread should pop up as a suggestion - click on that). We're using a function called dlmread. In the Matlab documentation centre, we can look at the syntax this function uses:</p><pre>M = dlmread(filename)
 M = dlmread(filename, delimiter)
 M = dlmread(filename, delimiter, R, C)
 M = dlmread(filename, delimiter, range)</pre><pre>M = dlmread(filename) reads the ASCII-delimited numeric data file filename, and returns the data in output matrix M. The filename input is a string enclosed in single quotes. dlmread infers the delimiter from the formatting of the file.
 M = dlmread(filename, delimiter) reads data from the file, using the specified delimiter. Use '\t' to specify a tab delimiter.
 M = dlmread(filename, delimiter, R, C) reads data whose upper left corner is at row R and column C in the file. Values R and C are zero-based, so that R=0, C=0 specifies the first value in the file.
-M = dlmread(filename, delimiter, range) reads the range specified by range = [R1 C1 R2 C2] where (R1,C1) is the upper left corner of the data to read and (R2,C2) is the lower right corner. You can also specify the range using spreadsheet notation, such as range = 'A1..B7'.</pre><p>When reading in our data, we want to be able to set a delimiter, and the number of rows that don't belong to the data, so we will be using <tt>dlmread(filename, delimiter, R, C)</tt>. Our function asks us for four different parameters: the filename, a delimiter - the character that separates our values, and the row and column of our first data value. Since we're dealing with a .csv(coma-seperated value) file, our delimiter is the comma. Our data starts in the 5th row and the 1st column:</p><pre class="codeinput">dlmread(<span class="string">'gasprices.csv'</span>,<span class="string">','</span>,5, 0)
-<span class="comment">% Our call to |dlmread('gasprices.csv',',',5, 1)| read our file, and asigns</span>
-<span class="comment">% it to a variable called |ans|. |ans| always just contains the last value</span>
-<span class="comment">% that we didn't explicitly assign to a variable. To prevent that and to be</span>
-<span class="comment">% able to recall the array we just loaded later, we assign it to a</span>
-<span class="comment">% variable, simply using |=|:</span>
-gasprices = dlmread(<span class="string">'gasprices.csv'</span>,<span class="string">','</span>,5, 0);
-<span class="comment">% A |;| at the end of the line supresses the output in the Command Window.</span>
-<span class="comment">% We can now find our data in the Workspace. Double-clicking on the</span>
-<span class="comment">% variablt name in the Workspace brings up our data for us to inspect.</span>
-<span class="comment">%</span>
-<span class="comment">% We can also recall it typing:</span>
-gasprices
-<span class="comment">%</span>
-<span class="comment">% The data we loaded is stored in an array. If we want to look at the</span>
-<span class="comment">% value of row 5 and column 3, we can do this by typing:</span>
-gasprices(5,3)
+M = dlmread(filename, delimiter, range) reads the range specified by range = [R1 C1 R2 C2] where (R1,C1) is the upper left corner of the data to read and (R2,C2) is the lower right corner. You can also specify the range using spreadsheet notation, such as range = 'A1..B7'.</pre><p>When reading in our data, we want to be able to set a delimiter, and the number of rows that don't belong to the data, so we will be using <tt>dlmread(filename, delimiter, R, C)</tt>. Our function asks us for four different parameters: the filename, a delimiter - the character that separates our values, and the row and column of our first data value. Since we're dealing with a .csv(coma-seperated value) file, our delimiter is the comma. Our data starts in the 5th row and the 1st column:</p><pre class="codeinput">dlmread(<span class="string">'inflammation-01.csv'</span>,<span class="string">','</span>,0, 0)
 </pre><pre class="codeoutput">
 ans =
 
-   1.0e+03 *
+  Columns 1 through 13
 
-  Columns 1 through 7
+     0     0     1     3     1     2     4     7     8     3     3     3    10
+     0     1     2     1     2     1     3     2     2     6    10    11     5
+     0     1     1     3     3     2     6     2     5     9     5     7     4
+     0     0     2     0     4     2     2     1     6     7    10     7     9
+     0     1     1     3     3     1     3     5     2     4     4     7     6
+     0     0     1     2     2     4     2     1     6     4     7     6     6
+     0     0     2     2     4     2     2     5     5     8     6     5    11
+     0     0     1     2     3     1     2     3     5     3     7     8     8
+     0     0     0     3     1     5     6     5     5     8     2     4    11
+     0     1     1     2     1     3     5     3     5     8     6     8    12
+     0     1     0     0     4     3     3     5     5     4     5     8     7
+     0     1     0     0     3     4     2     7     8     5     2     8    11
+     0     0     2     1     4     3     6     4     6     7     9     9     3
+     0     0     0     0     1     3     1     6     6     5     5     6     3
+     0     1     2     1     1     1     4     1     5     2     3     3    10
+     0     1     1     0     1     2     4     3     6     4     7     5     5
+     0     0     0     0     2     3     6     5     7     4     3     2    10
+     0     0     0     1     2     1     4     3     6     7     4     2    12
+     0     0     2     1     2     5     4     2     7     8     4     7    11
+     0     1     2     0     1     4     3     2     2     7     3     3    12
+     0     1     1     3     1     4     4     1     8     2     2     3    12
+     0     0     2     3     2     3     2     6     3     8     7     4     6
+     0     0     0     3     4     5     1     7     7     8     2     5    12
+     0     1     1     1     1     3     3     2     6     3     9     7     8
+     0     1     1     1     2     3     5     3     6     3     7    10     3
+     0     0     2     1     3     3     2     7     4     4     3     8    12
+     0     0     1     2     4     2     2     3     5     7    10     5     5
+     0     0     1     1     1     5     1     5     2     2     4    10     4
+     0     0     2     2     3     4     6     3     7     6     4     5     8
+     0     0     0     1     4     4     6     3     8     6     4    10    12
+     0     1     1     0     3     2     4     6     8     6     2     3    11
+     0     0     2     3     3     4     5     3     6     7    10     5    10
+     0     1     2     2     2     3     6     6     6     7     6     3    11
+     0     0     2     1     3     5     6     7     5     8     9     3    12
+     0     0     1     2     4     1     5     5     2     3     4     8     8
+     0     0     0     3     1     3     6     4     3     4     8     3     4
+     0     1     2     2     2     5     5     1     4     6     3     6     5
+     0     1     1     2     3     1     5     1     2     2     5     7     6
+     0     1     0     3     2     4     1     1     5     9    10     7    12
+     0     1     1     3     1     1     5     5     3     7     2     2     3
+     0     0     0     2     2     1     3     4     5     5     6     5     5
+     0     0     1     3     3     1     2     1     8     9     2     8    10
+     0     1     1     3     4     5     2     1     3     7     9     6    10
+     0     0     1     3     1     4     3     6     7     8     5     7    11
+     0     1     1     3     3     4     4     6     3     4     9     9     7
+     0     1     2     2     4     3     1     4     8     9     5    10    10
+     0     0     2     3     4     5     4     6     2     9     7     4     9
+     0     1     1     3     1     4     6     2     8     2    10     3    11
+     0     0     1     3     2     5     1     2     7     6     6     3    12
+     0     0     1     2     3     4     5     7     5     4    10     5    12
+     0     1     2     1     1     3     5     3     6     3    10    10    11
+     0     1     2     2     3     5     2     4     5     6     8     3     5
+     0     0     0     2     4     4     5     3     3     3    10     4     4
+     0     0     2     1     1     4     4     7     2     9     4    10    12
+     0     1     2     1     1     4     5     4     4     5     9     7    10
+     0     0     1     3     2     3     6     4     5     7     2     4    11
+     0     1     1     2     2     5     1     7     4     2     5     5     4
+     0     1     1     1     4     1     6     4     6     3     6     5     6
+     0     0     0     1     4     5     6     3     8     7     9    10     8
+     0     0     1     0     3     2     5     4     8     2     9     3     3
 
-    1.9900         0    0.0019    0.0036    0.0027    0.0046    0.0032
-    1.9910    0.0020    0.0019    0.0035    0.0029    0.0045    0.0035
-    1.9920    0.0019    0.0017    0.0036    0.0033    0.0045    0.0036
-    1.9930    0.0017    0.0016    0.0034    0.0031    0.0037    0.0042
-    1.9940    0.0018    0.0014    0.0036    0.0035    0.0037    0.0044
-    1.9950    0.0019    0.0015    0.0043    0.0040    0.0040    0.0044
-    1.9960    0.0021    0.0016    0.0044    0.0039    0.0044    0.0036
-    1.9970    0.0020    0.0016    0.0040    0.0035    0.0041    0.0033
-    1.9980    0.0016    0.0014    0.0039    0.0033    0.0038    0.0028
-    1.9990    0.0017    0.0015    0.0039    0.0034    0.0039    0.0033
-    2.0000    0.0019    0.0019    0.0038    0.0035    0.0038    0.0037
-    2.0010    0.0017    0.0017    0.0035    0.0034    0.0036    0.0033
-    2.0020    0.0018    0.0017    0.0036    0.0037    0.0037    0.0032
-    2.0030    0.0022    0.0020    0.0043    0.0046    0.0045    0.0035
-    2.0040    0.0027    0.0024    0.0050    0.0052    0.0053    0.0039
-    2.0050    0.0032    0.0029    0.0055    0.0057    0.0057    0.0043
-    2.0060    0.0035    0.0033    0.0059    0.0060    0.0061    0.0045
-    2.0070    0.0039    0.0036    0.0066    0.0069    0.0067    0.0045
-    2.0080    0.0045    0.0041    0.0075    0.0077    0.0076    0.0057
+  Columns 14 through 26
 
-  Columns 8 through 11
+     5     7     4     7     7    12    18     6    13    11    11     7     7
+     9     4     4     7    16     8     6    18     4    12     5    12     7
+     5     4    15     5    11     9    10    19    14    12    17     7    12
+    13     8     8    15    10    10     7    17     4     4     7     6    15
+     5     3    10     8    10     6    17     9    14     9     7    13     9
+     9     9    15     4    16    18    12    12     5    18     9     5     3
+     9     4    13     5    12    10     6     9    17    15     8     9     3
+     5    10     9    15    11    18    19    20     8     5    13    15    10
+    12    10    11     9    10    17    11     6    16    12     6     8    14
+     5    13     6    13     8    16     8    18    15    16    14    12     7
+    10    13     3     7    13    15    18     8    15    15    16    11    14
+     5     5     8    14    11     6    11     9    16    18     6    12     5
+    11     6    12     4    17    13    15    13    12     8     7     4     7
+     6    13     3    10    13     9    16    15     9    11     4     6     4
+     7    13     5     7    17     6     9    12    13    10     4    12     4
+     7     5    10     7     8    18    17     9     8    12    11    11    11
+     7     9    11    12     5    12     9    13    19    14    17     5    13
+     6    12     4    14     7     8    14    13    19     6     9    12     6
+     9     8    11    15    17    11    12     7    12     7     6     7     4
+    13    11    13     6     5     9    16     9    19    16    11     8     9
+    12    10    15    13     6     5     5    18    19     9     6    11    12
+     6     9     5    12    12     8     5    12    10    16     7    14    12
+     4    10    14     5     5    17    13    16    15    13     6    12     9
+     8     4    13     7    14    11    15    14    13     5    13     7    14
+     8    12     4    12     9    15     5    17    16     5    10    10    15
+     9    12     9     5    16     8    17     7    11    14     7    13    11
+    12     3    13     4    13     7    15     9    12    18    14    16    12
+     8    14     6    15     6    12    15    15    13     7    17     4     5
+     4     7     7     6    11    12    19    20    18     9     5     4     7
+     3     3     6     8     7    17    16    14    15    17     4    14    13
+     3    14    14    12     8     8    16    13     7     6     9    15     7
+    13    14     3     8    10     9     9    19    15    15     6     8     8
+    12    13    15    15    10    14    11    11     8     6    12    10     5
+    10    12     4    12     9    13    10    10     6    10    11     4    15
+    12     5    15     9    17     7    19    14    18    12    17    14     4
+     8     3    11     5     7    10     5    15     9    16    17    16     3
+     9     6     7     4     7    16     7    16    13     9    16    12     6
+     6     5    10     6     7    17    13    15    16    17    14     4     4
+    10     9    15    12    13    13     6    19     9    10     6    13     5
+    12     4     6     8    15    16    16    15     4    14     5    13    10
+    12    13     5     7     5    11    15    18     7     9    10    14    12
+     3     8     6    10    13    11    17    19     6     4    11     6    12
+     5     8    15    11    12    15     6    12    16     6     4    14     3
+     3     6    11     6    10     6    19    18    14     6    10     7     9
+     6     8    15    12    15     6    11     6    18     5    14    15    12
+     3     4     6     7    11    16     6    14     9    11    10    10     7
+    10     8    11    16    12    15    17    19    10    18    13    15    11
+     9    13    15     5    15     6    10    10     5    14    15    12     7
+     9     4    14     4     6    12     9    12     7    11     7    16     8
+    12     5     4     7     9    18    16    16    10    15    15    10     4
+    10    13    10    13     6     6    14     5     4     5     5     9     4
+     4     3    15    15    12    16     7    20    15    12     8     9     6
+     4    14    11    15    13    10    14    11    17     9    11    11     7
+     7     6     6    11    12     9    15    15     6     6    13     5    12
+     3    13    13     8     9    17    16    16    15    12    13     5    12
+    11     3     8     8    16     5    13    16     5     8     8     6     9
+     6     6     4    16    11    14    16    14    14     8    17     4    14
+     4    14    13    13     9    12    19     9    10    15    10     9    10
+     6     5    12    15     5    10     5     8    13    18    17    14     9
+    10    12     9    14    11    13     8     6    18    11     9    13    11
 
-    0.0010    0.0020    0.0028    0.0012
-    0.0013    0.0025    0.0030    0.0011
-    0.0015    0.0027    0.0031    0.0011
-    0.0016    0.0029    0.0028    0.0011
-    0.0015    0.0029    0.0030    0.0011
-    0.0011    0.0029    0.0032    0.0012
-    0.0013    0.0032    0.0033    0.0012
-    0.0015    0.0033    0.0038    0.0012
-    0.0015    0.0030    0.0041    0.0011
-    0.0018    0.0038    0.0043    0.0012
-    0.0020    0.0042    0.0046    0.0015
-    0.0022    0.0038    0.0041    0.0015
-    0.0022    0.0038    0.0042    0.0014
-    0.0020    0.0041    0.0047    0.0016
-    0.0020    0.0045    0.0056    0.0019
-    0.0022    0.0053    0.0060    0.0023
-    0.0023    0.0059    0.0064    0.0026
-    0.0024    0.0062    0.0071    0.0028
-    0.0025    0.0058    0.0074    0.0033
+  Columns 27 through 39
 
+     4     6     8     8     4     4     5     7     3     4     2     3     0
+    11     5    11     3     3     5     4     4     5     5     1     1     0
+    11     7     4     2    10     5     4     2     2     3     2     2     1
+     6     4     9    11     3     5     6     3     3     4     2     3     2
+    12     6     7     7     9     6     3     2     2     4     2     0     1
+    10     3    12     7     8     4     7     3     5     4     4     3     2
+    13     7     8     2     8     8     4     2     3     5     4     1     1
+     6    10     6     7     4     9     3     5     2     5     3     2     2
+     6    13    10    11     4     6     4     7     6     3     2     1     0
+     3     8     9    11     2     5     4     5     1     4     1     2     0
+    12     4    10    10     4     3     4     5     5     3     3     2     2
+     4     3     5     7     8     3     5     4     5     5     4     0     1
+    12     9     5     6     5     4     7     3     5     4     2     3     0
+    11    11    12     3     5     8     7     4     6     4     1     3     0
+     6     7     6    10     8     2     5     1     3     4     2     0     2
+    14     6    11     2    10     9     5     6     5     3     4     2     2
+     8    11     5    10     9     8     7     5     3     1     4     0     2
+     4    13     6     7     2     3     6     5     4     2     3     0     1
+    13     5     7     6     6     9     2     1     1     2     2     0     1
+    14    12    11     9     6     6     6     1     1     2     4     3     1
+     7     6     3     6     3     2     4     3     1     5     4     2     2
+     5     4     6     9     8     5     6     6     1     4     3     0     2
+    10     3     3     7     4     4     8     2     6     5     1     0     1
+     9    10     5    11     5     3     5     1     1     4     4     1     2
+     7     5     3    11     5     5     6     1     1     1     1     0     2
+     7    12    12     7     8     5     7     2     2     4     1     1     1
+     3    11     3     2     7     4     8     2     2     1     3     0     1
+    11     4     8     7     9     4     5     3     2     5     4     3     2
+    14     8     4     3     7     7     8     3     5     4     1     3     1
+     4     4    12    11     6     9     5     5     2     5     2     1     0
+     6     4    10     8    10     4     2     6     5     5     2     3     2
+    11     5     5     7     3     6     6     4     5     2     2     3     0
+    12     7     7    11     5     8     5     2     5     5     2     0     2
+    13     7     3     4     2     9     7     2     4     2     1     2     1
+    13    13     8    11     5     6     6     2     3     5     2     1     1
+     8     9     8     3     3     9     5     1     6     5     4     2     2
+     7     9    10     3     6     4     5     4     6     3     4     3     2
+    10    10    10    11     9     9     5     4     4     2     1     0     1
+    13     6     7     2     5     5     2     1     1     1     1     3     0
+     7    10     6     3     2     3     6     3     3     5     4     3     2
+    11     9    10     3     2     9     6     2     2     5     3     0     0
+     7     5     5     4     4     8     2     6     6     4     2     2     0
+    12     9     6    11     5     8     5     5     6     1     2     1     2
+     8     5     8     3    10     2     5     1     5     4     2     1     0
+     9     8     3     6    10     6     8     7     2     5     4     3     1
+    10     8     8     4     5     8     4     4     5     2     4     1     1
+     8     4     7    11     6     7     6     5     1     3     1     0     0
+     4     5    11     4     6     9     5     6     1     1     2     1     2
+    13     6     7     6    10     7     6     3     1     5     4     3     0
+     3     7     5     9     4     6     2     4     1     4     2     2     2
+    12     7     7     4     7     9     3     3     6     3     4     1     2
+    12     5     8     3     8     5     4     1     3     2     1     3     1
+    10    12    10    10    10     8     7     5     2     2     4     1     2
+     9     6     4     7     7     6     5     4     1     4     2     2     2
+    10     9    11     9     4     5     5     2     2     5     1     0     0
+    10    10     9     3     3     5     3     5     4     5     3     3     0
+    13     7     6     3     7     7     5     6     3     4     2     2     1
+    10     7     5     6     8     6     6     4     3     5     2     1     1
+    13     4    10    11    10     8     8     6     5     5     2     0     2
+     8     5     5     2     8     5     3     5     4     1     3     1     1
 
-gasprices =
+  Column 40
 
-   1.0e+03 *
+     0
+     1
+     1
+     1
+     1
+     1
+     1
+     1
+     0
+     0
+     1
+     1
+     1
+     0
+     0
+     0
+     1
+     0
+     0
+     1
+     0
+     0
+     0
+     0
+     1
+     0
+     1
+     1
+     0
+     1
+     1
+     0
+     1
+     1
+     1
+     0
+     1
+     0
+     1
+     1
+     1
+     0
+     0
+     1
+     1
+     0
+     0
+     1
+     0
+     1
+     0
+     0
+     1
+     1
+     1
+     1
+     1
+     1
+     0
+     0
 
-  Columns 1 through 7
-
-    1.9900         0    0.0019    0.0036    0.0027    0.0046    0.0032
-    1.9910    0.0020    0.0019    0.0035    0.0029    0.0045    0.0035
-    1.9920    0.0019    0.0017    0.0036    0.0033    0.0045    0.0036
-    1.9930    0.0017    0.0016    0.0034    0.0031    0.0037    0.0042
-    1.9940    0.0018    0.0014    0.0036    0.0035    0.0037    0.0044
-    1.9950    0.0019    0.0015    0.0043    0.0040    0.0040    0.0044
-    1.9960    0.0021    0.0016    0.0044    0.0039    0.0044    0.0036
-    1.9970    0.0020    0.0016    0.0040    0.0035    0.0041    0.0033
-    1.9980    0.0016    0.0014    0.0039    0.0033    0.0038    0.0028
-    1.9990    0.0017    0.0015    0.0039    0.0034    0.0039    0.0033
-    2.0000    0.0019    0.0019    0.0038    0.0035    0.0038    0.0037
-    2.0010    0.0017    0.0017    0.0035    0.0034    0.0036    0.0033
-    2.0020    0.0018    0.0017    0.0036    0.0037    0.0037    0.0032
-    2.0030    0.0022    0.0020    0.0043    0.0046    0.0045    0.0035
-    2.0040    0.0027    0.0024    0.0050    0.0052    0.0053    0.0039
-    2.0050    0.0032    0.0029    0.0055    0.0057    0.0057    0.0043
-    2.0060    0.0035    0.0033    0.0059    0.0060    0.0061    0.0045
-    2.0070    0.0039    0.0036    0.0066    0.0069    0.0067    0.0045
-    2.0080    0.0045    0.0041    0.0075    0.0077    0.0076    0.0057
-
-  Columns 8 through 11
-
-    0.0010    0.0020    0.0028    0.0012
-    0.0013    0.0025    0.0030    0.0011
-    0.0015    0.0027    0.0031    0.0011
-    0.0016    0.0029    0.0028    0.0011
-    0.0015    0.0029    0.0030    0.0011
-    0.0011    0.0029    0.0032    0.0012
-    0.0013    0.0032    0.0033    0.0012
-    0.0015    0.0033    0.0038    0.0012
-    0.0015    0.0030    0.0041    0.0011
-    0.0018    0.0038    0.0043    0.0012
-    0.0020    0.0042    0.0046    0.0015
-    0.0022    0.0038    0.0041    0.0015
-    0.0022    0.0038    0.0042    0.0014
-    0.0020    0.0041    0.0047    0.0016
-    0.0020    0.0045    0.0056    0.0019
-    0.0022    0.0053    0.0060    0.0023
-    0.0023    0.0059    0.0064    0.0026
-    0.0024    0.0062    0.0071    0.0028
-    0.0025    0.0058    0.0074    0.0033
-
-
+</pre><p>Our call to <tt>dlmread('gasprices.csv',',',5, 1)</tt> read our file, and asigns it to a variable called <tt>ans</tt>. <tt>ans</tt> always just contains the last value that we didn't explicitly assign to a variable. To prevent that and to be able to recall the array we just loaded later, we assign it to a variable, simply using <tt>=</tt>:</p><pre class="codeinput">inflammationData = dlmread(<span class="string">'inflammation-01.csv'</span>,<span class="string">','</span>,0, 0);
+</pre><p>A <tt>;</tt> at the end of the line supresses the output in the Command Window. We can now find our data in the Workspace. Double-clicking on the variablt name in the Workspace brings up our data for us to inspect.</p><p>We can also recall it typing:</p><pre>inflammationData</pre><p>The data we loaded is stored in an array. Accessing the content of an array is done through the operator (row, column). If we want to look at the value of row 5 and column 3, we can do this by typing:</p><pre class="codeinput">inflammationData(5,3)
+</pre><pre class="codeoutput">
 ans =
 
-    1.4500
+     1
 
-</pre><h2>Manipulating Data<a name="7"></a></h2><p>We can also change single or multiple values in an array:</p><pre class="codeinput">gasprices(5,3) = 3.1;
-</pre><p><i>introduction of indexing in arrays, :, end, only work on or display a subsection of the array</i> <i>maybe convert all data into AUD</i> <i>compute the mean for each year, for each contry, and overall</i></p><h2>FIRST CHALLENGE<a name="9"></a></h2><p><i>load a file, do things to it</i></p><h2>Plotting<a name="10"></a></h2><p><i>introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the possibility to change things and then peek in the code what's happened.</i></p><h2>SECOND CHALLENGE<a name="11"></a></h2><p><i>load a file, do things to it, plot it?</i></p><h2>Scripts, Comments<a name="12"></a></h2><p>We normally don't want to run our code just once, but might want to run it again some time in the future. This is what we can use scripts for. In our case, we can simply export the code we just wrote (highlight section "Command History", right-click, "Create script"). We save the script as an .m file, which is the Matlab specific file format and give it a meaningful name. Our script does exactly the same thing as the Command Window, just not instantly. Which means, from here, we can re-run the code, change it; but we can now also debug and publish it. We'll look at debugging in the next lesson. For now, let's look at how to create a nice report from the script we just wrote.</p><p>If you look at your code in 2 months, you've most likely forgotton why you made certain decisions. This is why naming conventions and comments are extremely important. (open myfirstscript.m or write some useful comments into the script you just created.)</p><p>You can comment in different ways:</p><div><ul><li>use <tt>%%</tt> + space to split your code into meaningful cells. They don't have a functional use, but they keep code clear.</li><li>use <tt>%</tt> to have comments in line with your code</li><li>a comment right at the start of your script will pop up</li></ul></div><p>Another neat feature that Matlab has to offer, is, that it let's you automatically create a report. To do this, Matlab runs your script once, creates all images and combines everything into a nice document in your favourite format. Different comments will look differently in your report. <tt>%%</tt>, for example, will create a new headline. The toolbar ("Publish") is great help if you want your report to look nice. (Now hit the publish button and watch the magic.)</p><h2>Wrapping up<a name="13"></a></h2><p><i>save variables, save plots (as .fig and .jpg), clc, close all, clear all</i></p><h2>THIRD CHALLENGE<a name="14"></a></h2><p><i>create a script from the command history, comment, and hit the publish button</i></p><h2>Key Points<a name="15"></a></h2><h2>Next Steps<a name="16"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+</pre><h2>Manipulating Data<a name="9"></a></h2><p>Now that our data is in memory, we can start doing things with it. First, let's ask what type of thing inflammationData refers to:</p><pre class="codeinput">type(inflammationData)
+
+inflammationData(5,3) = 2;
+</pre><pre class="codeoutput error">Error using type
+Argument must contain a string.
+
+Error in Chapter1_AnalysingGasPrices (line 117)
+type(inflammationData)
+</pre><p><i>introduction of indexing in arrays, :, end, only work on or display a subsection of the array</i> <i>maybe convert all data into AUD</i> <i>compute the mean for each year, for each contry, and overall</i></p><h2>FIRST CHALLENGE<a name="11"></a></h2><p><i>load a file, do things to it</i></p><h2>Plotting<a name="12"></a></h2><p><i>introduce different plot types (one 2D, one 3D), subplots, hold on, figure properties and the possibility to change things and then peek in the code what's happened.</i></p><h2>SECOND CHALLENGE<a name="13"></a></h2><p><i>load a file, do things to it, plot it?</i></p><h2>Scripts, Comments<a name="14"></a></h2><p>We normally don't want to run our code just once, but might want to run it again some time in the future. This is what we can use scripts for. In our case, we can simply export the code we just wrote (highlight section "Command History", right-click, "Create script"). We save the script as an .m file, which is the Matlab specific file format and give it a meaningful name. Our script does exactly the same thing as the Command Window, just not instantly. Which means, from here, we can re-run the code, change it; but we can now also debug and publish it. We'll look at debugging in the next lesson. For now, let's look at how to create a nice report from the script we just wrote.</p><p>If you look at your code in 2 months, you've most likely forgotton why you made certain decisions. This is why naming conventions and comments are extremely important. (open myfirstscript.m or write some useful comments into the script you just created.)</p><p>You can comment in different ways:</p><div><ul><li>Use <tt>%%</tt> + space to split your code into meaningful cells. They don't have a functional use, but they keep code clear.</li><li>Use <tt>%</tt> to have comments in line with your code.</li><li>A comment right at the start of your script will pop up.</li><li>Clever usage of variable names.</li></ul></div><p>Another neat feature that Matlab has to offer, is, that it let's you automatically create a report. To do this, Matlab runs your script once, creates all images and combines everything into a nice document in your favourite format. Different comments will look differently in your report. <tt>%%</tt>, for example, will create a new headline. The toolbar ("Publish") is great help if you want your report to look nice. (Now hit the publish button and watch the magic.)</p><h2>Wrapping up<a name="15"></a></h2><p><i>save variables, save plots (as .fig and .jpg), clc, close all, clear all</i></p><h2>THIRD CHALLENGE<a name="16"></a></h2><p><i>create a script from the command history, comment, and hit the publish button</i></p><h2>Key Points<a name="17"></a></h2><h2>Next Steps<a name="18"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Chapter 01 - Analysing Gas Prices
 % This is the first Chapter
 
 %%
-% We are studying gas prices acr, and need to analyze a data set. The data set 
-% is stored in comma-separated values (CSV) format: each row holds information 
-% for a single year, and the columns represent different countries. 
-% The first few rows of our first file look like this:
+% We are studying inflammation in patients who have been given a new treatment for arthritis, and need to analyze the first dozen data sets. The data sets 
+% is stored in comma-separated values (CSV) format: each row holds information for a single patient, and the columns represent successive days. The first few rows of our first file look like this:
 %
-% 
-%  1 Average Annual Gasoline (Petrol) Retail Prices in Selected Countries [$US per gallon]										
-% 2 Source: US Dept. of Energy										
-% 3 http://www.eia.doe.gov/emeu/aer/txt/ptb1108.html										
-% 4										
-% 5 Year	Australia	Canada      France      Germany     Italy       Japan       Mexico      South Korea     UK      USA
-% 6 1990                1.87        3.63        2.65        4.59        3.16        1.00        2.05            2.82	1.16
-% 7 1991    1.96        1.92        3.45        2.90        4.50        3.46        1.30        2.49            3.01	1.14
-% 8 1992    1.89        1.73        3.56        3.27        4.53        3.58        1.50        2.65            3.06	1.13
-% 9 1993    1.73        1.57        3.41        3.07        3.68        4.16        1.56        2.88            2.84	1.11
+%  0,0,1,3,1,2,4,7,8,3,3,3,10,5,7,4,7,7,12,18,6,13,11,11,7,7,4,6,8,8,4,4,5,7,3,4,2,3,0,0
+% 0,1,2,1,2,1,3,2,2,6,10,11,5,9,4,4,7,16,8,6,18,4,12,5,12,7,11,5,11,3,3,5,4,4,5,5,1,1,0,1
+% 0,1,1,3,3,2,6,2,5,9,5,7,4,5,4,15,5,11,9,10,19,14,12,17,7,12,11,7,4,2,10,5,4,2,2,3,2,2,1,1
+% 0,0,2,0,4,2,2,1,6,7,10,7,9,13,8,8,15,10,10,7,17,4,4,7,6,15,6,4,9,11,3,5,6,3,3,4,2,3,2,1
+% 0,1,1,3,3,1,3,5,2,4,4,7,6,5,3,10,8,10,6,17,9,14,9,7,13,9,12,6,7,7,9,6,3,2,2,4,2,0,1,1
 % 
 %
 % We want to:
 % 
 % * load that data into memory,
-% * calculate the average price in each country
+% * calculate the average inflammation per day across all patients, and
 % * plot the result.
-% * To do all that, we'll have to learn a little bit about programming.
+%
+% To do all that, we'll have to learn a little bit about programming.
 %
 
 %% Objectives
@@ -298,28 +438,36 @@ ans =
 % separates our values, and the row and column of our first data value.
 % Since we're dealing with a .csv(coma-seperated value) file, our delimiter
 % is the comma. Our data starts in the 5th row and the 1st column:
-dlmread('gasprices.csv',',',5, 0)
+dlmread('inflammation-01.csv',',',0, 0)
+
+%%
 % Our call to |dlmread('gasprices.csv',',',5, 1)| read our file, and asigns 
 % it to a variable called |ans|. |ans| always just contains the last value
 % that we didn't explicitly assign to a variable. To prevent that and to be
 % able to recall the array we just loaded later, we assign it to a
 % variable, simply using |=|:
-gasprices = dlmread('gasprices.csv',',',5, 0);
+inflammationData = dlmread('inflammation-01.csv',',',0, 0);
+
+%%
 % A |;| at the end of the line supresses the output in the Command Window.
 % We can now find our data in the Workspace. Double-clicking on the
 % variablt name in the Workspace brings up our data for us to inspect. 
 %
 % We can also recall it typing:
-gasprices
+% 
+%  inflammationData
 %
-% The data we loaded is stored in an array. If we want to look at the
-% value of row 5 and column 3, we can do this by typing:
-gasprices(5,3)
+% The data we loaded is stored in an array. Accessing the content of an array is done through the operator (row, column). 
+% If we want to look at the value of row 5 and column 3, we can do this by typing:
+inflammationData(5,3)
 
 
 %% Manipulating Data
-% We can also change single or multiple values in an array:
-gasprices(5,3) = 3.1;
+% Now that our data is in memory, we can start doing things with it. First, let's ask what type of thing inflammationData refers to:
+
+type(inflammationData)
+
+inflammationData(5,3) = 2;
 
 %%
 % _introduction of indexing in arrays, :, end, only work on or display a subsection of the array_
@@ -359,10 +507,11 @@ gasprices(5,3) = 3.1;
 %
 % You can comment in different ways:
 %
-% * use |%%| + space to split your code into meaningful cells. They don't have a
+% * Use |%%| + space to split your code into meaningful cells. They don't have a
 % functional use, but they keep code clear.
-% * use |%| to have comments in line with your code
-% * a comment right at the start of your script will pop up 
+% * Use |%| to have comments in line with your code.
+% * A comment right at the start of your script will pop up.
+% * Clever usage of variable names. 
 %
 % Another neat feature that Matlab has to offer, is, that it let's you
 % automatically create a report. 
