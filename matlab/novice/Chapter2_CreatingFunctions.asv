@@ -21,18 +21,12 @@
 % It is important that the function name and the file name match up so Matlab knows where to look for the function.
 % Let's start by defining a function fahr_to_kelvin that converts temperatures from Celsius to Fahrenheit.
 % The |edit| command will open a file to edit or create a file if it doesn't exist, yet. 
+% |edit fahrenheit_to_kelvin.m|
 
-%%
-%
-%   edit fahrenheit_to_kelvin.m
+function valueKelv = fahrenheit_to_kelvin(valueFahr)
+  valueKelv = ValueFahr - 32 * 5/9 + 273.15;
+end
 
-%%
-% 
-%   function valueKelv = fahrenheit_to_kelvin(valueFahr)
-%       valueKelv = ValueFahr - 32 * 5/9 + 273.15;
-%   end
-% 
-  
 %%
 % The definition opens with the word function, which is followed by the return values of the function, the name of the function
 % and a parenthesized list of parameter names. The body of the function - the 
@@ -44,11 +38,8 @@
 %
 % Let's try running our function. Calling our own function is no different from calling any other function: (back to the command window...)
 %
-
-%%
-%
-%   disp('Freezing point of water: '); disp(fahrenheit_to_kelvin(0));
-%   disp('Boiling point of water: '); disp(fahrenheit_to_kelvin(100));
+disp('Freezing point of water: '); disp(fahrenheit_to_kelvin(0));
+disp('Boiling point of water: '); disp(fahrenheit_to_kelvin(100));
 
 %% 
 % We've called the function, but got an error. What went wrong?
@@ -64,19 +55,15 @@
 % And looking back into the code, we can see that we made a typo, and that it should have been |valueCels|.
 % That's easy to fix. 
 
-%%
-%
-%   function valueKelv = fahrenheit_to_kelvin(valueFahr)
-%       valueKelv = valueFahr - 32 * 5/9 + 273.15;
-%   end
+function valueKelv = fahrenheit_to_kelvin(valueFahr)
+valueKelv = valueFahr - 32 * 5/9 + 273.15;
+end
 
 %% 
 % Now, we can run the function again, and it seems to work:
 
-%%
-%
-%   disp('Freezing point of water: '); disp(celsius_to_fahrenheit(0));
-%   disp('Boiling point of water: '); disp(celsius_to_fahrenheit(100));
+disp('Freezing point of water: '); disp(celsius_to_fahrenheit(0));
+disp('Boiling point of water: '); disp(celsius_to_fahrenheit(100));
 
 %% 
 % Only that this is not the output that we awaited. 
@@ -92,37 +79,28 @@
 % Note, that all variables are now stored in the workspace, which means that you can actually examine them and 
 % watch them change over time. We seem to have forgotten a bracket. 
 
-%%
-%
-%   function valueKelv = fahrenheit_to_kelvin(valueFahr)
-%       valueKelv = (valueFahr - 32) * 5/9 + 273.15;
-%   end
+function valueKelv = fahrenheit_to_kelvin(valueFahr)
+valueKelv = (valueFahr - 32) * 5/9 + 273.15;
+end
 
 
 %% Composing Functions
 % Now that we've seen how to turn Fahrenheit into Kelvin, we want to turn Kelvin into Celsius:
 
-%%
-%
-%   function valueCels = kelvin_to_celsius(valueKelv):
-%       valueCels = valueKelv - 273.15;
-%   end
+function valueCels = kelvin_to_celsius(valueKelv):
+  valueCels = valueKelv - 273.15
+end
 
 %%
 % What about converting Fahrenheit to Celsius? We could write out the formula, but we don't need to. 
 % Instead, we can compose the two functions we have already created:
 
-%%
-%
-%   function valueCels farhrenheit_to_celsius(valueFahr)
-%       valueKelv = fahrenheit_to_kelvin(valueFahr);
-%       valueCels = kelvin_to_celsius(valueCels);
-%   end
+function valueCels farhrenheit_to_celsius(valueFahr)
+ valueKelv = fahrenheit_to_kelvin(valueFahr);
+ valueCels = kelvin_to_celsius(valueCels);
+end
 
-%%
-%
-%   disp('freezing point of water in Celsius: '); disp(fahrenheit_to_celsius(32.0));
-
+disp('freezing point of water in Celsius: '); disp(fahrenheit_to_celsius(32.0));
 
 %%
 % This is our first taste of how larger programs are built: we define basic operations, 
