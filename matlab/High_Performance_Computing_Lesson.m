@@ -13,6 +13,7 @@
 % * GPU parallel processing using 'gpuArray' and 'gather'
 % * Parallel programming on a cluster using the Distributed
 %   Computing Server (DCS)
+% * Moving beyond embarrassingly parallel problems
 %
 % Reference files for this chapter:
 %
@@ -71,6 +72,27 @@ hist(a);
 %
 %% Parallel programming on a cluster using the Distributed Computing Server (DCS)
 %
-% Still to come...
+% For the previous CPU and GPU examples, we were limited by the number of CPUs and/or GPUs
+% available on our machine. To get access to even more processing units, we'd need to
+% to run our process over multiple computers at once (i.e. across a cluster). The level of 
+% complexity associated with running a process across a cluster is much higher than for a single 
+% computer, so Matlab have developed the Distributed Computing Service (DCS) to simplify the 
+% task. 
 %
+% Example still to come...
+%
+%
+%% Moving beyond embarrassingly parallel problems 
+%
+% The problem we've looked at so far is "embarrassingly parallel." In other words,  
+% little or no effort was required to separate it into a number of parallel tasks 
+% (i.e. all we had to do was change "for" to "parfor"). This is often the case where 
+% there exists no dependency (or communication) between those parallel tasks. 
+%
+% In contrast, distributed computing problems do require communication between tasks, 
+% usually via the communication of intermediate results. There is a real science behind
+% distributed computing, and it typically requires a total re-think of the way your code
+% and problem is structured/framed. To cut a long story short, if your problem isn't 
+% embarrassingly parallel, there isn't a simple Matlab tool to help you out. You're 
+% going to need professional assistance.
 %
