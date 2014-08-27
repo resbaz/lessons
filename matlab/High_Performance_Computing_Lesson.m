@@ -1,7 +1,7 @@
-%% Chapter 05 - High Performance Computing.
+%% Chapter - High Performance Computing.
 %
-% Author:
-% Damien Irving, Bernard Meade
+% Authors:
+% Bernard Meade, Damien Irving
 %
 % This chapter provides an introduction to High Performance Computing (HPC) using 
 % Matlab.
@@ -16,10 +16,11 @@
 %
 % Reference files for this chapter:
 %
-% * 
+% * myFunction.m
 % * 
 %
-%% Introduction for HPC
+%% Introduction to HPC
+%
 % Parallel programming has been important to scientific computing for decades as a way 
 % to decrease program run times, making more complex analyses possible (e.g. climate 
 % modelling, gene sequencing, pharmaceutical development, aircraft design). One of the 
@@ -41,3 +42,35 @@
 % or multi-core CPUs unless we modify these programs. In this lesson we will develop example programs 
 % that use various Matlab functions to simultaneously execute tasks on a multi-core CPU, make use of a
 % GPU, and run a task across multiple computers in a computing cluster. 
+%
+%
+%% Multi-core CPU parallel processing using 'parfor'
+%
+% Initialize problem
+iter = 50000;
+sz = 55;
+a = zeros(1, iter);
+%
+% Monte Carlo Simulation
+disp('Computing...');drawnow;
+tic;
+parfor simNum = 1:iter
+    a(simNum) = myFunction(sz);
+end
+toc;
+
+% Post processing
+figure;
+hist(a);
+%
+%
+%% GPU parallel processing using 'gpuArray' and 'gather'
+%
+% Still to come...
+%
+%
+%% Parallel programming on a cluster using the Distributed Computing Server (DCS)
+%
+% Still to come...
+%
+%
