@@ -1,14 +1,14 @@
 ## What is remote computing?
 
-At some point we've all done data analysis on our own laptop or desktop computer, usally after a painful process of getting the relevant software (e.g. Python, Matlab, R) installed and working correctly. These days, however, more and more researchers are doing their data analysis on remote computers. In other words, they simply use their own computer to access (via a network, such as the internet) a computer that is located somewhere else. This remote computing is typically given one of two labels: *supercomputing* or *cloud computing*.
+We're all familiar with doing data analysis on our own laptop or desktop computer, usally after hours of messing around in order to get the relevant software installed (e.g. Python, Matlab, R). These days, however, more and more researchers are doing their data analysis on remote computers. In other words, they simply use their own computer to access (via a network, such as the internet) a computer that is located somewhere else. This remote computing is typically labelled as either *supercomputing* or *cloud computing*.
 
 ### Supercomputing
 
-In the case of supercomputing, the remote machine in question is a very large, very powerful computer such as [Raijin](http://nci.org.au/nci-systems/national-facility/peak-system/raijin/) at the National Computational Instrstructure in Canberra. Hundreds of researchers around Australia conduct their research and data analysis on Raijin every day. 
+In the case of supercomputing, the remote machine in question is a very large, very powerful computer such as [Raijin](http://nci.org.au/nci-systems/national-facility/peak-system/raijin/) at the National Computational Infrastructure in Canberra. Hundreds of researchers around Australia conduct their research and data analysis on Raijin every day. 
 
 ### Cloud computing
 
-In the case of cloud computing, the remote machine isn't a single huge and powerful computer, but instead a collection of lots and lots of regular machines. In fact, the remote computers that you connect to in cloud computing are typically no better or more advanced than your personal laptop. Here the advantage is not the power of any single computer, but the fact that there are so many of them (think of supercomputing as a single Formula 1 car, and cloud computing as an entire fleet of Holden Commadores). 
+In the case of cloud computing, the remote machine isn't a single, large, powerful computer, but instead a collection of many regular machines. In fact, the remote computers in cloud computing are typically no better or more advanced than your personal laptop. Here the advantage is not the power of any single computer, but the fact that there are so many of them. By way of analogy, think of supercomputing as a single Formula 1 car and cloud computing as an entire fleet of Holden Commadores. 
 
 
 ## Why are we using the cloud at this bootcamp?
@@ -18,11 +18,14 @@ The cloud is a useful tool for Software Carpentry bootcamps because (a) at regul
 
 ### "DIT4C" on the NeCTAR Reasearch Cloud 
 
+The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called Data Intensive Tools for the Cloud (DIT4C), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this bootcamp we'll be using an DIT4C interface designed specifically for Software Carpentry activies. To access the enviroment, head the this URL:
+
+https://dit4c.metadata.net/
 
 
 #### Teaching notes:
 
-* The IPython in the cloud environment comes with Vim and Nano for text editing at the command line, but no text editor like Notepad++, Kate or TextWrangler.
+* The DIT4C environment comes with Vim and Nano for text editing at the command line, but no text editor like Notepad++, Kate or TextWrangler.
 * On a Mac, `command``+` doesn't work for zooming in the shell environment. Instead, hold down `control` and scroll with the mouse
 
 
