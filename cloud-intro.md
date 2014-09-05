@@ -14,7 +14,7 @@ The cloud is a useful tool for Software Carpentry bootcamps because (a) at regul
 
 ### "DIT4C" on the NeCTAR Reasearch Cloud 
 
-The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called Data Intensive Tools for the Cloud (DIT4C), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this bootcamp we'll be using an DIT4C interface designed specifically for Software Carpentry activies. To access the enviroment, head to this URL:
+The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called Data Intensive Tools for the Cloud (DIT4C), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this bootcamp we'll be using a DIT4C interface designed specifically for Software Carpentry activies. To access the enviroment, head to this URL:
 
 https://dit4c.metadata.net/
 
@@ -34,9 +34,9 @@ Applying for an account on the NeCTAR Research Cloud might also be useful as a w
 * If you need a Linux machine to run a some software a colleague sent you, but your personal computer runs Windows, you can simply apply for access to a Linux machine on the cloud. 
 * If Matlab or Python keeps crashing because the data array you're trying to analyse exceeds the 4GB of RAM on your laptop, apply for a computer in the cloud with 16GB of RAM.
 
-In other words, the cloud is a great way to get access to a computer (or 3 or 30) to play around with, without having to go to the effort and expense of actually buying one.
+In other words, the cloud is a great way to access a computer (or 3 or 30) to play around with, without having to go to the effort and expense of actually buying one.
 
-If you're going to be doing a lot of remote computing as part of your research (supercomputing or cloud), Software Carpentry also has a couple of useful lessons:
+If you're going to be doing a lot of remote computing as part of your research (on a supercomputer or in the cloud), Software Carpentry also has a couple of useful lessons:
 * [Working remotely](http://www.software-carpentry.org/v5/novice/extras/06-ssh.html)
 * [SSH keys](http://www.software-carpentry.org/v5/novice/git/05-sshkeys.html)
 
