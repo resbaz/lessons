@@ -23,6 +23,7 @@ https://dit4c.metadata.net/
 
 * The DIT4C environment comes with Nano for text editing at the command line, but no text editor like Notepad++, Kate or TextWrangler. A good tutorial for beginners to Nano can be found [here](http://www.howtogeek.com/howto/42980/the-beginners-guide-to-nano-the-linux-command-line-text-editor/). 
 * On a Mac, `command``+` doesn't work for zooming in the shell environment. Instead, hold down `control` and scroll with the mouse
+* In Firefox and Safari, cut and paste doesn't work in the shell terminal. Chrome and Internet Explorer are fine.
 
 
 ## Should I be using the cloud in my actual research?  
