@@ -1,6 +1,6 @@
 ## What is remote computing?
 
-We're all familiar with doing data analysis on our own laptop or desktop computer, usally after hours of messing around to get the relevant software installed (e.g. Python, Matlab, R). These days, however, more and more researchers are doing their data analysis on remote computers. In other words, they simply use their own computer to access (via a network, such as the internet) a computer that is located somewhere else. This remote computing is typically labelled as either *supercomputing* or *cloud computing*.
+We're all familiar with doing data analysis on our own laptop or desktop computer, usually after hours of messing around to get the relevant software installed (e.g. Python, Matlab, R). These days, however, more and more researchers are doing their data analysis on remote computers. In other words, they simply use their own computer to access (via a network, such as the internet) a computer that is located somewhere else. This remote computing is typically labelled as either *supercomputing* or *cloud computing*.
 
 In the case of supercomputing, the remote machine in question is a very large, very powerful computer such as [Raijin](http://nci.org.au/nci-systems/national-facility/peak-system/raijin/) at the National Computational Infrastructure in Canberra. Hundreds of researchers around Australia conduct their research and data analysis on Raijin every day. 
 
