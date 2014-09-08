@@ -4,7 +4,7 @@ We're all familiar with doing data analysis on our own laptop or desktop compute
 
 In the case of supercomputing, the remote machine in question is a very large, very powerful computer such as [Raijin](http://nci.org.au/nci-systems/national-facility/peak-system/raijin/) at the National Computational Infrastructure in Canberra. Hundreds of researchers around Australia conduct their research and data analysis on Raijin every day. 
 
-In the case of cloud computing, the remote machine isn't a single, large, powerful computer, but instead a collection of many regular machines. In fact, the remote computers in cloud computing are typically no better or more advanced than your personal laptop. Here the advantage is not the power of any single computer, but the fact that there are so many of them. By way of analogy, think of supercomputing as a single Formula 1 car and cloud computing as an entire fleet of Holden Commadores. 
+In the case of cloud computing, the remote machine isn't a single, large, powerful computer, but instead a collection of many regular machines. In fact, the remote computers in cloud computing are typically no better or more advanced than your personal laptop. Here the advantage is not the power of any single computer, but the fact that there are so many of them. By way of analogy, think of supercomputing as a single Formula 1 car and cloud computing as an entire fleet of Holden Commodores. 
 
 
 ## Why are we using the cloud at this bootcamp?
