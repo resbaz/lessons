@@ -24,38 +24,47 @@ Points to convey:
 * Start sharing your doucment by adding authors to document (your neighbour in the workshop).
 
 Walkthorughs can be found here:
+
 1. [Setting up account](01_Setup/setup.md)
+
 2. [Creating a document](02_Create/create.md)
+
 3. [Add co-authors](03_AddCollaborators/addCollaborators.md)
 
 
 ### 2. Basic functionality
 
 Overview the structure of the document interface:
-* Article. Title, Abstract, Introduction, Methods, Results, Discussion, Bibliography.
-* Chapters.
 
-Show the audience the four main tabs:
-
-* Main (how to edit text, comment on sections, insert references, etc)
-* Folder
+* Main window
+  * Text editor
+  * Insert references
+  * Insert images
+  * Insert tables
+* Folders
+  * Directory structure
 * History
+  * Edit histories
+  * Author edit tracking
 * Chat
+  * Commenting
 
-Discuss the options for exporting documents:
+Walthrough can be found [here](04_DraftingLatex/draftingLatex.md)
 
+## Editing a document
+* Adding sections/chapters to document
+* Editing text
+* [Citations and bibliography](07_Citations/insertingCitations.md)
+* [Crossreferencing](06_Figures/insertingFigures.md)
+
+## Exporting a document
 * Predefined journal formats
 * PDF
 * LaTeX (i.e. if you don't like the default PDF styles, you can download the raw LaTeX file and compile it yourself)
 
-### 3. Editing a document
-* Adding sections/chapters to document
-* Editing text
-* Citations
-* Crossreferencing
+Walkthrough can be found [here](10_exportingDocument/exportingFinalDocument.md)
 
-
-### 4. Web-friendly LaTeX
+### 3. Web-friendly LaTeX
 
 LaTeX is great for writing research articles (particularly those with mathematical equations) but it was made
 with the printed page in mind (see [here](https://authorea.com/users/3/articles/4675/_show_article) for a detailed 
@@ -64,7 +73,7 @@ discussion). The team at Authorea have therefore put together a web-friendly LaT
 
 **Challenge:** Use the cheat sheet to produce a document that briefly summarises you current research. Export that document in your favorite PDF style.
 
-### 5. Version control
+### 4. Version control
 
 In the FAQ section of the Authorea [help page](https://www.authorea.com/help) it tells you how to link 
 your document to your own GitHub account.
@@ -72,7 +81,7 @@ your document to your own GitHub account.
 **Challenge:** Create a GitHub account and link your document to it. Make some changes to your document
 and then push those changes to GitHub.
 
-### 6. Include your code
+### 5. Include your code
 
 Demonstrate how you can include your code (such as an IPython notebook) in your document (see 
 [here](https://www.authorea.com/users/3/articles/3904/_show_article) for details)
