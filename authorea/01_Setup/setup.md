@@ -18,6 +18,9 @@ those who are nominated as collaborators on the private document.
 
 It is worth filling in your profile details (Institution and role) as these
 are automatically populated in the document upon output and formatting (Author
-affilitations for example).
+affilitations for example). These can be changed by going to you account 
+preferences.
  
+![details](../images/userInfo.png)
 
+Lets go on and [create a document](../02_Create/create.md)
