@@ -14,10 +14,9 @@ Example code ```/begin{tabular}{clll}
             	/end{tabular} ```
 
 **Challenge** Code for one of the most well known mathmatical formulas by Einstein, E =mc^2. Insert another
-match equation of your choice.
+math equation of your choice using the code found in the cheat sheet above.
 
-Tables are bounded by their environment in q LaTeX document. Therefore a number of extra fields of information are required to 
-be filled in the data file.
+Tables are bounded by their environment in a LaTeX document. Therefore a number of extra fields of information are required for proper formatting.
 
 **Challenge** Create a table, give the table a `/label` and a `/caption`. You may need to seek outside information in LaTex
-as to what these fields do. Cross reference your table to a reference within your manuscript and us `/ref{}` notation.
+as to what these fields do. Cross reference your table to a reference within your manuscript and use `/ref{}` notation.

@@ -7,5 +7,11 @@ Simply click on select figure at the bottom of the section you would like to ins
 
 Or simply click and drag your figure into the document.
 
+Authorea accepts most file formats for pictures. 
+
 Within the caption field, Authorea accepts the /label encoding which gives the figure a label
-for cross referencing.
+for cross referencing in the manuscript.
+
+** Challenge ** : Insert a figure and give it a label in the caption. Once saved, note what 
+Authorea does with formatting the figure and caption after you save and close. Try resizing your
+figure with the inbuilt button. 
