@@ -73,7 +73,7 @@ discussion). The team at Authorea have therefore put together a web-friendly LaT
 
 **Challenge:** Use the cheat sheet to produce a document that briefly summarises you current research. Export that document in your favorite PDF style.
 
-### 4. Version control
+### 4. Version control (Advanced)
 
 In the FAQ section of the Authorea [help page](https://www.authorea.com/help) it tells you how to link 
 your document to your own GitHub account.
@@ -81,7 +81,7 @@ your document to your own GitHub account.
 **Challenge:** Create a GitHub account and link your document to it. Make some changes to your document
 and then push those changes to GitHub.
 
-### 5. Include your code
+### 5. Include your code (Advanced)
 
 Demonstrate how you can include your code (such as an IPython notebook) in your document (see 
 [here](https://www.authorea.com/users/3/articles/3904/_show_article) for details)
