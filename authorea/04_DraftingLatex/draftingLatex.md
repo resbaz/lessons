@@ -1,10 +1,14 @@
 ### Drafting a manuscript in LaTeX.
 
-The text in an Authorea document is written in a markup language known as [LaTeX](http://www.latex-project.org/).
-Learning how to install and use LaTeX on your own computer can be quite difficult, so it's fortunate that the process 
-is *much* easier on Authorea. In fact, the creators of Authorea have created a 
-[short cheatsheet](https://authorea.com/users/3/articles/6868/_show_article) on web-friendly LaTeX (i.e. a list of LaTeX 
-commands that work on the web). That's cheatsheet is basically all you need to know to get started!
+The text in an Authorea document is written in a markup language known as [LaTeX](http://www.latex-project.org/). 
+LaTeX is great for writing research articles (particularly those with mathematical equations) but it was made
+with the printed page in mind (see [here](https://authorea.com/users/3/articles/4675/_show_article) for a detailed 
+discussion) and can be quite difficult to learn. 
+
+Fortunately, LaTeX is *much* easier to use on Authorea. The creators have produced a 
+[short cheatsheet](https://authorea.com/users/3/articles/6868/_show_article) on web-friendly LaTeX 
+(i.e. a list of LaTeX commands that work on the web), and that's all you really need to get started!
+
 
 ##### Text blocks
 
