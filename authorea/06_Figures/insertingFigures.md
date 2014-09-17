@@ -1,17 +1,17 @@
-###Inserting figures in Authorea
+### Inserting figures.
 
-It is straightforward to insert a figure into an Authorea document, there is also functionality
-to cross reference the figure within the document as if it was a latex document.
+To insert a figure, simply hover your mouse over a text block and select the insert figure button.
+Alternatively, you can or simply click and drag your figure into the document (Authorea accepts most 
+file formats for pictures). 
 
-Simply click on select figure at the bottom of the section you would like to insert your figure.
+Within the caption field, Authorea accepts the ```/label``` encoding which gives the figure a label
+for cross referencing (```\ref{}```) in the manuscript.
 
-Or simply click and drag your figure into the document.
+##### Challenge 
 
-Authorea accepts most file formats for pictures. 
-
-Within the caption field, Authorea accepts the /label encoding which gives the figure a label
-for cross referencing in the manuscript.
-
-** Challenge ** : Insert a figure and give it a label in the caption. Once saved, note what 
+Insert a figure and give it a label in the caption. Once saved, note what 
 Authorea does with formatting the figure and caption after you save and close. Try resizing your
 figure with the inbuilt button. 
+
+----
+We are now ready to [insert citations](../07_Citations/insertingCitations.md).
