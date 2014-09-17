@@ -5,7 +5,7 @@ Alternatively, you can or simply click and drag your figure into the document (A
 file formats for pictures). 
 
 Within the caption field, Authorea accepts the ```/label``` encoding which gives the figure a label
-for cross referencing (```\ref{}```) in the manuscript.
+for cross referencing using ```\ref{}```.
 
 ##### Challenge 
 
