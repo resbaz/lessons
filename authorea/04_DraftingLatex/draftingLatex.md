@@ -4,9 +4,7 @@ The text in an Authorea document is written in a markup language known as [LaTeX
 Learning how to install and use LaTeX on your own computer can be quite difficult, so it's fortunate that the process 
 is *much* easier on Authorea. In fact, the creators of Authorea have created a 
 [short cheatsheet](https://authorea.com/users/3/articles/6868/_show_article) on web-friendly LaTeX (i.e. a list of LaTeX 
-commands that work on the web). That's cheatsheet is bascially all you need to know to get started!
-
-The layout of the main tab of an Authorea article involves a series of text blocks, each of which has a series of useful buttons at the top and bottom.
+commands that work on the web). That's cheatsheet is basically all you need to know to get started!
 
 ##### Text blocks
 
