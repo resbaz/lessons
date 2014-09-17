@@ -27,11 +27,13 @@ Congratulations you have created your first Authorea document and you will
 be presented with the edit window.
 
 
-**Challenge**   
+##### Challenge   
 Create a new public article and one private article. Give both distinct 
 titles. eg: "My First Public Manuscript" and "My First Private Manuscript". Go back
 to the main manuscript page. What is the difference? Ask your buddy if they can
 search and find your public manuscript by searching the title. Now ask them to find 
 your private manuscript. Can they find it?
 
+
+----  
 Next you will learn how to [add collaborators.](../03_AddCollaborators/addCollaborators.md)
