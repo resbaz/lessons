@@ -14,7 +14,8 @@ The collaborator does not need to already have an Authorea account, they
 would be sent an invitation to join. However, in order to collaborate, you
 must have a Authorea account.
 
-**Challenge**  
+##### Challenge  
+
 Add a collaborator to your public manuscript. What do you
 see? What happens when your collaborator accepts? Now add a collaborator
 to your private manuscript. Can that collaborator now see and search for
