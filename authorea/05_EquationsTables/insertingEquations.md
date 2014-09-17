@@ -6,8 +6,6 @@ be found in the [cheatsheet](https://authorea.com/users/3/articles/6868/_show_ar
 
 For tables, the standard tabular format in LaTeX is compatible with Authorea. 
 
-Example code 
-
     /begin{tabular}{clll}
     DNA methylation & 1 & 4 & 5\\
     /label{Table}
@@ -18,10 +16,10 @@ Example code
 ##### Challenge 1  
 Insert Einstein's famous equation, E =mc^2, into your document, along with another equation of your choice.
 
-#### Challenge 2 
+##### Challenge 2 
 
-Create a table, give the table a `/label` and a `/caption`. You may need to seek outside information in LaTex
-as to what these fields do. Cross reference your table to a reference within your manuscript and use `/ref{}` notation.
+Create a table and give it a `/label` and a `/caption`. You may need to seek outside information about LaTeX to find out how
+these fields work. Cross reference your table to a reference within your manuscript using the `/ref{}` notation.
 
 ----  
 Next we'll learn how to [insert figures](../06_Figures/insertingFigures.md).
