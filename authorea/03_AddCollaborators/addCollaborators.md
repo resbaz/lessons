@@ -33,4 +33,4 @@ Now your collaborator can do the following things to your manuscript:
 * Sharing
 
 ----  
-Lets get onto [drafting a manuscript next.](../04_DraftingLatex/draftingLatex.md)
+Let's get onto [drafting a manuscript next.](../04_DraftingLatex/draftingLatex.md)
