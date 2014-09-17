@@ -38,10 +38,8 @@ Points to convey:
 ##### Version control
 
 In the FAQ section of the Authorea [help page](https://www.authorea.com/help) it tells you how to link 
-your document to your own GitHub account.
+your document to your own GitHub account. This could be presented as a live demo.
 
-**Challenge:** Create a GitHub account and link your document to it. Make some changes to your document
-and then push those changes to GitHub.
 
 ##### Including your code
 
