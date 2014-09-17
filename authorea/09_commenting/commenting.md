@@ -8,4 +8,4 @@ Unfortunately you have to regularly check the document for updates to comments -
 authors of new comments or edits.
 
 ----
-The final thing we need to do is [export the document](../10_exportingDocument/expotingFinalDocument.md).
+The final thing we need to do is [export the document](../10_exportingDocument/exportingFinalDocument.md).
