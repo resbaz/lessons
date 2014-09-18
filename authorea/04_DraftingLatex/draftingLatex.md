@@ -68,12 +68,14 @@ self explantory (It is not usually necessary to directly mess with files in the 
 * History
 * Chat
 
-![screenShotFolder](../images/EditSection.png))
+![screenShothistory](../images/history01.png)
 
 The History tab, links to a record of the editing of the manuscript by yourself and your collaborators. 
 
 Here, you can easily track changes and by which contributor working on the manusctipt(s). Simply clicking on the compare button
 on the right hand side, it is easy to visualise the changes that have happened and made by whome. 
+
+![screenShothistory2](../images/history02.png)
 
 More information can be found [here](../08_collaborativeEditing/collaborating.md). 
 
