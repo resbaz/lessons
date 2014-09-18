@@ -23,4 +23,6 @@ preferences.
  
 ![details](../images/userInfo.png)
 
+
+----  
 Lets go on and [create a document](../02_Create/create.md)
