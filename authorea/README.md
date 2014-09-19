@@ -35,7 +35,6 @@ Points to convey:
 
 ### Part 4: Advanced topics
 
-11. **Version control**: In the FAQ section of the Authorea [help page](https://www.authorea.com/help) it tells you how to link your document to your own GitHub account. This could be presented as a live demo.
-12. **Including your code**: Demonstrate how you can include your code (such as an IPython notebook) in your document (see 
-[here](https://www.authorea.com/users/3/articles/3904/_show_article) for details)
+11. [Github integration](11_github/github.md) 
+12. [Including your code](https://www.authorea.com/users/3/articles/3904/_show_article)
 
