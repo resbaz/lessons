@@ -6,13 +6,13 @@ What is Software Carpentry?
 [Software Carpentry](http://software-carpentry.org/) is a volunteer organization whose members teach basic software 
 skills to researchers in science, engineering, and medicine. It was founded in 1998, but came to prominence in the 
 early 2010s when it shifted to a teaching model centred around intensive two-day 
-[bootcamps](http://software-carpentry.org/bootcamps/index.html) (see [this paper](http://arxiv.org/abs/1307.5448) for a detailed history of the 
+[bootcamps](http://software-carpentry.org/bootcamps/index.html) (see [this paper](http://f1000research.com/articles/3-62/v1) for a detailed history of the 
 organisation). 
 
 
 What gets taught at a bootcamp?
 ---
-Our goal is to teach a handful of [best practices in scientific computing](http://arxiv.org/abs/1210.0530), so that 
+Our goal is to teach a handful of [best practices in scientific computing](http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001745), so that 
 researchers can get more done in less time. Our goal is 
 not to produce professional programmers. By way of analogy, we think every researcher should know about as much about
 computing as they do about statistics. Most researchers don't have a degree in statistics, but at some point they've 
@@ -59,7 +59,8 @@ research scientists and not professional software developers. This avoids a well
 this stuff, which makes them better teachers.
 
 For a more in depth discussion of the history, syllabus and benefits of Software Carpentry, 
-check out this [talk from the 2013 PyCon Australia Conference](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under).
+check out these talks from the [2013](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under) and
+[2014]() PyCon Australia confernece.
 
 
 What is the teaching format?
