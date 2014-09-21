@@ -1,9 +1,5 @@
 Welcome to the Software Carpentry Bootcamp
 
-## ATTENDANCE LIST
-
-
-
 ## FAQ's
 
 How can I connect to the wifi?
@@ -14,34 +10,33 @@ How can I connect to the wifi?
   - Password: 4a24668e
 
 What are the important URLs?
-- Etherpad: https://etherpad.mozilla.org/swc-combine
-- Website: http://resbaz.github.io/2014-03-18-combine/
+- Etherpad: https://etherpad.mozilla.org/2014-09-15-unimelb
+- Website: http://resbaz.github.io/2014-09-15-unimelb/
+- Lesson notes and challenges: http://www.software-carpenry.org/lessons.html
 
-Teaching materials and challenges: 
-- http://www.software-carpentry.org/lessons.html, OR
-- git clone https://github.com/resbaz/lessons.git
+How do I get on the cloud?
+- https://dit4c.metadata.net/
+- Click "not logged in" and proceed to login using your institution username and password or your 
+  github credentials
+- Go to the "compute nodes" tab and click "claim compute node access"
+- Select a node from the drop down menu and enter the relevant access code (any node is fine)
+  - GIVE DETAILS OF ACCESS CODES
+- Go to the "containers" tab and create a new container named after yourself (e.g. damienirving). 
+  The reason for this is that container names are unique (i.e. you can't have the same container 
+  name as anyone else in the room)
+- Make sure you change the type from "base" to "ipython"
+- When the container is 'on', it should turn blue and you can click on it to launch
+- Open a shell terminal and enter "git clone https://github.com/swcarpentry/bc.git" 
+  (without the quotation marks) to get a copy of the lesson materials.
 
 
 ## SOFTWARE INSTALLATION SOLUTIONS
 
-# Python
-
 I can't import ipythonblocks...
-- (conda install ipythonblocks might work?)
-- Open a bash shell terminal and type "easy_install ipythonblocks"  (without the quotation marks) 
-- If that doesn't work, try one or more of the following:
-
-  - If you don't have easy_install, the directions at https://pypi.python.org/pypi/setuptools will tell you to: 
-    - "For Windows 7 and earlier, download ez_setup.py using your favorite web browser or other technique and "run" that file."
-      (i.e. right click on this link and go "Save As" https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py  Then "python ez_setup.py")
-
-  - If you get an error message about a missing module called ez_setup: 
-    - Try "easy_install ez_setup" first 
-   
-  - Note that from within an iPythonNotebook, you can call these commands with the ! prefix
-    !easy_install ez_setup
-    !easy_install ipythonblocks
-
+- Open a bash shell terminal and type "sudo easy_install ipythonblocks"  (without the quotation marks) 
+- If that doesn't work, cut and paste the text from the following page into a new file called ipythonblocks.py
+  https://raw.githubusercontent.com/jiffyclub/ipythonblocks/master/ipythonblocks/ipythonblocks.py
+  Put the file in the same directory as you launched ipython from
 - When you relaunch the IPython notepad, it should be available.
 
 I'm having trouble installing the software...
@@ -60,11 +55,15 @@ How do I change directory in the IPython notebook?
     os.chdir("/path/to/change/to")
 
 Using git on a Mac and having problems?
-- Try going to the app store and install xcode.
+- Try going to the app store and install xcode
+- NEED TO FIND A BETTER SOLUTION FOR THIS
 
 
 ## LINKS
 
+- Research Bazaar: http://resbaz.tumblr.com/about
+  - Hacky Hour: http://resbaz.tumblr.com/post/74791203771/join-us-for-hacky-hour
+  - Cloud explainer: http://resbaz.tumblr.com/post/96944885049/explainer-cloud-computing
 - The shell on windows: https://github.com/resbaz/lessons/blob/master/shell/windows.md
 - Best practices for scientific computing: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001745
 - A Scientist's Nightmare: Software Problem Leads to Five Retractions: http://www.sciencemag.org/content/314/5807/1856
