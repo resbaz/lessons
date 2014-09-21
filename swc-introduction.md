@@ -60,7 +60,7 @@ this stuff, which makes them better teachers.
 
 For a more in depth discussion of the history, syllabus and benefits of Software Carpentry, 
 check out these talks from the [2013](http://pyvideo.org/video/2230/software-carpentry-arrives-down-under) and
-[2014]() PyCon Australia confernece.
+[2014](http://pyvideo.org/video/3092/software-carpentry-in-australia-current-activity) PyCon Australia confernece.
 
 
 What is the teaching format?
