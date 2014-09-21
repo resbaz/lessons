@@ -4,10 +4,9 @@ Introduction
 What is Software Carpentry?
 ---
 [Software Carpentry](http://software-carpentry.org/) is a volunteer organization whose members teach basic software 
-skills to researchers in science, engineering, and medicine. It was founded in 1998, but came to prominence in the 
-early 2010s when it shifted to a teaching model centred around intensive two-day 
-[bootcamps](http://software-carpentry.org/bootcamps/index.html) (see [this paper](http://f1000research.com/articles/3-62/v1) for a detailed history of the 
-organisation). 
+skills to researchers in science, engineering, and medicine. It was founded in 1998, but really came to prominence in 2012 
+when it shifted to a teaching model centred around intensive two-day 
+[bootcamps](http://software-carpentry.org/bootcamps/index.html) (check out [this map](http://software-carpentry.org/bootcamps/previous.html) of where we've been since 2012 and [this paper](http://f1000research.com/articles/3-62/v1) for a detailed history of the organisation). 
 
 
 What gets taught at a bootcamp?
