@@ -58,6 +58,17 @@ Using git on a Mac and having problems?
 - Try going to the app store and install xcode
 - NEED TO FIND A BETTER SOLUTION FOR THIS
 
+How do I call Notepad++ from the command line?
+
+- First you need to create a path to the file you want to be able to execute.  To do this, you first need to 
+  update the file-path in Gitbash.
+- Open the .bashrc file in your Bash home folder (~)
+- Enter or update the path to the folder that the .exe resides in:
+     export PATH=$PATH:/c/Program\ Files\ \(x86\)/Notepad++:/c/Program\ Files\ \(x86\)/JetBrains/PyCharm\ Community\ Edition\ 3.4.1/bin/:
+- Place a semi-colon at the end of the path to then add more paths.
+- You can even add the following code to your .bashrc to create a shortcut, so typing npp in Bash will now open 
+  the notepad++.exe in the folder /Notepad++:
+     alias npp=notepad++
 
 ## LINKS
 
