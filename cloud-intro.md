@@ -4,12 +4,12 @@
 
 ## Why are we using the cloud at this bootcamp?
 
-The cloud is a useful tool for Software Carpentry bootcamps because (a) at regular bootcamps a lot of time is wasted dealing with software installation issues, and (b) tools like the UNIX Shell look and behave slightly differently depending on which operating system you're using (i.e. Windows, Mac OS X or Linux), which can be confusing for beginners. By using the cloud we can setup a bunch of computers with exactly the same operating system and with the software already installed.    
+The cloud is a useful tool for our workshops because (a) at regular computing workshops (e.g. Software Carpentry or Data Carpentry workshops) a lot of time is wasted dealing with software installation issues, and (b) tools like the UNIX Shell look and behave slightly differently depending on which operating system you're using (i.e. Windows, Mac OS X or Linux), which can be confusing for beginners. By using the cloud we can setup a bunch of computers with exactly the same operating system and with the software already installed.    
 
 
 ## "DIT4C" on the NeCTAR Reasearch Cloud 
 
-The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called Data Intensive Tools for the Cloud (DIT4C), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this bootcamp we'll be using a DIT4C interface designed specifically for Software Carpentry activies. To access the enviroment, head to this URL:
+The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called Data Intensive Tools for the Cloud (DIT4C), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this workshop we'll be using a DIT4C interface designed specifically for Software Carpentry and Data Carpentry activies. To access the enviroment, head to this URL:
 
 https://dit4c.metadata.net/
 
