@@ -9,7 +9,7 @@ The cloud is a useful tool for our workshops because (a) at regular computing wo
 
 ## "DIT4C" on the NeCTAR Reasearch Cloud 
 
-The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called Data Intensive Tools for the Cloud (DIT4C), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this workshop we'll be using a DIT4C interface designed specifically for Software Carpentry and Data Carpentry activies. To access the enviroment, head to this URL:
+The [Research Bazaar](http://resbaz.tumblr.com/about) project is funding an initiative called [Data Intensive Tools for the Cloud (DIT4C)](http://dit4c.github.io/), which aims to get researchers using the [NeCTAR Research Cloud](http://www.nectar.org.au/research-cloud). Any researcher at an Australian university can apply for access to the NeCTAR Research Cloud, however for the purposes of this workshop we'll be using a DIT4C interface designed specifically for Software Carpentry and Data Carpentry activies. To access the enviroment, head to this URL:
 
 https://dit4c.metadata.net/
 
