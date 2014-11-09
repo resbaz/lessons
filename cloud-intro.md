@@ -23,8 +23,6 @@ https://dit4c.metadata.net/
 
 ## Useful resources
 
-If you're going to be doing a lot of remote computing as part of your research (on a supercomputer or in the cloud), Software Carpentry also has a couple of useful lessons:
-* [Working remotely](http://www.software-carpentry.org/v5/novice/extras/06-ssh.html)
-* [SSH keys](http://www.software-carpentry.org/v5/novice/git/05-sshkeys.html)
+If you're going to be doing a lot of remote computing as part of your research (on a supercomputer or in the cloud), Software Carpentry also has a short lesson on [working remotely](http://www.software-carpentry.org/v5/novice/extras/07-ssh.html).
 
 
