@@ -13,21 +13,7 @@ What are the important URLs?
 - Etherpad: https://etherpad.mozilla.org/2014-09-15-unimelb
 - Website: http://resbaz.github.io/2014-09-15-unimelb/
 - Lesson notes and challenges: http://www.software-carpenry.org/lessons.html
-
-How do I get on the cloud?
-- https://dit4c.metadata.net/
-- Click "not logged in" and proceed to login using your institution username and password or your 
-  github credentials
-- Go to the "compute nodes" tab and click "claim compute node access"
-- Select a node from the drop down menu and enter the relevant access code (any node is fine)
-  - GIVE DETAILS OF ACCESS CODES
-- Go to the "containers" tab and create a new container named after yourself (e.g. damienirving). 
-  The reason for this is that container names are unique (i.e. you can't have the same container 
-  name as anyone else in the room)
-- Make sure you change the type from "base" to "ipython"
-- When the container is 'on', it should turn blue and you can click on it to launch
-- Open a shell terminal and enter "git clone https://github.com/swcarpentry/bc.git" 
-  (without the quotation marks) to get a copy of the lesson materials.
+- DIT4C: https://dit4c.metadata.net/
 
 
 ## SOFTWARE INSTALLATION SOLUTIONS
