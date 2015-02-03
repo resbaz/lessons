@@ -1,0 +1,49 @@
+# <headingcell level=1>
+# Session 3: The Fraser Speech Corpus
+
+# <markdowncell>
+# <br>
+
+# <headingcell level=2>
+# Malcolm Fraser and his speeches
+
+# <markdowncell>
+# Because our project here is *corpus driven*, we don't necessarily need to know about Malcolm Fraser and his speeches. Even so, it's nice to know a bit about him.
+
+# The speeches were transcribed years ago. Optical Character Recognition (OCR) was used to digitise the transcripts. This means that the texts are not of perfect quality. 
+# Some have been manually corrected, which has removed extraneous characters and mangled words, but there are still some quirks in the formatting. 
+
+# <headingcell level=2>
+# Cleaning the corpus
+
+# <markdowncell>
+# A common part of corpus building is corpus cleaning. Reasons for cleaning include:
+
+# 1. Not break the code with unexpected input
+# 2. Ensure that searches match as many examples as possible
+# 3. Increasing the accuracy of taggers, stemmers, parsers
+# 4. etc.
+
+
+# The level of kind of cleaning depends on your data and the aims of your project. In the case of very clean data (lucky you!), there may be little that needs to be done. With messy data, you may need to go as far as to correct variant spellings (online conversation, very old books).
+
+# <headingcell level=2>
+# Exploring the corpus
+
+# <markdowncell>
+# 
+
+# <headingcell level=1>
+# Solutions
+
+# <markdowncell>
+# Where code cells were not 
+
+# <headingcell level=1>
+# Additional resources
+
+# <markdowncell>
+# If we wanted to improve our stemming/keywording work, there are a number of things we could still do.
+
+# 1. There are also issues with capitalisation. How might we fix those?
+# 2. Keep in mind, at some point, it would become necessary to stem the reference corpus as well! How would we go about stemming every dictionary entry and adding their values? Is it worth it?
