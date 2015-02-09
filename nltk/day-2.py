@@ -1,6 +1,6 @@
 
 # <headingcell level=1>
-# Session 4: Advanced NLTK usage
+# Session 4: Advanced NLTK
 
 # <markdowncell>
 # <br>
@@ -12,9 +12,9 @@
 
 # So, what did we learn yesterday? A brief recap:
 
-# * **IPython**: 
-# * **Python**: syntax, variables, functions, 
-# * **NLTK**:
+# * The **IPython** Notebook
+# * **Python**: syntax, variables, functions, etc.
+# * **NLTK**: manipulating linguistic data
 # * **Corpus linguistic tasks**: tokenisation, keywords, collocation
 # * **Fraser Speeches Corpus**: managing and exploring it
 
@@ -29,7 +29,14 @@
 # Yesterday, we loaded up the corpus. We need to do it again today.
 
 # <codecell>
-# LOAD CORPUS
+# 
+
+# <headingcell level=3>
+# Keywords in Fraser's speeches
+
+# <headingcell level=3>
+# Collocation in Fraser's speeches
+
 
 # <headingcell level=2>
 # Adding information to the corpus
@@ -42,9 +49,6 @@
 # Before we start annotating our own corpora, let's just quickly play with a pre-annotated corpus.
 
 # > **Note:** John Sinclair, an early propoent of corpus linguistics generally, was famously resistent to the use of annotation and parsing. He felt that the corpus alone should be used to build theory, rather than using existing theories (grammars) to annotate data (e.g. [2004](#ref:sinclair)). Though this is an uncommon viewpoint today, it is still useful to remember that the process of value-adding is never free of theory or interpretation.
-
-# <codecell>
-# Load corpus...
 
 # <headingcell level=2>
 # Part-of-speech tagging
@@ -96,56 +100,410 @@
 # IPython has a very simple system for using shell commands. These may not work from your command line in the same way, but can be useful shortcuts at times.
 
 
-
-
-
-
-
-
-
-
 # <headingcell level=2>
 # Summary
 
 # <markdowncell>
 # So now we're able to do some pretty complex stuff!
 
-# The ability to tag and parse our data, however, has many advantages. When we're generating lists of words, dividing them by word class makes a lot of sense. We can also understand the 'tone' of texts by counting the distributions of different word classes. 
+# In this session, we've generated real insights into data using corpus linguistic/distance reading techniques.
+
+# Many of the things we've done (tagging, parsing, etc.) reduce the human readability of our raw data, but greatly enhance our ability to find things in it via code. What we've been doing also multiplies the length and size of our dataset. We're actually very fortunate 
+
+# In the next lesson, we'll use a parsed version of the Fraser Corpus to look for longitudinal change in his use of language.
+
+
+
+
+
+
+
+
 
 
 # <headingcell level=1>
 # Session 5: Charting change in Fraser's speeches
 
 # <markdowncell>
+#
+# In this lesson, we investigate a fully-parsed version of the Fraser Corpus. We do this using purpose-built tools.
+
+# In the first part of the session, we will provide a basic orientation to the tools.
+
+# Later, you'll be able to use the tools to navigate the data and visualise results in any way you like.
+
+# The Fraser Speeches have been parsed for part of speech and grammatical structure by [*Stanford CoreNLP*](http://nlp.stanford.edu/software/corenlp.shtml), a parser that can be loaded within NLTK. We rely on [*Tregex*](http://nlp.stanford.edu/~manning/courses/ling289/Tregex.html) to interrogate the parse trees. Tregex allows very complex searching of parsed trees, in combination with [Java Regular Expressions](http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html), which are very similar to the regexes we've been using thus far.
+
+# If you plan to work more with parsed corpora later, it's definitely worthwhile to learn the Tregex syntax, but in case you're time-poor, at the end of this notebook are a series of Tregex queries that you can copy and paste. We'll explain the syntax as we go.
+
+# Before we get started, we have to install Java, as some of our tools rely on some Java code. You'll very likely have Java installed on your local machine, but we need it on the cloud. The following code should do it:
+
+# <codecell>
+! sudo yum install java
+
+# <markdowncell>
+# OK, that's out of the way. Next, let's import the functions we'll be using to investigate the corpus. These functions have been designed specifically for our investigation, but they will work with any parsed dataset.
+
+#We'll take a look at the code used in this session a little later on, if there's time. Much of the code is derived from things we've learned here, combined with a lot of Google and Stack Overflow queries. All our code is on GitHub too, remember.
+
+# | **Function name** | Purpose                            | |
+# | ----------------- | ---------------------------------- | |
+# | *searchtree()*  | find things in a parse tree         | |
+# | *interrogator()*  | interrogate parsed corpora         | |
+# | *plotter()*       | visualise *interrogator()* results | |
+# | *quickview()*     | view *interrogator()* results      | |
+# | *tally()*       | get total frequencies for *interrogator()* results      | |
+# | *surgeon()*       | edit *interrogator()* results      | |
+# | *merger()*       | merge *interrogator()* results      | |
+# | *conc()*          | complex concordancing of subcopora | |
+
+# <codecell>
+import os # for joining paths
+import pprint # for displaying concordances
+from IPython.display import display, clear_output # for clearing huge lists of output
+# import functions to be used here:
+%run corpling_tools/interrogator.ipy
+%run corpling_tools/resbazplotter.ipy
+%run corpling_tools/additional_tools.ipy
+
+# <markdowncell>
+# We should set two variables that are used repeatedly during the investigation. If you were using this interface for your own corpora, you would change 'fraser' to the path to your data.
+
+# <codecell>
+path = 'fraser-corpus-annotated' # path to corpora from our current working directory.
+
+# <headingcell level=3>
+# Interrogating the corpus
+
+
+# <markdowncell>
+# To interrogate the corpus, we need a crash course in Tregex syntax. Let's define a tree (from the Fraser Corpus), and have a look at its visual representation.
+
+#      Melbourne has been transformed over the let 18 months in preparation for the visitors.*
+
+# <codecell>
+tree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VBN transformed) '
+           r'(PP (IN over) (NP (NP (DT the) (VBN let) (CD 18) (NNS months)) (PP (IN in) (NP (NP (NN preparation)) '
+           r'(PP (IN for) (NP (DT the) (NNS visitors)))))))))) (. .)))')
+
+# <markdowncell>
+# Notice that an OCR error caused a parsing error. Oh well. Here's a visual representation, drawn with NLTK:
+
+# <br>
+# <img style="float:left" src="https://raw.githubusercontent.com/interrogator/sfl_corpling/master/cmc-2014/images/tree.png" />
 # <br>
 
-# <headingcell level=2>
-# Data structure
+# <markdowncell>
+# *searchtree()* is a tiny function that searches a syntax tree. We'll use the sample sentence and *searchtree()* to practice our Tregex queries. We can feed it either *tags* (S, NP, VBZ, DT etc.) or *tokens* enclosed in forward slashes.
+
+# <codecell>
+# any plural noun
+query = r'NNS'
+searchtree(tree, query)
+
+# <codecell>
+# A token matching the regex *Melb.?\**
+query = r'/Melb.?/'
+searchtree(tree, query)
+
+# <codecell>
+query = r'NP'
+searchtree(tree, query)
 
 # <markdowncell>
-# Data structuring is key to distance reading/corpus linguistic/NLP research.
+# To make things more specific, we can create queries with multiple criteria to match, and specify the relationship between each criterion we want to match. Tregex will print everything matching the leftmost criterion.
 
-# Too often, people mix a bunch of words together and run queries over them. These 'bag of words' approaches help us learn about what a corpus contains, but do not exploit metadata...
-
-# Programming allows us to automate tasks, so performing the same query on each subcorpus and tallying the results is not much more work than querying the dataset as a whole.
-
-# Increasingly, data comes to us pre-structured in some way. Reasons for this include large digitisation efforts and 'born digital' data.
-
-# We could divide Fraser's speeches in a number of ways, with each way making different kinds of insights possible:
-
-# * **Structure by topic**: learn how key participants and processes are discursively constructed
-# * **Structure by occupation**: learn how language changes when a person becomes/stops being PM
-# * **Structure by speech date**: learn how language changes over the course of a career
-
-
-
-# <headingcell level=2>
-# Charting longitudinal change in Fraser's speeches
+# <codecell>
+# NP with 18 as a descendent
+query = r'NP << /18/'
+searchtree(tree, query)
 
 # <markdowncell>
-# Now that we've broken Fraser's speeches into parts, we can interrogate each part in turn to look for longitudinal change.
+# Using an exclamation mark negates the relationship.
 
-# First, we'll interrogate each subcorpus to build a profile the way Fraser positions himself in relation to the reader, and the things he is talking about. To do this, we need a little bit of linguistics, however.
+# <codecell>
+# NP without a Melb descendent
+query = r'NP !<< /Melb.?/'
+searchtree(tree, query)
+
+# <codecell>
+# NP with a sister VP
+# This corresponds to 'subject' in many grammars
+query = r'NP $ VP'
+searchtree(tree, query)
+
+# <codecell>
+# Prepositional phrase in other prepositional phrases
+query = r'PP >> PP'
+searchtree(tree, query)
+
+# <markdowncell>
+# There is also a double underscore, which functions as a wildcard.
+
+# <codecell>
+# anything with any kind of noun tag
+query = r'__ > /NN.?/'
+searchtree(tree, query)
+
+# <markdowncell>
+# Using brackets, it's possible to create very verbose queries, though this goes well beyond our scope. Just know that it can be done!
+
+# <codecell>
+# particle verb in verb phrase with np sister headed by Melb.
+# the particle verb must also be in a verb phrase with a child preposition phrase
+# and this child preposition phrase must be headed by the preposition 'over'.
+query = r'VBN >> (VP $ (NP <<# /Melb.?/)) > (VP < (PP <<# (IN < /over/)))'
+searchtree(tree, query)
+
+# <markdowncell>
+# > If you need help constructing a Tregex query, ask Daniel. He writes them all day long for fun.
+
+# So, now we understand the basics of a Tregex query (don't worry! Most of the queries are already written for you). We can start our investigation of the Fraser Corpus by generating some general information about it. First, let's define a query to find every word in the corpus. Run the cell below to define the *allwords_query* as the Tregex query.
+
+# > *When writing Tregex queries or Regular Expressions, remember to always use **r'...'** quotes!*
+
+# <codecell>
+# any token containing letters or numbers (i.e. no punctuation):
+# we specify here that it cannot have any descendents,
+# just to be sure we only get tokens, not tags.
+
+allwords_query = r'/[A-Za-z0-9]/ !< __' 
+
+# <markdowncell>
+# Next, we perform interrogations with *interrogator()*. Its most important arguments are:
+#
+# 1. **path to corpus**
+#
+# 2. Tregex **options**:
+#   * **'-t'**: return only words
+#   * **'-C'**: return a count of matches
+#
+# 3. the **Tregex query**
+
+# We only need to count tokens, so we can use the **-C** option (it's often faster than getting lists of matching tokens). The cell below will run *interrogator()* over each annual subcorpus and count the number of matches for the query.
+
+# <codecell>
+allwords = interrogator(path, '-C', allwords_query) 
+
+# <markdowncell>
+# When the interrogation has finished, we can view the total counts by getting the *totals* branch of the *allwords* interrogation:
+
+# <codecell>
+# from the allwords results, print the totals
+print allwords.totals
+
+# <markdowncell>
+# If you want to see the query and options that created the results, you can print the *query* branch.
+
+# <codecell>
+print allwords.query
+
+# <headingcell level=3>
+# Plotting results
+
+# <markdowncell>
+# Lists of years and totals are pretty dry. Luckily, we can use the *plotter()* function to visualise our results. At minimum, *plotter()* needs two arguments:
+
+# 1. a title (in quotation marks)
+# 2. a list of results to plot
+
+# <codecell>
+plotter('Word counts in each subcorpus', allwords.totals)
+
+# <markdowncell>
+# Great! So, we can see that the number of words per year varies quite a lot. That's worth keeping in mind.
+
+# Next, let's plot something more specific, using the '-t' option.
+
+# <codecell>
+query = r'/(?i)\baustral.?/' # australia, australian, australians, etc.
+aust = interrogator(path, '-t', query) # -t option to get matching words, not just count
+
+# <markdowncell>
+# We now have a list of words matching the query stores in the *aust* variable's *results* branch:
+
+# <codecell>
+pprint.pprint(aust.results[:3]) # just the first few entries
+
+# <markdowncell>
+# We can use a *fract_of* argument to plot our results as a percentage of something else. This helps us deal with the issue of different amounts of data per year.
+
+# <codecell>
+# as a percentage of all aust* words:
+plotter('Austral*', aust.results, fract_of = aust.totals)
+# as a percentage of all words (using our previous interrogation)
+plotter('Austral*', aust.results, fract_of = allwords.totals)
+
+# <markdowncell>
+# Great! So, we now have a basic understanding of the *interrogator()* and *plotter()* functions.
+
+# <headingcell level=3>
+# Customising visualisations
+
+# <markdowncell>
+# By default, *plotter()* plots the absolute frequency of the seven most frequent results.
+
+#  We can use other *plotter()* arguments to customise what our chart shows. *plotter()*'s possible arguments are:
+
+#  | plotter() argument | Mandatory/default?       |  Use          | Type  |
+#  | :------|:------- |:-------------|:-----|
+#  | *title* | **mandatory**      | A title for your plot | string |
+#  | *results* | **mandatory**      | the results you want to plot | *interrogator()* total |
+#  | *fract_of* | None      | results for plotting relative frequencies/ratios etc. | list (interrogator(-C) form) |
+#  | *num_to_plot* | 7     | number of top results to display     |   integer |
+#  | *multiplier* | 100     | result * multiplier / total: use 1 for ratios | integer |
+#  | *x_label* | False    | custom label for the x-axis     |  string |
+#  | *y_label* | False    | custom label for the y-axis     |  string |
+#  | *yearspan* | False    | plot a span of years |  a list of two int years |
+#  | *justyears* | False    | plot specific years |  a list of int years |
+#  | *csvmake* | False    | make csvmake the title of csv output file    |  string |
+
+# You can easily use these to get different kinds of output. Try changing some parameters below:
+
+# <codecell>
+# maybe we want to get rid of all those non-words?
+plotter('Austral*', aust.results, fract_of = allwords.totals, num_to_plot = 3, y_label = 'Percentage of all words')
+
+# <codecell>
+# or see only the 1960s?
+plotter('Austral*', aust.results, fract_of = allwords.totals, num_to_plot = 3, yearspan = [1960,1969])
+
+# <headingcell level=3>
+# Viewing and editing results
+
+# <markdowncell>
+# Aside from *interrogator()* and *plotter()*, there are also a few simple functions for viewing and editing results.
+
+# <headingcell level=4>
+# quickview()
+
+# <markdowncell>
+# *quickview()* is a function that quickly shows the n most frequent items in a list. Its arguments are:
+#
+# 1. an *interrogator()* result
+# 2. number of results to show (default = 50)
+#
+# We can see the full glory of bad OCR here:
+
+# <codecell>
+quickview(aust.results, n = 20)
+
+# <markdowncell>
+# The number shown next to the item is its index. You can use this number to refer to an entry when editing results.
+
+# <headingcell level=4>
+# tally()
+
+# <markdowncell>
+# *tally()* displays the total occurrences of results. Its first argument is the list you want tallies from. For its second argument, you can use:
+
+# * a list of indices for results you want to tally
+# * a single integer, which will be interpreted as the index of the item you want
+# * a regular expression to search for
+# * a string, 'all', which will tally every result. This could be very many results, so it may be worth limiting the number of items you pass to it with [:n], as in the second example below:
+
+# <codecell>
+tally(aust.results, [0, 3])
+
+# <codecell>
+tally(aust.results[:10], 'all')
+
+# <markdowncell>
+# The Regular Expression option is useful for merging results (see below).
+
+# <headingcell level=4>
+# surgeon()
+
+# <markdowncell>
+# Results lists can be edited quickly with *surgeon()*. *surgeon()*'s arguments are:
+
+# 1. an *interrogator()* results list
+# 2. *criteria*: either a regex or a list of indices.
+# 3. *remove = True/False*
+
+# By default, *surgeon()* removes anything matching the regex/indices criteria, but this can be inverted with a *remove = False* argument. Because you are duplicating the original list, you don't have to worry about deleting *interrogator()* results.
+
+# We can use it to remove some obvious non-words.
+
+# <codecell>
+non_words_removed = surgeon(aust.results, [5, 9], remove = True)
+plotter('Some non-words removed', non_words_removed, fract_of = allwords.totals)
+
+# <markdowncell>
+# Note that you do not access surgeon lists with *aust.non_words_removed* syntax, but simply with *non_words_removed*.
+
+# <headingcell level=4>
+# merger()
+
+# <markdowncell>
+# *merger()* is for merging items in a list. Like *surgeon()*, it duplicates the old list. Its arguments are:
+
+# 1. the list you want to modify
+# 2. the indices of results you want to merge, or a regex to match
+# 3. newname = *str/int/False*: 
+#   * if string, the string becomes the merged item name.
+#   * if integer, the merged entry takes the name of the item indexed with the integer.
+#   * if not specified/False, the most most frequent item in the list becomes the name.
+
+# In our case, we might want to collapse *Australian* and *Australians*, because the latter is simply the plural of the former.
+
+# <codecell>
+# before:
+plotter('Before merging Australian and Australians', aust.results, num_to_plot = 3)
+# after:
+merged = merger(aust.results, [1, 2],  newname = 'australian(s)')
+plotter('After merging Australian and Australians', merged, num_to_plot = 2)
+
+# <headingcell level=4>
+# conc()
+
+# <markdowncell>
+# The final function is *conc()*, which produces concordances of a subcorpus based on a Tregex query. Its main arguments are:
+
+# 1. A subcorpus to search *(remember to put it in quotation marks!)*
+# 2. A Tregex query
+
+# <codecell>
+# here, we use a subcorpus of politics articles,
+# rather than the total annual editions.
+conc('fraser-corpus-annotated/1966', r'/(?i)\baustral.?/') # adj containing a risk word
+
+# <markdowncell>
+# You can set *conc()* to print *n* random concordances with the *random = n* parameter. You can also store the output to a variable for further searching.
+
+# <codecell>
+randoms = conc('fraser-corpus-annotated/1963', r'/(?i)\baustral.?/', random = 5)
+pprint.pprint(randoms)
+
+# <markdowncell>
+# *conc()* takes another argument, window, which alters the amount of co-text appearing either side of the match.
+
+# <codecell>
+conc('fraser-corpus-annotated/1981', r'/(?i)\baustral.?/', random = 5, window = 50)
+
+# <markdowncell>
+# *conc()* also allows you to view parse trees. By default, it's false:
+
+# <codecell>
+conc('fraser-corpus-annotated/1954', r'/(?i)\baustral.?/', random = 5, window = 30, trees = True)
+
+# <markdowncell>
+# The final *conc()* argument is a *csv = 'filename'*, which will produce a tab-separated spreadsheet with the results of your query. You can copy and paste this data into Excel.
+
+# <codecell>
+# <codecell>
+conc('fraser-corpus-annotated/1954', r'/(?i)\baustral.?/', random = 5, window = 30, trees = True, csvmake = 'conc.txt')
+
+# <codecell>
+# get the first ten lines of the csv file:
+! cat 'conc.txt' | head -n 10
+# and to delete it:
+# !rm conc.txt
+
+# <markdowncell>
+# OK, they're all the functions we need.
+
+# Now you're familiar with the corpus and functions, it's time to explore the corpus in a more structured way. To do this, we need a little bit of linguistic knowledge, however.
 
 # <headingcell level=3>
 # Some linguistics...
@@ -153,145 +511,467 @@
 # <markdowncell>
 # *Functional linguistics* is a research area concerned with how *realised language* (lexis and grammar) work to achieve meaningful social functions.
 
-# One functional linguistic theory is *Systemic Functional Linguistics*, pioneered by Michael Halliday (Prof. Emeritus at University of Sydney).
+# One functional linguistic theory is *Systemic Functional Linguistics*, developed by Michael Halliday (Prof. Emeritus at University of Sydney).
 
-# Central to the theory is a division between **intpersonal meanings** and **experiential meanings**.
+# Central to the theory is a division between **experiential meanings** and **interpersonal meanings**.
 
-# * Interpersonal meanings negotiate identities and role relationships between speakers 
 # * Experiential meanings communicate what happened to whom, under what circumstances.
+# * Interpersonal meanings negotiate identities and role relationships between speakers 
 
 # Halliday argues that these two kinds of meaning are realised **simultaneously** through different parts of English grammar.
 
-# * Interpersonal meanings are made through **mood choices**
 # * Experiential meanings are made through **transitivity choices**.
+# * Interpersonal meanings are made through **mood choices**
 
-# Mood features of a language include:
+# Here's one visualisation of it. We're concerned with the two lefthand columns. Each level is an abstraction of the one below it.
 
-# * Mood type (*declarative, interrogative, imperative*)
-# * Modality (*would, can, might*)
-# * Lexical density---the number of words per clause, the number of content to non-content words, etc.
+# <br>
+# <img style="float:left" src="https://raw.githubusercontent.com/interrogator/sfl_corpling/master/cmc-2014/images/egginsfixed.jpg" />
+# <br>
+
+# <markdowncell>
+# > According to SFL, if provided with a short description of a Field, Tenor and Mode, you an usually deduce the genre. If a conversation about *furtniture* is happening between *a salesperson and a customer*, in a *face-to-face setting*, we can understand it to be the *buying/selling of furniture*. Altering one of the three dimensions, and the genre is different: change the Field to *wine* and, and now wine is the thing being sold. Change *a customer* to *a group of customers*, and it might be an auction ...
 
 # Transitivity choices include fitting together configurations of:
 
 # * Participants (*a man, green bikes*)
 # * Processes (*sleep, has always been, is considering*)
-# * Circumstances (*on the weekend*, *)
+# * Circumstances (*on the weekend*, *in Australia*)
 
-# > **Note**: SFL argues that through *grammatical metaphor*, one linguistic feature can stand in for another. *Would you please shut the door?* is an interrogative, but it functions as a command. *invitation* is a nominalisation of a process, *invite'. We don't have time to deal with these kinds of realisations, unfortunately.
+# Mood features of a language include:
+
+# * Mood types (*declarative, interrogative, imperative*)
+# * Modality (*would, can, might*)
+# * Lexical density---the number of words per clause, the number of content to non-content words, etc.
+
+# Lexical density is usually a good indicator of the general tone of texts. The language of academia, for example, often has a huge number of nouns to verbs. We can approximate an academic tone simply by making nominally dense clauses: 
+
+# "*The consideration of interest is the potential for a participant of a certain demographic to be in Group A or Group B*".
+
+# Notice how not only are there many nouns (*consideration, interest, potential, etc.), but that the verbs are very simple (*is*, *to be*).
+
+# In comparison, informal speech is characterised by smaller clauses, and thus more verbs.
+
+# A: "*Did you feel like dropping by?*"
+# B: "*I thought I did, but now I don't think I want to*"
+
+# Here, we have only a few, simple nouns (*you*, *I*), with more expressive verbs (*feel*, *dropping by*, *think*, *want*)
+
+# > **Note**: SFL argues that through *grammatical metaphor*, one linguistic feature can stand in for another. *Would you please shut the door?* is an interrogative, but it functions as a command. *invitation* is a nominalisation of a process, *invite*. We don't have time to deal with these kinds of realisations, unfortunately.
 
 # <headingcell level=3>
 # Fraser's speeches and linguistic theory
 
 # <markdowncell>
-# So, from an SFL perspective, when Malcolm Fraser gives a speech, he is simultaneously making meaning about his role and identity (through mood choices) and about events in the real world (through transitivity choices).
+# So, from an SFL perspective, when Malcolm Fraser gives a speech, he is simultaneously making meaning about events in the real world (through transitivity choices) and about his role and identity (through mood and modality choices).
 
-# We can create two research questions.
+# With this basic theory of language, we can create two research questions:
 
-# 1. **How does Malcom Fraser's tone change over time?**
 # 2. **What are the major things being spoken about in Fraser's speeches, and how do they change?**
+# 1. **How does Malcolm Fraser's tone change over time?**
 
-# As our corpus is well-structured and parsed, we can create functions to answer these questions. We will define each function before we run anything.
+# As our corpus is well-structured and parsed, we can create queries to answer these questions, and then visualise the results.
 
 # <headingcell level=4>
 # Interpersonal features
 
+# <markdowncell>
+# We'll start with interpersonal features of language in the corpus. First,  we can devise a couple of simple metrics that can teach us about the interpersonal tone of Fraser's speeches over time.
+
 # <codecell>
 # number of content words per clause
-def lexical_density: 
+openwords = r'/\b(JJ|NN|VB|RB)+.?\b/'
+clauses = r'S < __'
+opencount = interrogator(path, '-C', openwords, lemmatise = True)
+clausecount = interrogator(path, '-C', clauses)
+
+# <codecell>
+plotter('Lexical density', opencount.totals, 
+        fract_of = clausecount.totals, y_label = 'Lexical Density Score', multiplier = 1)
+
+# <markdowncell>
+# We can also look at the use of modals auxiliaries (*would could, may, etc.*) over time. This can be interesting, as modality is responsible for communicating certainty, probability, obligation, etc.
+
+# Modals are very easily and accurately located, as there are only a few possible words, and they occur in predicable places within clauses.
+
+#Most grammars tag them with 'MD'.
+
+#If modality interests you, later, it could be a good set of results to manipulate and plot.
+
+# <codecell>
+query = r'MD < __'
+modals = interrogator(path, '-t', query)
+plotter('Modals', modals.results, fract_of = modals.totals)
 
 # <codecell>
 # percentage of tokens that are I/me
-def firstperson_perc:
+query = r'/PRP.?/ < /(?i)^(i|me|my)$/'
+firstperson = interrogator(path, '-C', query)
+
+# <codecell>
+plotter('First person', firstperson.totals, fract_of = allwords.totals)
+
+# <codecell>
+# percentage of questions
+query = r'ROOT <<- /.?\?.?/'
+questions = interrogator(path, '-C', query)
+
+# <codecell>
+plotter('Questions/all clauses', questions.totals, fract_of = clausecount.totals)
 
 # <codecell>
 # ratio of open/closed class words
-def open_closed:
+closedwords = r'/\b(DT|IN|CC|EX|W|MD|TO|PRP)+.?\b/'
+closedcount = interrogator(path, '-C', closedwords)
+
+# <codecell>
+plotter('Open/closed word classes', opencount.totals, 
+        fract_of = closedcount.totals, y_label = 'Open/closed ratio', multiplier = 1)
 
 # <codecell>
 # ratio of nouns/verbs
-def noun_verb:
-
-
-# <headingcell level=4>
-# Experiential features
-
-# <codecell>
-# heads of noun phrases not in PPs
-def top_participants:
+nouns = r'/NN.?/ < __'
+verbs = r'/VB.?/ < __'
+nouncount = interrogator(path, '-C', nouns)
+verbcount = interrogator(path, '-C', verbs)
 
 # <codecell>
-# most common predicators
-def top_processes:
-
-
-# <headingcell level=2>
-# Running our functions over each subcorpus
-
-# <codecell>
-# for each subcorpus, 
-# do function on subcopus
-# store result in array.
-# print array
-
-# <headingcell level=2>
-# Getting pretty results
+plotter('Noun/verb ratio', nouncount.totals, fract_of = verbcount.totals, multiplier = 1)
 
 # <markdowncell>
-# So, we have our answers. Now we want to produce two kinds of output:
-
-# 1. A table of numbers
-# 2. A visualised representation of these
+# Finally, to determine the diversity of nouns and verbs in each year, we can use a few different functions together, combined with a lemmatiser, and a bit of hacking of our functions. First, let's get lemmatised results for all nouns and all verbs:
 
 # <codecell>
-# table generation
-
-# <codecell>
-# plotting our findings
-
-# <headingcell level=2>
-# Querying our subcorpora
+# these queries take a few minutes each!
+differentnouns = interrogator(path, '-t', nouns, lemmatise = True) 
+differentverbs = interrogator(path, '-t', verbs, lemmatise = True)
 
 # <markdowncell>
-# A danger when working with very large linguistic datasets is that the researcher may never really read actual sentences as they appeared.
-
-# We can combine quantitative and qualitative findings by modifying a function to also list example clauses from the text.
+# Now, let's devise a function that will turn any result over zero occurrences to 1, to indicate its presence in that year.
 
 # <codecell>
-def process_examples:
-	# etc
-	# etc
-
-# <headingcell level=3>
-# Groupwork!
+def diversity_counter(results):
+    """takes interrogator -t results and creates diversity score"""
+    # make a copy of the list
+    newlist = list(results)
+    # turn each count over zero into 1
+    for entry in newlist: # for each word and its data
+        data = entry[1:] # get the year and number of occurrences sections
+        for year_count in data: # for each of these
+            if year_count[1] > 0: # if there are more than zero occurrences
+                year_count[1] = 1 # change the total to 1
+    return newlist
 
 # <markdowncell>
-# With each group working on a subcorpus, we'll try to paint a more qualitative picture of how language changes. To do this, we want to find salient examples of real language use by Fraser.
-
-# This will involve querying lexis and grammar at the same time, using regex where needed. You should be able to cannibalise some of the previous examples if need be.
-
-# <headingcell level=4>
-# Challenge 1: list Interrogative clauses
+# Run our lists through this new function:
 
 # <codecell>
-# code here
+num_different_nouns = diversity_counter(differentnouns.results)
+num_different_verbs = diversity_counter(differentverbs.results)
+print num_different_nouns[:2] # print a couple to see how our results look now
 
-# <headingcell level=4>
-# Challenge 2: find what processes 'I' and 'we' most commonly do
+# <markdowncell>
+# ... now merge all entries in both lists, and give the noun part a new name for our plotter
+# <codecell>
+num_different_nouns = merger(differentnouns.results, r'.*', 
+    newname = 'Noun to verb diversity')
+num_different_verbs = merger(differentverbs.results, r'.*')
+clear_output() # this just stops the display of thousands of merged items...
 
 # <codecell>
-# code here
+# plot the total noun diversity against the first num_different_verbs entry, 
+# which is now a score of verbal density.
+plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns, 
+    fract_of = num_different_verbs[0], multiplier = 1, num_to_plot = 1, y_label = 'N/V Diversity Score')
+
+# <markdowncell>
+# A key strength of coding is that you can often hack functions to do things that they were never designed to do. Moreover, once you've written the function, it can be called again and again with ease. If the hack proves useful, it could easily be built in as a new argument accepted by *interrogator()* or *plotter()*.
 
 # <headingcell level=4>
-# Challenge 3: find which participants 'should/must' do something
+# Experiential features of Fraser's speech
+
+# <markdowncell>
+# We now turn our attention to what is being spoken about in the corpus. First, we can get the heads of grammatical participants:
 
 # <codecell>
-# code here
+# heads of participants (heads of NPS not in prepositional phrases)
+query = r'/NN.?/ >># (NP !> PP)'
+participants = interrogator(path, '-t', query, lemmatise = True)
+
+# <codecell>
+plotter('Participants', participants.results, fract_of = allwords.totals)
+
+# <markdowncell>
+# Next, we can get the most common processes. That is, the rightmost verb in a verbal group (take a look at the visualised tree!)
+
+# > *Be careful not to confuse grammatical labels (predicator, verb), with semantic labels (participant, process) ... *
+
+# <codecell>
+# most common processes
+query = r'/VB.?/ >># VP >+(VP) VP'
+processes = interrogator(path, '-t', query, lemmatise = True)
+
+# <codecell>
+plotter('Processes', processes.results[2:], fract_of = processes.totals)
+
+# <markdowncell>
+# It seems that the verb *believe* is a common process in 1973. Try to run *conc()* in the cell below to look at the way the word behaves.
+
+# <codecell>
+# write a call to conc() that gets concordances for 'believe' in 1973
+#
+#
+# Here's a query that uses the parser info
+# r'/VB.?/ < /(?i)believ.?/ >># VP >+(VP) VP'
+
+
+# <markdowncell>
+# For discussion: what events are being discussed when *believe* is the process? Why use *believe* here?
+# <br>
+# <br>
+
+# Next, let's chart noun phrases headed by a proper noun (*the Prime Minister*, *Sydney*, *John Howard*, etc.). We can define them like this:
+
+# <codecell>
+# any noun phrase headed by a proper noun
+pn_query = 'NP <# NNP'
+
+# <markdowncell>
+# To make for more accurate results the *interrogator()* function has an option, *titlefilter*, which uses a regular expression to strip determiners (*a*, *an*, *the*, etc.), titles (*Mr*, *Mrs*, *Dr*, etc.) and first names from the results. This will ensure that the results for *Prime Minister* also include *the Prime Minister*, and *Fraser* results will include the *Malcolm* variety. The option is turned on in the cell below:
+
+# <codecell>
+# Proper noun groups
+propernouns = interrogator(path, '-t', pn_query, titlefilter = True)
+
+# <codecell>
+plotter('Proper noun groups', propernouns.results, fract_of = propernouns.totals, num_to_plot = 15)
+
+# <markdowncell>
+# Proper nouns are a really good category to investigate further, as it is through proper nouns that we can track discussion of particular people, places or things. So, let's look at the top 100 results:
+
+# <codecell>
+quickview(propernouns.results, n = 100)
+
+# <markdowncell>
+#  You can now use the *merger()* and *surgeon()* options to make new lists to plot. Here's one example: we'll use *merger()* to merge places in Victoria, and then *surgeon()* to create a list of places in Australia.
+
+# <codecell>
+merged = merger(propernouns.results, [9, 13, 27, 36, 78, 93], newname = 'places in victoria')
+quickview(merged, n = 100)
+
+ausparts = surgeon(merged, [7, 9, 23, 25, 33, 41, 49], remove = False)
+plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
+
+# <markdowncell>
+# Neat, eh? Well, that concludes the structured part of the lesson. You now have a bit of time to explore the corpus, using the tools provided. Below, for your convenience, is a table of the functions and their arguments.
+
+# Particularly rewarding can be playing more with the proper nouns section, as in the cells above. Shout out if you find something interesting!
+
+# <br>
+# <img style="float:left" src="https://raw.githubusercontent.com/interrogator/sfl_corpling/master/cmc-2014/images/options.png" />
+# <br>
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <markdowncell>
+# By the way, here's the code behind some of the functions we've been using. With all your training, you can probably understand quite a bit of it!
+
+# <codecell>
+%load corpling_tools/additional_tools.ipy
+
+# <markdowncell>
+# That's it for this lesson, and for our interrogation of the Fraser Corpus. The final session will look to the future: we hope to have a conversation about what you can do with the kind of skills you've learned here.
+
+# *See you soon!*
+
+# <markdowncell>
+# 
+
 
 # <headingcell level=1>
 # Session 6: Getting the most out of what we've learned
 
 # <markdowncell>
 # <br>
+
+# <markdowncell>
+# So, now you know Python and NLTK! The main things we still have to do are:
+
+# 1. Manage resources and results
+# 2. Brainstorm some other uses for NLTK
+# 3. Integrate IPython into your existing workflow
+# 4. Summarise and say goodbye!
+
+# <headingcell level=2>
+# Managing resources and results
+
+# <markdowncell>
+# You generate huge amounts of code, data and findings. Often, it's hard to know what to do with it all. In this section, we'll provide some suggestions designed to keep your work:
+
+# 1. Reproducible
+# 2. Reusable
+# 3. Comprehensible
+
+# <headingcell level=3>
+# Your code
+
+# <markdowncell>
+
+# 1. Most importantly, **write comments on your code**. You **will** forget what bits of code are supposed to do. Using others' code is much easier if it's commented up. A related point is to name your variables meaningfully: *variablexxy* does not tell us much about what it will contain.
+# 2. **Version control**. When editing your code, you may sometimes break it. LINK TO DAMIEN'S STUFF
+# 3. **Share your code**. You are often doing novel things when you code, and sharing what you've done can save somebody else a lot of work. *Github* is free for open-source projects. Github provides version control, which is especially useful when you are working with a team.
+
+# <headingcell level=3>
+# Your data
+
+# <markdowncell>
+# *Cloud computing*
+
+# <headingcell level=3>
+# Your findings
+
+# <markdowncell>
+# [*Figshare*](http://www.figshare.com) is a site for storing tables and figures. It's particularly useful for working with large datasets, as we often generate far more raw tables and statistics than we can possibly publish.
+
+# It's becoming more and more common to link journal publications to additional online resources such as Github code or Figshares.
+
+# <headingcell level=2>
+# Other uses of NLTK
+
+# <markdowncell>
+# What other things might we use NLTK for? A few examples, and possible workflows.
+
+# <headingcell level=3>
+# Scenario 1: You have some old books.
+
+# <markdowncell>
+# * Are they machine readable?
+# * OCR options---institutional or DIY?
+# * Structure them in a meaningful way---by author, by year, by language ... 
+# * Start querying!
+
+# <headingcell level=3>
+# Scenario 2: You're interested in an online community.
+
+# <markdowncell>
+# * Explore the site. Sign up for it, maybe.
+# * Download it: Wget, curl, crawlers ...
+# * Extract relevant data and metadata: *Beautiful Soup*
+# * **Structure your data**
+# * Annotate your data, save these annotations
+# * Start querying!
+
+# <headingcell level=3>
+# Scenario 3: Something of interest breaks in the news
+
+# <markdowncell>
+# * It will start being discussed all over the web.
+# * You can use the Twitter API to harvest tweets containing a term or hashtag of interest.
+# * You can get a list of RSS feeds and mine news articles
+# * You can use something like *WebBootCat* to harvest search engine results and make a plain text corpus
+# * Process these into a manageable form
+# * Structure them
+# * *Start querying!
+
+# <headingcell level=2>
+# Integrating IPython into your workflow
+
+# <markdowncell>
+# What you've learned here isn't much good unless you can pull things out of it and put them into your own research workflow.
+
+# <headingcell level=3>
+# Using IPython locally
+
+# <markdowncell>
+# You may also want to use IPython locally. To do this, you need to install it. There are many ways to install it, and these vary depending on your OS and what you already have installed. See the [IPython website](http://ipython.org/ipython-doc/2/install/install.html#installnotebook) for detailed instructions.
+
+# Open up Terminal, navigate to the notebook directory and type:
+
+# > **ipython notebook filename.ipynb**
+
+# This will open up a blank notebook.
+
+# <headingcell level=2>
+# Summaries and goodbye
+
+# <markdowncell>
+# Before we go, we should summarise what we've learned. Add all this to your CV!
+
+# * thing
+# * thing
+# * thing
+# * thing
+# * thing
+# * thing
+# * thing
+# * thing
+# * thing
+
+# <headingcell level=2>
+# Thanks!
+
+# <markdowncell>
+# That's the end of of course. Thank you to everybody for your participation.
+
+# Please let us know how you found the course.
+
+# <markdowncell>
+# 
+
+# <headingcell level=2>
+# Solutions
+
+# <headingcell level=2>
+# Additional resources
+
+# <headingcell level=2>
+# Bibliography
+
+# <markdowncell>
+# <a id="ref:chomsky"></a>
+# Chomsky, N. (1965). Aspects of the Theory of Syntax (Vol. 11). The MIT press.
+#
+# Eggins, S. (2004). Introduction to systemic functional linguistics. Continuum International Publishing Group.
+#
+# Halliday, M., & Matthiessen, C. (2004). An Introduction to Functional Grammar. Routledge.
+#
+# <a id="ref:sinclair"></a>
+# Sinclair, J. (2004). Trust the text: Language, corpus and discourse. Routledge. Available at
+# [http://books.google.com.au/books/about/Trust_the_Text.html?id=n6xU2lyVoeQC&redir_esc=y](http://books.google.com.au/books/about/Trust_the_Text.html?id=n6xU2lyVoeQC&redir_esc=y).
+# <markdowncell>
+# 
+
+
+# <headingcell level=1>
+# Session 6: Getting the most out of what we've learned
 
 # <markdowncell>
 # So, now you know Python and NLTK! The main things we still have to do are:
