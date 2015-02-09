@@ -117,7 +117,7 @@ text2.common_contexts(["monstrous", "very"])  # this function takes two argument
 # <codecell>
 import numpy
 get_ipython().magic(u'matplotlib inline') # allow visuals to show up in this interface---see note below
-text1.dispersion_plot("whale")
+text1.dispersion_plot(["whale"])
 
 # <markdowncell>
 # > **Note**: The second line of the code above is IPython specific, and will not necessarily work in other Python environments!
@@ -187,12 +187,12 @@ print 'Phew, fixed.'
 # how you indent this code.
 
 print 'Python\nis\n'
-for i in ['very', 'really', 'truly']: # repeat three times, quite arbitrarily
-	print i + '\n'
-	if i is 'truly': # nested conditional
-		print 'interesting!'
-	else:
-		print 'complicated!'
+for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
+    print i + '\n'
+    if i is 'truly':  # nested conditional
+        print 'interesting!'
+    else:
+        print 'complicated!'
 #print 'day.'  # at present, this occurs after the three repetitions.
 
 # <headingcell level=3>
@@ -204,10 +204,10 @@ for i in ['very', 'really', 'truly']: # repeat three times, quite arbitrarily
 # * For example, if you're trying to do maths, everything has to be an integer:
 
 # <codecell>
-1 + 2 # integer plus integer
+1 + 2  # integer plus integer
 
 # <codecell>
-1 + '2' # integer plus string
+1 + '2'  # integer plus string
 
 # <markdowncell>
 # You can determine the type of data stored in a variable with type():
@@ -237,17 +237,17 @@ secondnumber = '2'
 
 
 # <codecell>
-from math import sqrt # importing math library and square root function 
-avariable = 50 # make a variable that is 50 as integer
-answer = sqrt(avariable) # figure out the answer by issuing a command with avariable as an argument
+from math import sqrt  # importing math library and square root function
+avariable = 50  # make a variable that is 50 as integer
+answer = sqrt(avariable)  # figure out the answer by issuing a command with avariable as an argument
 print answer  # tell us
 
 # <codecell>
 #This example has two arguments
 
-from math import pow # importing pow function
+from math import pow  # importing pow function
 avariable = 50
-answer = pow(avariable, 3) # 50 to the power of 3
+answer = pow(avariable, 3)  # 50 to the power of 3
 print answer
 
 # <headingcell level=3>
@@ -261,10 +261,10 @@ print answer
 # <codecell>
 def welcomefunction(firstname):  # declare that you're defining a function,
 # give it a name, and name its optional argument
-	import time
-	thetime = time.strftime("%H:%M:%S")
-	print 'Welcome, ' + firstname + '. The time is ' + thetime
-	# make sure you run this cell to define the function
+    import time
+    thetime = time.strftime("%H:%M:%S")
+    print 'Welcome, ' + firstname + '. The time is ' + thetime
+# make sure you run this cell to define the function
 
 # <codecell>
 # Now you can call the function with your name as an argument
@@ -322,7 +322,7 @@ lexical_diversity(text2)
 
 # <codecell>
 
-sent1 = ['Call', 'me', 'Ishmael','.']
+sent1 = ['Call', 'me', 'Ishmael', '.']
 
 # <codecell>
 sent1
@@ -348,9 +348,9 @@ sent1
 # There are some things we can do to make it easier to read the contents of a string. Note that we get some brackets and so on when we try to print the items in a list as a string.
 
 # <codecell>
-fruitsalad = [] # declare an empty list
-fruitsalad.append('watermelon') # add watermelon
-fruitsalad.append('orange') # add orange
+fruitsalad = []  # declare an empty list
+fruitsalad.append('watermelon')  # add watermelon
+fruitsalad.append('orange')  # add orange
 print 'Our fruit salad contains: ' + str(fruitsalad)
 
 # <markdowncell>
@@ -360,7 +360,7 @@ print 'Our fruit salad contains: ' + str(fruitsalad)
 fruitsalad = []
 fruitsalad.append('watermelon')
 fruitsalad.append('orange')
-listasastring = ''.join(fruitsalad) # create a string with all the list items joined together
+listasastring = ''.join(fruitsalad)  # create a string with all the list items joined together
 print 'Our fruit salad contains: ' + listasastring
 
 # <markdowncell>
@@ -368,7 +368,7 @@ print 'Our fruit salad contains: ' + listasastring
 
 # <codecell>
 fruitsalad.append('canteloupe')
-listasastring = ', '.join(fruitsalad) # note the comma and space in quotation marks
+listasastring = ', '.join(fruitsalad)  # note the comma and space in quotation marks
 print 'Our fruit salad contains: ' + listasastring
 
 
@@ -386,7 +386,7 @@ text4.index('awaken')
 #  This works in reverse as well. We can ask Python to locate the 158th item in our list (note that we use square brackets here, not parentheses)
 
 # <codecell>
-text4.index[158]
+text4[158]
 
 # <markdowncell>
 # As well as pulling out individual items from a list, indexes can be used to pull out selections of text from a large corpus to inspect. We call this slicing
@@ -419,12 +419,6 @@ sent[8]
 
 sent[2] = 'furry'
 sent[7] = 'spotty'
-sent
-
-
-# <codecell>
-
-sent[4:5] = ['runs', 'twice', 'around']
 sent
 
 # <headingcell level=3>
@@ -475,10 +469,10 @@ fdist1 = FreqDist(text1)
 fdist1.most_common(50)
 
 # <codecell>
-fdist1('whale')
+fdist1['whale']
 
 # <codecell>
-fdist1.plot(50, cumulative=True)
+fdist1.plot(50, cumulative = True)
 
 # <markdowncell>
 # *Challenge!*
@@ -511,7 +505,7 @@ fdist2.freq(3)
 # It is possible to select the longest words in a text, which may tell you something about its vocabulary and style
 
 # <codecell>
-V= set(text4)
+V = set(text4)
 long_words = [word for word in V if len(word) > 15]
 sorted(long_words)
 
@@ -523,7 +517,7 @@ sorted(long_words)
 
 # <codecell>
 fdist5 = FreqDist(text5)
-sorted (w for w in set(text5) if len(w)>7 and fdist5[w]>7)
+sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 
 # <markdowncell>
 # There are a number of functions defined for NLTK's frequency distributions:
@@ -561,7 +555,7 @@ text4.collocations()
 # * \>= 	greater than or equal to
 
 # <headingcell level=4>
-# Challenge! 
+# Challenge!
 
 # <markdowncell>
 # Using one of the pre-defined sentences in the NLTK corpus, use the relational operators above to find:
@@ -584,7 +578,7 @@ text4.collocations()
 # * s.istitle() 	test if s contains cased characters and is titlecased (i.e. all words in s have initial capitals)
 
 # <codecell>
-sorted (w for w in set(text1) if w.endswith('ableness'))
+sorted(w for w in set(text1) if w.endswith('ableness'))
 
 
 # <codecell>
@@ -616,7 +610,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # * How Python uses whitespace 
 # * Why functions are useful and how to define one
 # * How to use basic Pyton commands to start exploring features of a text
-# 
+#
 # We'll practice all these commands in the following lessons so don't panic! 
 # It's a lot to take in and it will probably take a while before you feel really comfortable
 
