@@ -1,0 +1,357 @@
+#!/usr/bin/ipython
+
+#   Interrogating parsed corpora and plotting the results: additional resources
+#   Author: Daniel McDonald
+
+def surgeon(lst, criteria, remove = True):
+    """
+    Add or remove from results by regex or index.
+
+    criteria: if string, it is a regular expression to keep/remove by.
+                 if list, a list of indices to remove keep remove by
+
+    If regex, remember to add word boundaries!
+    """
+
+    import re
+    newlist = []
+    if type(criteria) == str:
+        regexp = re.compile(criteria)
+        for item in lst:
+            if remove is True:
+                if not re.search(regexp, item[0]):
+                    newlist.append(item)
+            if remove is False:
+                if re.search(regexp, item[0]):
+                    newlist.append(item)
+    if type(criteria) == list:
+        if remove is True:
+            newlist = list(lst)
+            backward_indices = sorted(criteria, reverse = True)
+            for index in backward_indices:
+                newlist.remove(newlist[index])
+        if remove is False:
+            for index in criteria:
+                newlist.append(lst[index])
+    return newlist
+
+def quickview(lst, n = 50, topics = False):
+    """See first n words of an interrogation.
+
+    lst: interrogator() list
+    n: number of results to view
+    topics: for investigation of topic subcorpora"""
+    if not topics:
+        out = []
+        for item in lst[:n]:
+            indexnum = lst.index(item)
+            word = item[0]
+            index_and_word = [str(indexnum), word]
+            as_string = ': '.join(index_and_word)
+            out.append(as_string)
+        return out
+    if topics:
+        topics = [d for d in os.listdir(path)
+        if os.path.isdir(os.path.join(path,d))
+        and d != 'years']
+        out = []
+        for corpus in topics:
+            subout = []
+            out.append(corpus.upper())
+            sublist = lst[topics.index(corpus)]
+            subout = []
+            for item in sublist[:n]:
+                indexnum = sublist.index(item)
+                word = item[0]
+                index_and_word = [str(indexnum), word]
+                as_string = ': '.join(index_and_word)
+                subout.append(as_string)
+            out.append(subout)
+    return out
+
+def topix_search(topic_subcorpora, options, query, **kwargs):
+    """Interrogates each topic subcorpus."""
+    results = [] # make empty list of results and totals
+    totals = []
+    for topic in topic_subcorpora: # for topic name
+        print "Doing " + topic + " ..."
+        topic_subcorpora_path = os.path.join(path,topic) # get topic path
+        # interrogate with any arguments passed in:
+        result = interrogator(topic_subcorpora_path, options, query, **kwargs)
+        results.append(result.results) # add to results
+        totals.append(result.totals)
+    # now we should have 3x results and 3x totals, and a query
+    outputnames = collections.namedtuple('interrogation', ['query', 'results', 'totals'])
+    query_options = [query, options] 
+    output = outputnames(query_options, results, totals)
+    return results
+
+def topix_plot(title, results, fract_of = False, **kwargs):
+    """Plots results from subcorpus interrogation."""
+    for topic in topic_subcorpora:
+        newtitle = title + ' in ' + str(topic) + ' articles' # semi-automatic titles (!)
+        if not fract_of: # if counting ratios/percentages, 
+            plotter(newtitle, results.results[topic_subcorpora.index(topic)], **kwargs)
+        else:
+            plotter(newtitle, results[topic_subcorpora.index(topic)], 
+                fract_of = fract_of.totals[topic_subcorpora.index(topic)], **kwargs)
+
+def conc(corpus, query, random = False, window = 30, trees = False, csvmake = False): 
+    """A concordancer for Tregex queries"""
+    # add sorting?
+    from random import randint
+    import time
+    from time import localtime, strftime
+    import re
+    from collections import defaultdict
+
+    def csvmaker(csvdata, sentences, csvmake):
+        """Puts conc() results into tab-separated spreadsheet form"""
+        #make data utf 8
+        uc_data = []
+        uc_sentences = []
+        for line in csvdata:
+            newline = []
+            for part in line:
+                newpart = unicode(part, 'utf-8')
+                newline.append(newpart)
+            uc_data.append(newline)
+        for sentence in sentences:
+            newsentence = unicode(sentence, 'utf-8')
+            uc_sentences.append(newsentence)
+        csv = []
+        # make first line
+        topline = query + '\nTab separated, with window (n=' + str(len(csvdata)) + '):\n'
+        midline = '\n\n' + query + '\nEntire sentences (n=' + str(len(sentences)) + '):\n'
+        # title then years for top row
+        csv.append(topline)
+        # for each word
+        for entry in uc_data:
+            sentence = '\t'.join(entry)
+            csv.append(sentence)
+        csv.append(midline)
+        for entry in uc_sentences:
+            csv.append(entry)
+        csv = '\n'.join(csv)
+        # write the csv file?
+        if os.path.isfile(csvmake):
+            raise ValueError("CSV error: " + csvmake + " already exists in current directory.")
+        try:
+            fo=open(csvmake,"w")
+        except IOError:
+            print "Error writing CSV file."
+        fo.write(csv.encode("UTF-8"))
+        fo.close()
+        time = strftime("%H:%M:%S", localtime())
+        print time + ": " + csvmake + " written to currect directory."
+                
+    def list_duplicates(seq):
+        tally = defaultdict(list)
+        for i,item in enumerate(seq):
+            tally[item].append(i)
+        return ((key,locs) for key,locs in tally.items() 
+                        if len(locs)>1)
+
+        ##############################################################
+
+    time = strftime("%H:%M:%S", localtime())
+    print "\n" + time + ': Getting concordances for ' + corpus + ' ... \n          Query: ' + query + '\n'
+    output = []
+    tregex_command = 'sh ./tregex.sh \'' + query + '\' 2>&1'
+    testpattern = !$tregex_command
+    errorregex = re.compile(r'^Error parsing expression')
+    if trees:
+        options = '-s'
+    else:
+        options = '-t'
+    if re.match(errorregex, testpattern[0]):
+        raise ValueError("Error parsing Tregex expression. "
+            "Check for balanced parentheses and boundary delimiters.") 
+    tregex_command = 'sh ./tregex.sh -o -w ' + options + ' \'' + query + '\' ' + corpus + ' 2>/dev/null | grep -vP \'^\s*$\''
+    allresults = !$tregex_command
+    results = list(allresults)
+    if csvmake: # this is not optimised at all!
+        sentences = list(results)
+    tregex_command = 'sh ./tregex.sh -o ' + options + ' \'' + query + '\' ' + corpus + ' 2>/dev/null | grep -vP \'^\s*$\''
+    alltresults = !$tregex_command
+    tresults = list(alltresults)
+    zipped = zip(allresults, alltresults)
+    all_dupes = []
+    #for dup in sorted(list_duplicates(results)):
+        #index_list = dup[1][1:] # the list of indices for each duplicate, minus the first one, which we still want.
+        #for i in index_list:
+            #all_dupes.append(i)
+    #for i in sorted(all_dupes, reverse = True):
+        #print tresults[i]
+        #print results[i]
+    #n = len(results)
+    #for i in xrange(n):
+        #print tresults[i]
+        #print results[i]
+    totalresults = len(zipped)
+    if totalresults == 0:
+        raise ValueError("No matches found, sorry. I wish there was more I could tell you.") 
+    maximum = len(max(tresults, key=len)) # longest result in characters
+    csvdata = []
+    unique_results = []
+    for result in zipped: 
+        tree = result[0]
+        pattern = result[1]
+        regex = re.compile(r"(\b[^\s]{0,1}.{," + re.escape(str(window)) + r"})(\b" + 
+            re.escape(pattern) + r"\b)(.{," + re.escape(str(window)) + r"}[^\s]\b)")
+        search = re.findall(regex, tree)
+        for result in search:
+            unique_results.append(result)
+    unique_results = set(sorted(unique_results)) # make unique
+    for unique_result in unique_results:
+        lstversion = list(unique_result)
+        if len(lstversion) == 3:
+            if csvmake:
+                csvdata.append(lstversion)
+            whitespace_first = window + 2 - len(lstversion[0])
+            whitespace_second = maximum - len(lstversion[1])
+            lstversion[0] = ' ' * whitespace_first + lstversion[0]
+            lstversion[1] = lstversion[1] + ' ' * whitespace_second
+            output.append(lstversion)
+    formatted_output = []
+    for row in output:
+        formatted_output.append(" ".join(row))
+    if csvmake:
+        csvmaker(csvdata, sentences, csvmake)
+    if not random:
+        return formatted_output
+    if random:
+        outnum = len(formatted_output)
+        if random > outnum:
+            random = outnum
+        rand_out = []
+        while len(rand_out) < random:
+            randomnum = randint(0,outnum - 1)
+            possible = formatted_output[randomnum]
+            if possible not in rand_out:
+                rand_out.append(possible)
+        return rand_out
+
+def tally(lst, indices):
+    """Tally total occurrences of a result"""
+    output = []
+    if type(indices) == int:
+        item_of_interest = lst[indices]
+        count = []
+        word = item_of_interest[0]
+        for tup in item_of_interest[1:]:
+            count.append(tup[1])
+            total = sum(count)
+            string = str(indices) + ': ' + str(word) + ': ' + str(total) + ' total occurrences.'
+        output.append(string)
+    if type(indices) == list:
+        for index in indices:
+            item_of_interest = lst[index]
+            word = item_of_interest[0]
+            count = []
+            for tup in item_of_interest[1:]:
+                count.append(tup[1])
+                total = sum(count)
+            string = str(index) + ': ' + str(word) + ': ' + str(total) + ' total occurrences.'
+            output.append(string)
+    if type(indices) == str:
+        if indices == 'all':
+            for item in lst:
+                word = item[0]
+                count = []
+                for tup in item[1:]:
+                    count.append(tup[1])
+                    total = sum(count)
+                string = str(lst.index(item)) + ': ' + str(word) + ': ' + str(total) + ' total occurrences.'
+                output.append(string)
+        else: # if regex
+            import re
+            regex = re.compile(indices)    
+            for item in lst:
+                if re.search(regex, item[0]):
+                    word = item[0]
+                    count = []
+                    for tup in item[1:]:
+                        count.append(tup[1])
+                        total = sum(count)
+                    string = str(lst.index(item)) + ': ' + str(word) + ': ' + str(total) + ' total occurrences.'
+                    output.append(string)
+    return output
+
+def merger(lst, indices_to_merge, newname = False):
+    """Merges result items by their index
+
+    lst: list to work on
+    indices_to_merge: list of result indexes
+    newname = if str, this becomes the new name
+                        if int, the item indexed with that int becomes newname
+                        if False, most common item becomes newname"""
+    import re
+    tomerge = []
+    oldlist_copy = list(lst)
+    # if regex, get list of indices for mwatches
+    if type(indices_to_merge) ==  str:
+        forwards_index = []
+        regex = re.compile(indices_to_merge)
+        for entry in oldlist_copy:
+            if re.search(regex, entry[0]):
+                forwards_index.append(oldlist_copy.index(entry))
+        backward_indices = sorted(forwards_index, reverse = True)
+    #if indices, ensure results are sorted
+    if type(indices_to_merge) == list:
+        forwards_index = list(indices_to_merge)
+        backward_indices = sorted(indices_to_merge, reverse = True)
+    # remove old entries
+    for index in backward_indices:
+        oldlist_copy.remove(oldlist_copy[index])
+    # add matching entries to tomerge
+    for index in forwards_index:
+        tomerge.append(lst[index])
+    # make list of words that are being merged
+    toprint = []
+    for entry in tomerge:
+        toprint.append(entry[0])
+    string_to_print = '\n'.join(toprint)
+    print 'Merging the following entries:\n' + string_to_print
+    combined = zip(*[l for l in tomerge])
+    merged = []
+    # get the new word or use the first entry
+    if type(newname) == int:
+        getnewname= lst[newname]
+        the_newname = getnewname[0]
+    elif type(newname) == str:
+        the_newname = unicode(newname)
+    elif type(newname) == unicode:
+        the_newname = newname
+    else:
+        duplicated_word = combined[0]
+        the_newname = duplicated_word[0]
+    merged.append(the_newname)
+    for tup in combined[1:]: # for each tuple of combined years and counts
+        getyearfrom = tup[0]
+        year = getyearfrom[0]
+        counts = []
+        for bit in tup:
+            counts.append(bit[1])
+        total = sum(counts)
+        goodtup = [year, total]
+        merged.append(goodtup)
+    output = []
+    if type(indices_to_merge) == list:
+        forwards_index = sorted(indices_to_merge)
+    # could make a for item in forwards_index, put word in first place, put dummies in others...
+    first_index = forwards_index[0]
+    for entry in oldlist_copy[:first_index]:
+        output.append(entry)
+    output.append(merged)
+    for entry in oldlist_copy[first_index:]:
+         output.append(entry)
+    return output
+
+def searchtree(tree, query):
+    "Searches a tree with Tregex and returns matching terminals"
+    ! echo "$tree" > "tmp.tree"
+    tregex_command = 'sh ./tregex.sh -o -t \'' + query + '\' tmp.tree 2>/dev/null | grep -vP \'^\s*$\''
+    result = !$tregex_command
+    ! rm "tmp.tree"
+    return result

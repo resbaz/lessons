@@ -898,13 +898,12 @@ print stems[:100]
 
 # Spindle has sensible defaults for keyword calculation. Let's download their code and use it to generate keywords
 
-
 # <codecell>
 import sys
 !wget https://github.com/sgrau/spindle-code/archive/master.zip # download spindle
 !unzip master.zip # unzip it
 !rm master.zip # remove the zip file
-!cat spindle-code-master/keywords/keywords.py | head -n 70 > tmp; mv tmp keywords.py # delete the end of the keywords file, as it's broken right now
+!cat spindle-code-master/keywords/keywords.py | head -n 70 > tmp; mv tmp spindle-code-master/keywords/keywords.py # delete the end of the keywords file, as it's broken right now
 sys.path.insert(0, 'spindle-code-master/keywords') # put the keyworder directory in python's path
 from keywords import keywords_and_ngrams # import keywords function
 

@@ -8,8 +8,9 @@
 # Malcolm Fraser and his speeches
 
 # <codecell>
+# this code allows us to display images and webpages in our notebook
 from IPython.display import display
-from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_json, display_latex, display_svg
+from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_svg
 from IPython.display import Image
 from IPython.display import HTML
 
@@ -21,16 +22,15 @@ Image(url='http://www.unimelb.edu.au/malcolmfraser/photographs/family/105~36fam6
 
 # <markdowncell>
 # Malcolm Fraser was a member of Australian parliament between 1955 and 1983, holding the seat of Wannon in western Victoria. He held a number of ministries, including Education and Science, and Defence. 
-# He became leader of the Liberal party in March 1975 and Prime Minister of Australia in December 1975, following the dismissal of the Whitlam government in November 1975.
+# He became leader of the Liberal Party in March 1975 and Prime Minister of Australia in December 1975, following the dismissal of the Whitlam government in November 1975.
 # He retired from parliament following the defeat of the Liberal party at the 1983 election and in 2009 resigned from the Liberal party after becoming increasingly critical of some of its policies
-# He can now be found on Twitter as @MalcolmFraser12
+# He can now be found on Twitter as **@MalcolmFraser12**
 
 # <codecell>
 HTML('<iframe src=http://en.wikipedia.org/wiki/Malcolm_Fraser width=700 height=350></iframe>')
 
 # <markdowncell>
-# In 2004, Malcolm Fraser made the University of Melbourne the official custodian of his personal papers. The collection consists of a large number of photographs, speeches, 
-# personal papers including Neville Fraser's WWI diaries and materials relating to CARE Australia, which Mr Fraser helped to found in 1987. 
+# In 2004, Malcolm Fraser made the University of Melbourne the official custodian of his personal papers. The collection consists of a large number of photographs, speeches and personal papers, including Neville Fraser's WWI diaries and materials relating to CARE Australia, which Mr Fraser helped to found in 1987. 
 
 # <codecell>
 HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350></iframe>')
@@ -52,9 +52,12 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 
 # The level of kind of cleaning depends on your data and the aims of your project. In the case of very clean data (lucky you!), there may be little that needs to be done. With messy data, you may need to go as far as to correct variant spellings (online conversation, very old books).
 
+# <headingcell level=3>
+# Discussion
+
 #<markdowncell>
-# *Discussion*
-# What are the characterisitics of clean and messy data? Discuss with your neighbours. 
+# *What are the characterisitics of clean and messy data? Any personal experiences? Discuss with your neighbours.* 
+
 # It will be important to bear these characteristics in mind once you start building your own datasets and corpora. 
 
 # <headingcell level=2>
@@ -65,41 +68,40 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 # Via file management, open and inspect one file. What do you see? Are there any potential problems?
 
 # <codecell>
+import os
 # import tokenizers
 from nltk import word_tokenize
 from nltk.text import Text
 
 # <codecell>
-import os
-
-# <codecell>
 #access items in the directory 'UMA_Fraser_Radio_Talks' and view the first 3
 os.listdir('UMA_Fraser_Radio_Talks')[:3]
 
-
-#<headingcell level=3>
+# <headingcell level=3>
 # Exploring further: splitting up text
 
 # <markdowncell>
-#We've had a look at one file, but the real strength of NLTK is to be able to explore large bodies of text. 
+# We've had a look at one file, but the real strength of NLTK is to be able to explore large bodies of text. 
 # When we manually inspected the first file, we saw that it contained a metadata section, before the body of the text. 
 # We can ask Python to show us the start of the file. For analysing the text, it is useful to split the metadata section off, so that we can interrogate it separately but also so that it won't distort our results when we analyse the text.
 
 # <codecell>
-#open the first file, read it and then split it into two parts, metadata and body
+# open the first file, read it and then split it into two parts, metadata and body
 data = open('UMA_Fraser_Radio_Talks/' + os.listdir('UMA_Fraser_Radio_Talks')[0]).read().split("<!--end metadata-->")
 
 # <codecell>
-#view the first part
+# view the first part
 data[0]
 
 # <codecell>
 # split into lines, add '*' to the start of each line
+# \r is a carriage return, like on a typewriter.
+# \n is a newline character
 for line in data[0].split('\r\n'):
     print '*', line
 
 # <codecell>
-#skip empty lines and any line that starts with '<'
+# skip empty lines and any line that starts with '<'
 for line in data[0].split('\r\n'):
     if not line:
         continue
@@ -108,7 +110,7 @@ for line in data[0].split('\r\n'):
     print '*', line
 
  # <codecell>
- #split the metadata items on ':' so that we can interrogate each one
+ # split the metadata items on ':' so that we can interrogate each one
 for line in data[0].split('\r\n'):
     if not line:
         continue
@@ -118,7 +120,7 @@ for line in data[0].split('\r\n'):
     print '*', element
 
 #<codecell>
-#actually, only split on the first colon
+# actually, only split on the first colon
 for line in data[0].split('\r\n'):
     if not line:
         continue
@@ -127,11 +129,14 @@ for line in data[0].split('\r\n'):
     element = line.split(':', 1)
     print '*', element
 
+# <headingcell level=3>
+# # **Challenge**: Building a Dictionary
+
 # <markdowncell>
-# *Challenge* Building a Dictionary
-# Let's build a dictionary called 'metadata', so that we can interrogate the files.
+# Let's build a dictionary called *metadata*, so that we can interrogate the files.
 # To create a dictionary, use braces '{}'. Your first line will look like this:
-# metadata = {}
+
+#       metadata = {}
 
 # <codecell>
 metadata = {}
@@ -145,7 +150,7 @@ for line in data[0].split('\r\n'):
 print metadata
 
 # <codecell>
-#look up the date
+# look up the date
 print metadata['Date']
 
 # <headingcell level=3>
@@ -157,11 +162,10 @@ data = open('UMA_Fraser_Radio_Talks/UDS2013680-100-full.txt')
 data = data.read().split("<!--end metadata-->")
 
 # <markdowncell>
-# *Challenge* Define a function that creates a dictionary of the metadata for each file and gets rid of the whitespace at the start of each element
-# Hint - to get rid of the whitespace use the command .strip()
+# **Challenge**: define a function that creates a dictionary of the metadata for each file and gets rid of the whitespace at the start of each element
+# Hint - to get rid of the whitespace use the *.strip()* command.
 
 # <codecell>
-
 def parse_metadata(text):
     metadata = {}
     for line in text.split('\r\n'):
@@ -176,7 +180,7 @@ def parse_metadata(text):
 # <markdowncell>
 # Test it out!
 
-#<codecell>
+# <codecell>
 parse_metadata(data[0])
 
 # <markdowncell>
@@ -214,11 +218,14 @@ for filename in os.listdir('UMA_Fraser_Radio_Talks'):
     cfdist2['count'][metadata['Description']] += 1
 cfdist2.plot()
 
-# <markdowncell>
-# *Discussion*
-# We've got messy data! What's the lesson here?
+# <headingcell level=4>
+# Discussion
 
-#<markdowncell>
+# <markdowncell>
+# We've got messy data! What's the lesson here?
+# <br>
+#
+# <markdowncell>
 # Bonus chellenge: Build a frequency distribution graph that includes speeches without an exact date.
 # Hint: you'll need to tell Python to ignore the 'c' and just take the digits
 
@@ -244,3 +251,6 @@ cfdist3.plot()
 
 # 1. There are also issues with capitalisation. How might we fix those?
 # 2. Keep in mind, at some point, it would become necessary to stem the reference corpus as well! How would we go about stemming every dictionary entry and adding their values? Is it worth it?
+
+# <markdowncell>
+# 
