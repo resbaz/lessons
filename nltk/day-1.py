@@ -601,15 +601,9 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # <br>
 
 # <markdowncell>
-# You've completed the first session. To summarise, here's what you've learned so far:
+# You've learned the basics of a very powerful programming language! That's the end of our first session.
 
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
+# After the break, we'll use NLTK to do some common jobs in Digital Humanities research.
 
 # <headingcell level=1>
 # Session 2: Common NLTK tasks
