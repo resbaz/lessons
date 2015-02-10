@@ -58,7 +58,8 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 # The speeches were transcribed years ago. Optical Character Recognition (OCR) was used to digitise the transcripts. This means that the texts are not of perfect quality. 
 # Some have been manually corrected, which has removed extraneous characters and mangled words, but even so there are still some quirks in the formatting. 
 
-# For much of this session, we are going to manipulate the corpus data,
+# For much of this session, we are going to manipulate the corpus data, and use the data to restructure the corpus. 
+
 # <headingcell level=2>
 # Cleaning the corpus
 
@@ -67,7 +68,7 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 
 # 1. Not break the code with unexpected input
 # 2. Ensure that searches match as many examples as possible
-# 3. Increasing the accuracy of taggers, stemmers, parsers
+# 3. Increasing readability, the accuracy of taggers, stemmers, parsers, etc.
 
 # The level of kind of cleaning depends on your data and the aims of your project. In the case of very clean data (lucky you!), there may be little that needs to be done. With messy data, you may need to go as far as to correct variant spellings (online conversation, very old books).
 
@@ -155,7 +156,7 @@ for line in data[0].split('\r\n'):
     print '*', element
 
 # <headingcell level=3>
-# # **Challenge**: Building a Dictionary
+# **Challenge**: Building a Dictionary
 
 # <markdowncell>
 # Let's build a dictionary called *metadata*, so that we can interrogate the files.
@@ -183,7 +184,7 @@ print metadata['Date']
 
 # <codecell>
 #open the first file, read it and then split it into two parts, metadata and body
-data = open(os.path.join(corpus_path, 'UDS2013680-100-full.txt')
+data = open(os.path.join(corpus_path, 'UDS2013680-100-full.txt'))
 data = data.read().split("<!--end metadata-->")
 
 # <markdowncell>
@@ -268,29 +269,74 @@ for filename in os.listdir(corpus_path):
     cfdist3['count'][year] += 1
 cfdist3.plot()
 
+# <headingcell level=3>
+# Structuring our data by metadata feature
 
+# <markdowncell>
+# Because our data samples span a long stretch of time, we thought we'd investigate the ways in which Malcolm Fraser's language changes over time. This will be the key focus of the next session.
 
+# In order to study this, it is helpful to structure our data according to the year of the sample. This simply means creating folders for each sample year, and moving each text into the correct one.
 
+# We can use our metadata parser to help with this task. Furthermore, once we've moved the files to the right folder, we no longer need the metadata. In fact, we want it gone, so that when we count language features in the files, we are not also counting the metadata.
 
+# So, let's try this:
 
+# <codecell>
+import re
+import os
+# a path to our soon-to-be organised corpus
+newpath = 'corpora/fraser-annual'
+#if not os.path.exists(newpath):
+    #os.makedirs(newpath)
+files = os.listdir(corpus_path)
+# define a regex to match year portion of date
+yearfinder = re.compile('[0-9]{4}')
+for filename in files:
+    # split file contents at end of metadata
+    data = open(os.path.join(corpus_path, filename)).read().split("<!--end metadata-->")
+    # get date from data[0]
+    # use our metadata parser to get metadata
+    metadata = parse_metadata(data[0])
+    #look up date field of dict entry
+    date = metadata.get('Date')
+    # search date for year
+    yearmatch = re.search(yearfinder, str(date))
+    #get the year as a string
+    year = str(yearmatch.group())
+    # make a directory with the year name
+    if not os.path.exists(os.path.join(newpath, year)):
+        os.makedirs(os.path.join(newpath, year))
+    # make a new file with the same name as the old one in the new dir
+    fo = open(os.path.join(newpath, year, filename),"w")
+    # write the content portion, without metadata
+    fo.write(data[1])
+    fo.close()
 
+# <markdowncell>
+# Did it work? How can we check?
 
+# <codecell>
+# check if it worked here
 
+# <headingcell level=3>
+# More cleaning...
 
+# <markdowncell>
+# Unfortunately, a lot of metadata and blank space remains at the top of each file. This stuff could also corrupt our results.
 
-
-
-
-
-
-
+#**AUTHOR NOTE: still trying to figure out how to remove it easily in Python!**
 
 # <headingcell level=3>
 # Keywords in Fraser's speeches
 
+# <markdowncell>
+# **to add**
+
 # <headingcell level=3>
 # Collocation in Fraser's speeches
 
+# <markdowncell>
+# **to add**
 
 # <headingcell level=2>
 # Adding information to the corpus
@@ -303,6 +349,10 @@ cfdist3.plot()
 # Before we start annotating our own corpora, let's just quickly play with a pre-annotated corpus.
 
 # > **Note:** John Sinclair, an early propoent of corpus linguistics generally, was famously resistent to the use of annotation and parsing. He felt that the corpus alone should be used to build theory, rather than using existing theories (grammars) to annotate data (e.g. [2004](#ref:sinclair)). Though this is an uncommon viewpoint today, it is still useful to remember that the process of value-adding is never free of theory or interpretation.
+
+# <codecell>
+# pre-parsed treebank ...
+
 
 # <headingcell level=2>
 # Part-of-speech tagging
@@ -318,7 +368,7 @@ cfdist3.plot()
 # <markdowncell>
 # Parsing involves determining the underlying grammatical structure of a sentence. 
 
-# There are many grammars available, and thus, many kinds of parsing.
+# There are many grammars available, and thus, many kinds of parsing. We'll focus on phrase-structure parsing
 
 # <headingcell level=3>
 # Phrase structure grammar
@@ -331,30 +381,6 @@ cfdist3.plot()
 # <img style="float:left" src="http://specgram.com/CLIII.d/syntax_tree.gif" />
 # <br>
 
-# <headingcell level=3>
-# Dependency parsing
-
-# <markdowncell>
-# Dependency parsing is the process of assigning each word in a clause a governer and a dependent. The output looks like:
-
-# <br>
-# <img style="float:left" src="http://nlp.stanford.edu/software/stanford-dependencies/brownback_ccprocessed.png" />
-# <br>
-
-# <markdowncell>
-# > **Note:** Dependency grammars are often used to represent free-word-order languages, such as Russian, Latin or Farsi.
-
-# <markdowncell>
-# Now that we have dependency parsed data, we can calculate things that could not be calculated before (e.g. imperative, passive...)
-
-
-# <headingcell level=2>
-# Shell commands/IPython Magic
-
-# <markdowncell>
-# IPython has a very simple system for using shell commands. These may not work from your command line in the same way, but can be useful shortcuts at times.
-
-
 # <headingcell level=2>
 # Summary
 
@@ -365,16 +391,9 @@ cfdist3.plot()
 
 # Many of the things we've done (tagging, parsing, etc.) reduce the human readability of our raw data, but greatly enhance our ability to find things in it via code. What we've been doing also multiplies the length and size of our dataset. We're actually very fortunate 
 
-# In the next lesson, we'll use a parsed version of the Fraser Corpus to look for longitudinal change in his use of language.
+# In the next lesson, we'll use a fully parsed version of the Fraser Corpus to look for longitudinal change in his use of language.
 
-
-
-
-
-
-
-
-
+# *Stay tuned!*
 
 # <headingcell level=1>
 # Session 5: Charting change in Fraser's speeches
@@ -1063,19 +1082,15 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 %load corpling_tools/additional_tools.ipy
 
 # <markdowncell>
-# That's it for this lesson, and for our interrogation of the Fraser Corpus. The final session will look to the future: we hope to have a conversation about what you can do with the kind of skills you've learned here.
+# That's it for this lesson, and for our interrogation of the Fraser Corpus. Remember that this is the first time anybody has conducted a sustained corpus linguistic investigation of this corpus. Everything we found here is a new discovery about the way language changes over time! (feel free to write it up and publish it!)
+
+# The final session will look to the future: we hope to have a conversation about what you can do with the kind of skills you've learned here.
 
 # *See you soon!*
 
-# <markdowncell>
-# 
-
 
 # <headingcell level=1>
 # Session 6: Getting the most out of what we've learned
-
-# <markdowncell>
-# <br>
 
 # <markdowncell>
 # So, now you know Python and NLTK! The main things we still have to do are:
@@ -1083,7 +1098,8 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 # 1. Manage resources and results
 # 2. Brainstorm some other uses for NLTK
 # 3. Integrate IPython into your existing workflow
-# 4. Summarise and say goodbye!
+# 4. Have an open discussion about what we've done
+# 5. Summarise and say goodbye!
 
 # <headingcell level=2>
 # Managing resources and results
@@ -1203,160 +1219,6 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 
 # <headingcell level=2>
 # Solutions
-
-# <headingcell level=2>
-# Additional resources
-
-# <headingcell level=2>
-# Bibliography
-
-# <markdowncell>
-# <a id="ref:chomsky"></a>
-# Chomsky, N. (1965). Aspects of the Theory of Syntax (Vol. 11). The MIT press.
-#
-# Eggins, S. (2004). Introduction to systemic functional linguistics. Continuum International Publishing Group.
-#
-# Halliday, M., & Matthiessen, C. (2004). An Introduction to Functional Grammar. Routledge.
-#
-# <a id="ref:sinclair"></a>
-# Sinclair, J. (2004). Trust the text: Language, corpus and discourse. Routledge. Available at
-# [http://books.google.com.au/books/about/Trust_the_Text.html?id=n6xU2lyVoeQC&redir_esc=y](http://books.google.com.au/books/about/Trust_the_Text.html?id=n6xU2lyVoeQC&redir_esc=y).
-# <markdowncell>
-# 
-
-
-# <headingcell level=1>
-# Session 6: Getting the most out of what we've learned
-
-# <markdowncell>
-# So, now you know Python and NLTK! The main things we still have to do are:
-
-# 1. Manage resources and results
-# 2. Brainstorm some other uses for NLTK
-# 3. Integrate IPython into your existing workflow
-# 4. Summarise and say goodbye!
-
-# <headingcell level=2>
-# Managing resources and results
-
-# <markdowncell>
-# You generate huge amounts of code, data and findings. Often, it's hard to know what to do with it all. In this section, we'll provide some suggestions designed to keep your work:
-
-# 1. Reproducible
-# 2. Reusable
-# 3. Comprehensible
-
-# <headingcell level=3>
-# Your code
-
-# <markdowncell>
-
-# 1. Most importantly, **write comments on your code**. You **will** forget what bits of code are supposed to do. Using others' code is much easier if it's commented up. A related point is to name your variables meaningfully: *variablexxy* does not tell us much about what it will contain.
-# 2. **Version control**. When editing your code, you may sometimes break it. LINK TO DAMIEN'S STUFF
-# 3. **Share your code**. You are often doing novel things when you code, and sharing what you've done can save somebody else a lot of work. *Github* is free for open-source projects. Github provides version control, which is especially useful when you are working with a team.
-
-# <headingcell level=3>
-# Your data
-
-# <markdowncell>
-# *Cloud computing*
-
-# <headingcell level=3>
-# Your findings
-
-# <markdowncell>
-# [*Figshare*](http://www.figshare.com) is a site for storing tables and figures. It's particularly useful for working with large datasets, as we often generate far more raw tables and statistics than we can possibly publish.
-
-# It's becoming more and more common to link journal publications to additional online resources such as Github code or Figshares.
-
-# <headingcell level=2>
-# Other uses of NLTK
-
-# <markdowncell>
-# What other things might we use NLTK for? A few examples, and possible workflows.
-
-# <headingcell level=3>
-# Scenario 1: You have some old books.
-
-# <markdowncell>
-# * Are they machine readable?
-# * OCR options---institutional or DIY?
-# * Structure them in a meaningful way---by author, by year, by language ... 
-# * Start querying!
-
-# <headingcell level=3>
-# Scenario 2: You're interested in an online community.
-
-# <markdowncell>
-# * Explore the site. Sign up for it, maybe.
-# * Download it: Wget, curl, crawlers ...
-# * Extract relevant data and metadata: *Beautiful Soup*
-# * **Structure your data**
-# * Annotate your data, save these annotations
-# * Start querying!
-
-# <headingcell level=3>
-# Scenario 3: Something of interest breaks in the news
-
-# <markdowncell>
-# * It will start being discussed all over the web.
-# * You can use the Twitter API to harvest tweets containing a term or hashtag of interest.
-# * You can get a list of RSS feeds and mine news articles
-# * You can use something like *WebBootCat* to harvest search engine results and make a plain text corpus
-# * Process these into a manageable form
-# * Structure them
-# * *Start querying!
-
-# <headingcell level=2>
-# Integrating IPython into your workflow
-
-# <markdowncell>
-# What you've learned here isn't much good unless you can pull things out of it and put them into your own research workflow.
-
-# <headingcell level=3>
-# Using IPython locally
-
-# <markdowncell>
-# You may also want to use IPython locally. To do this, you need to install it. There are many ways to install it, and these vary depending on your OS and what you already have installed. See the [IPython website](http://ipython.org/ipython-doc/2/install/install.html#installnotebook) for detailed instructions.
-
-# Open up Terminal, navigate to the notebook directory and type:
-
-# > **ipython notebook filename.ipynb**
-
-# This will open up a blank notebook.
-
-# <headingcell level=2>
-# Summaries and goodbye
-
-# <markdowncell>
-# Before we go, we should summarise what we've learned. Add all this to your CV!
-
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-# * thing
-
-# <headingcell level=2>
-# Thanks!
-
-# <markdowncell>
-# That's the end of of course. Thank you to everybody for your participation.
-
-# Please let us know how you found the course.
-
-# <markdowncell>
-# 
-
-# <headingcell level=2>
-# Solutions
-
-# <headingcell level=2>
-# Additional resources
 
 # <headingcell level=2>
 # Bibliography
