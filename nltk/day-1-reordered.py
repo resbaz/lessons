@@ -611,21 +611,24 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # * Why functions are useful and how to define one
 # * How to use basic Pyton commands to start exploring features of a text
 #
-# We'll practice all these commands in the following lessons so don't panic! 
-# It's a lot to take in and it will probably take a while before you feel really comfortable
+# We'll practice all these commands in the following lessons ... so don't panic!
+
+# It's a lot to take in and it will probably take a while before you feel really comfortable.
+
+# *See you after the break!*
 
 # <headingcell level=1>
 # Session 2: Common NLTK tasks
 
 # <markdowncell>
 # <br>
-# In this session we provide an overview of research areas using NLTK, such as *Corpus linguistics*, *Natural language processing*, *Distant reading*. We then engage with common uses of NLTK within these areas, such as sentence segmentation, tokenisation and stemming. Often, NLTK has inbuilt methods for performing these tasks. As a learning exercise, however, we will sometimes build basic tools from scratch.
+# In this session we provide an quick introduction to the field of *corpus linguistics*. We then engage with common uses of NLTK within these areas, such as sentence segmentation, tokenisation and stemming. Often, NLTK has inbuilt methods for performing these tasks. As a learning exercise, however, we will sometimes build basic tools from scratch.
 
 # <headingcell level=2>
 # Corpus linguistics
 
 # <markdowncell>
-# Though corpus linguistics has been around since the 1950s, it is only in the last 20 years that its methods have been made available to individual researchers. GUIs including [Wordsmith Tools]() and [AntConc](). 
+# Though corpus linguistics has been around since the 1950s, it is only in the last 20 years that its methods have been made available to individual researchers. GUIs including [Wordsmith Tools](http://www.lexically.net/wordsmith/) and [AntConc](http://www.laurenceanthony.net/software.html). 
 
 # Alongside the development of GUIs, there has also been a shift from *general, balanced corpora* (corpora seeking to represent a language generally) toward *specialised corpora* (corpora containing texts of one specific type, from one speaker, etc.). More and more commonly, texts are taken from the Web.
 
@@ -661,21 +664,27 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # Loading a corpus
 
 # <markdowncell>
-# First, we have to load a corpus. We'll use a text file containing posts to an Australian forum. This file is available online, at the [ResBaz Github](https://github.com/resbaz). We can ask NLTK to download it for us.
+# First, we have to load a corpus. We'll use a text file containing posts to an Australian forum. This file is available online, at the [ResBaz Github](https://github.com/resbaz). We can ask Python to get it for us. 
 
-# > Later in the course, we'll discuss how to extract data from the Web and turn this data into a corpus
+# > Later in the course, we'll discuss how to extract data from the Web and turn this data into a corpus.
 
 # <codecell>
 from urllib import urlopen # a library for working with urls
-url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/ozpol.txt" # provide a url
+url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/corpora/oz_politics/ozpol.txt" # provide a url
 raw = urlopen(url).read() # download and read the corpus into raw variable
-len(raw) # how many characters does it contain?
+raw = unicode(raw, 'utf-8')
+print len(raw) # how many characters does it contain?
+print raw[:2000] # first 2000 characters
+# <markdowncell>
+# We actually already downloaded this file when we first cloned the ResBaz GitHub repository. It's in our *corpora* folder. We can access it like this:
 
 # <codecell>
-# Or, if the file is on the local disk
-f = open('ozpol.txt')
+f = open('corpora/oz_politics/ozpol.txt')
 raw = f.read()
+raw = unicode(raw, 'utf-8') # make it into unicode!
 len(raw)
+print len(raw)
+print raw[:2000] 
 
 # <headingcell level=2>
 # Regular Expressions
@@ -684,7 +693,8 @@ len(raw)
 # Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming platforms, and can also be used in GUI text editors and word processers.
 
 # <codecell>
-import re # remember to import this whenever using regexes!
+import nltk # just in case
+import re # import this before using regexes!
 
 # <markdowncell>
 # If only using alphanumeric characters and spaces, regexes work like any normal search.
@@ -694,15 +704,18 @@ import re # remember to import this whenever using regexes!
 regex = re.compile(r"government")
 re.findall(regex, raw)
 
+# <markdowncell>
+# Hmm ... not very useful.
+
 # <codecell>
 # print whole line
 regex = re.compile(r'government')
 for line in raw.splitlines():
-	if regex.search(line) is not None:
-		print line
+    if regex.search(line) is not None:
+        print line
 
 # <markdowncell>
-# ... but regex can be much more powerful than that. 
+# ... but regex can be much more powerful than that:
 
 # <codecell>
 regex = re.compile(r"[A-Za-z]+ment")
@@ -724,19 +737,20 @@ re.findall(regex, string)
 # * [Regex crosswords](http://regexcrossword.com/): exactly what you think it is!
 
 # <markdowncell>
-# The code below will get any word over *minlength* characters.
+# The code below will get any word over *minlength* alphabetic characters.
 
 # <codecell>
 minlength = 5  # minimum number of letters as integer gets passed into the building of the Regex
 sentence = 'We, the democratically-elected leaders of our people, hereby declare Kosovo to be an independent and sovereign state'
-pattern = re.compile(r'[A-Za-z]{' + str(minlength) + ',}') # What happens if you add a hyphen after 'a-z' inside the square brackets?
+pattern = re.compile(r'[A-Za-z]{' + str(minlength) + ',}') 
+# What happens if you add a hyphen after 'a-z' inside the square brackets above?
 re.findall(pattern, sentence)
 
 # <headingcell level=2>
 # Sentence segmentation
 
 # <markdowncell>
-# So, with a basic understanding of regex, we can now start to turn our corpus into a structured resource. At present, we have 'raw', a very, very long string. 
+# So, with a basic understanding of regex, we can now start to turn our corpus into a structured resource. At present, we have 'raw', a very, very long string of text.
 
 #  We should break the string into segments. First, we'll split the corpus into sentences. This task is a pretty boring one, and it's tough for us to improve on existing resources. We'll try, though.
 
@@ -758,19 +772,14 @@ print 'Sentence: ' + '\nSentence: '.join(sentences[:10]) # print the first ten s
 # 1. Clean the corpus and remove this false positive
 # 2. Define sentence differently
 
-# We'll go with the second option, for better or worse.
-
-# > We'll do some corpus cleaning in the next session.
-
-# The regex in the code below makes sure that any sentence final character must not be followed by a letter.
+# We'll go with the second option, for better or worse. The regex in the code below makes sure that any sentence final character must not be followed by a letter.
 
 # <codecell>
-import re
 sentences = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", raw)
 print 'Sentence: ' + '\nSentence: '.join(sentences[:10])
 
 # <markdowncell>
-# Problem 1 is solved. To fix Problem 2, we will remove list items not containing a letter, as any sentence must contain at least one by definition.
+# Problem 1 is solved: *sh.thole* is now a single token. To fix Problem 2, we will remove list items not containing a letter, as any sentence must contain at least one by definition.
 
 # <codecell>
 regex = re.compile('[a-zA-Z]')
@@ -784,12 +793,11 @@ print 'Sentence: ' + '\nSentence: '.join(no_blanklines[:20]) # this should be be
 
 # <codecell>
 def sent_seg(string):
-	import re
-	allmatches = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", string)
-	regex = re.compile('[a-zA-Z]')
-	sentences = [sentence for sentence in allmatches if regex.match(sentence)]
-	length = len(sentences)
-	return sentences
+    allmatches = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", string)
+    regex = re.compile('[a-zA-Z]')
+    sentences = [sentence for sentence in allmatches if regex.match(sentence)]
+    length = len(sentences)
+    return sentences
 
 # <codecell>
 # Call the segmenter on our raw text here. Store it in a variable called 'sents'
@@ -797,11 +805,14 @@ def sent_seg(string):
 # <markdowncell>
 # It's all academic, anyway: NLTK actually has a sentence segmenter built in that works better than ours (we didn't deal with quotation marks, or brackets, for example).
 
-import nltk
-import pprint
+# <codecell>
+import pprint # pretty printer
 sent_tokenizer=nltk.data.load('tokenizers/punkt/english.pickle')
 sents = sent_tokenizer.tokenize(raw)
 pprint.pprint(sents[101:111]) # another way to print list items nicely
+
+# <markdowncell>
+# Alright, we have sentences. Now what?
 
 # <headingcell level=2>
 # Tokenisation
@@ -809,17 +820,15 @@ pprint.pprint(sents[101:111]) # another way to print list items nicely
 # <markdowncell>
 # Tokenisation is simply the process of breaking texts down into words. We already did a little bit of this in Session 1. We won't build our own tokenizer, because it's not much fun. NLTK has one we can rely on.
 
-# Definitions are not standardised, especially for languages other than English.
+# Keep in mind that definitions of tokens are not standardised, especially for languages other than English. Serious problems arise when comparing two corpora that have been tokenised differently.
 
-# > **Note:** It is also possible to break tokens into morphemes, syllables, or phonemes. We're not going to go down those roads, though.
+# > **Note:** It is also possible to use NLTK to break tokens into morphemes, syllables, or phonemes. We're not going to go down those roads, though.
 
 # <codecell>
-import nltk
 tokenized_sents = [nltk.word_tokenize(i) for i in sents]
 print tokenized_sents[:10]
-
-	# another view:
-	# pprint.pprint(tokenized_sents[:10])
+# another view:
+# pprint.pprint(tokenized_sents[:10])
 
 # <headingcell level=2>
 # Stemming
@@ -833,24 +842,26 @@ print tokenized_sents[:10]
 
 # <codecell>
 def stem(word):
-	for suffix in ['ing', 'ly', 'ed', 'ious', 'ies', 'ive', 'es', 's', 'ment']: # list of suffixes
-		if word.endswith(suffix):
-			return word[:-len(suffix)] # delete the suffix
-	return word
-	
-# taken from NLTK Book, p. 104
+    for suffix in ['ing', 'ly', 'ed', 'ious', 'ies', 'ive', 'es', 's', 'ment']: # list of suffixes
+        if word.endswith(suffix):
+            return word[:-len(suffix)] # delete the suffix
+    return word
 
 # <markdowncell>
 # Let's run it over some text and see how it performs.
 
 # <codecell>
-import pprint
+# empty list for our output
 stemmed_sents = []
 for sent in tokenized_sents:
-	stemmed = []
-	for word in sent:
-		stemmed.append(stem(word))
-	stemmed_sents.append(stemmed)
+    # empty list for stemmed sentence:
+    stemmed = []
+    for word in sent:
+        # append the stem of every word
+        stemmed.append(stem(word))
+    # append the stemmed sentence to the list of sentences
+    stemmed_sents.append(stemmed)
+# pretty print the output
 pprint.pprint(stemmed_sents[:10])
 
 # <markdowncell>
@@ -858,16 +869,19 @@ pprint.pprint(stemmed_sents[:10])
 
 # <codecell>
 def stem(word):
-	import re
-	regex = r'^(.*?)(ing|ly|ed|ious|ies|ive|es|s|ment)?$'
-	stem, suffix = re.findall(regex, word)[0]
-	return stem
+    import re
+    regex = r'^(.*?)(ing|ly|ed|ious|ies|ive|es|s|ment)?$'
+    stem, suffix = re.findall(regex, word)[0]
+    return stem
 
 # <markdowncell>
-# We can very quickly tokenize our raw corpus and stem it:
+# Because we just redefined the *stem()* function, we can run the previous code and get different results.
+
+
+# <markdowncell>
+# Here's a very quick implemenation of our stemmer on our raw tokens:
 
 # <codecell>
-import nltk
 tokens = nltk.word_tokenize(raw)
 stemmed = [stem(t) for t in tokens]
 print stemmed[:50]
@@ -882,9 +896,9 @@ stems = [lancaster.stem(t) for t in tokens]  # replace lancaster with porter her
 print stems[:100]
 
 # <markdowncell>
-# Notice that both stemmers handle some things rather poorly. The main reason for this is that they are not aware of the *word class* of any particular word: *nothing* is a noun, and nouns ending in *ing* should not have *ing* removed by the stemmer (swing, bling, ring...). Later in the course, we'll start annotating corpora with grammatical information. This improves stemmers a lot.
+# Notice that both stemmers handle some things rather poorly. The main reason for this is that they are not aware of the *word class* of any particular word: *nothing* is a noun, and nouns ending in *ing* should not have *ing* removed by the stemmer (swing, bling, ring...). Later in the course, we'll start annotating corpora with grammatical information. This improves the accuracy of stemmers a lot.
 
-# > Note: stemming is now *always* the best thing to do: though *thing* is the stem of *things*, things has a unique meaning, as in *things will improve*. If we are interested in vague language, we may not want to collapse things --> thing.
+# > Note: stemming is not *always* the best thing to do: though *thing* is the stem of *things*, things has a unique meaning, as in *things will improve*. If we are interested in vague language, we may not want to collapse things --> thing.
 
 # <headingcell level=2>
 # Keywording: 'the aboutness of a text'
@@ -892,116 +906,50 @@ print stems[:100]
 # <markdowncell>
 # Keywording is the process of genererating a list of words that are unusually frequent in the corpus of interest. To do it, you need a *reference corpus*, or at least a *reference wordlist* to which your *target corpus* can be compared. Often, *reference corpora* take the form of very large collections of language drawn from a variety of spoken and written sources.
 
-# Keywording is what generates word-clouds beside online news stories. In combination with speech-to-text, it's used in Oxford Uni's [Spindle Project](http://openspires.oucs.ox.ac.uk/spindle/) to automatically archive recorded lectures with useful tags.
+# Keywording is what generates word-clouds beside online news stories, blog posts, and the like. In combination with speech-to-text, it's used in Oxford Uni's [Spindle Project](http://openspires.oucs.ox.ac.uk/spindle/) to automatically archive recorded lectures with useful tags.
 
 # In fact, the keywording part of the Spindle Project is written in Python, and open source.
 
-# Spindle has sensible defaults for keyword calculation. Let's download their code and use it to generate keywords
+# Spindle has sensible defaults for keyword calculation. Let's download their code and use it to generate keywords from our corpus.
 
 # <codecell>
 import sys
-!wget https://github.com/sgrau/spindle-code/archive/master.zip # download spindle
+ # download spindle from github
+!wget https://github.com/sgrau/spindle-code/archive/master.zip
 !unzip master.zip # unzip it
 !rm master.zip # remove the zip file
-!cat spindle-code-master/keywords/keywords.py | head -n 70 > tmp; mv tmp spindle-code-master/keywords/keywords.py # delete the end of the keywords file, as it's broken right now
-sys.path.insert(0, 'spindle-code-master/keywords') # put the keyworder directory in python's path
+# put the keyworder directory in python's path, so we can call it easily
+sys.path.insert(0, 'spindle-code-master/keywords')
+# import the function
 from keywords import keywords_and_ngrams # import keywords function
 
 # <codecell>
-keywords_and_ngrams(raw) # this tool works with raw text, not tokens
+# this tool works with raw text, not tokens!
+keywords_and_ngrams(raw.encode("UTF-8"), nBigrams = 0)
 
 # <markdowncell>
-# Success! We have keywords and key n-grams!
+# Success! We have keywords.
 
-# > Keep in mind, the BNC reference corpus was created before ISIS and ISIL existed. *Moslem/moslems* is a dispreferred spelling of Muslim, used more frequently in anti-Islamic discourse. It is unlikely that a transcriber of the spoken BNC would choose the Moslem spelling. **Having an inappropriate reference corpus is a common methodological issue in discourse analytic work**.
+# > Keep in mind, the BNC reference corpus was created before ISIS and ISIL existed. *Moslem/moslems* is a dispreferred spelling of Muslim, used more frequently in anti-Islamic discourse. Also, it's unlikely that a transcriber of the spoken BNC would choose the Moslem spelling. *Having an inappropriate reference corpus is a common methodological problem in discourse analytic work*.
 
 # Our keywords would perhaps be better if they were stemmed. That shouldn't be too hard for us:
 
+
 # <codecell>
-keywords_and_ngrams(stemmedcorpus) # this will use our corpus of stems, as defined earlier.
+keywords_and_ngrams(stems, nBigrams = 0) # this will use our corpus of stems, as defined earlier.
 
 # <markdowncell>
 # Damn. Keywording with stems actually revealed a list of incorrect stems.
 
-# ... let's only include keywords from our stemmed corpus that aren't in an English dictionary. First, let's import a dictionary and make sure it works.
-
-# <codecell>
-# import a dictionary
-import enchant # dictionary
-d = enchant.Dict("en_UK")
-print d.check("Hello")
-print d.check("hollo")
-
-# <markdowncell>
-# Now, we can remove any keyword entry that isn't in our dictionary
-
-# <codecell>
-#keywords_and_ngrams(raw) # this tool works with raw text, not tokens
-keys = keywords_and_ngrams(stemmedcorpus, nKeywords=1000000)
-wordstocheck = []
-for w in keys[0]:
-    wordstocheck.append(w[0])
-goodkeys = []
-badkeys = []
-for stem in wordstocheck:
-	#print stem
-	if d.check(stem) is True:
-		goodkeys.append(stem)
-	if d.check(stem) is False:
-		badkeys.append(stem)
-print goodkeys
-#print badkeys
-
-# <markdowncell>
-# ... well, it's better. But there are still a number of issues. Australia --> austral and does --> doe are errors, though understandable ones at least.
+# What re really need to do is improve our stemmer, and then come back and try again.
 
 # <headingcell level=2>
 # A return to stemming
 
 # <markdowncell>
-# Based on what we've learned, it seems we could improve the current stemmer. Let's define a new stemmer that only stems when the stem is in the dictionary. It takes a string of raw text or a list of tokens as its first argument, and 'Lancaster' or 'Porter' as the second argument.
+# Keywords and ngram searches actually work by comparing a corpus to a reference corpus. In our case, we have been using a dictionary of words in the 100 million word *British National Corpus*. We could use this same dictionary to make sure our stemmer does not create non-words when it stems.
 
-# <codecell>
-def newstemmer(words, stemmer):
-	"""A stemmer that uses Lancaster/porter stemmer plus a dictionary.
-	First argument is either raw text or a list of words.
-	Second argument is 'Lancaster' or 'Porter'."""
-	if type(words) == str:
-		tokens = nltk.word_tokenize(words)
-	else:
-		tokens = words
-	if stemmer == 'Lancaster':
-		stemmertouse = nltk.LancasterStemmer()
-	if stemmer == 'Porter':
-		stemmertouse = nltk.PorterStemmer()
-	stems = []
-	for w in tokens:
-		stem = stemmertouse.stem(w)
-		if d.check(stem) is True:
-			stems.append(stem)
-		elif d.check(stem) is False:
-			stems.append(w)
-	return stems
-
-# <markdowncell>
-# **Task**:
-
-# 1. Run our new stemmer
-# 2. Assign the new stemmer output to a variable
-# 3. try out keywords_and_ngrams() on that variable
-
-# <codecell>
-# 1. Run our new stemmer
-#
-# 2. Assign the new stemmer output to a variable
-#
-# 3. try out keywords_and_ngrams() on that variable
-#
-
-# <markdowncell>
-# ... *what's the verdict?* Still some problems? Well, here's one more crazy idea: use the BNC wordlist to determine which stemming results are very uncommon, and exclude them.
-
-# First, let's get a list of common words in the BNC from the *pickle* provided by SPINDLE. Pickle is a kind of list compression.
+# First, let's get a list of common words in the BNC from the *pickle* provided by SPINDLE (*pickle* is a kind of list compression).
 
 # <codecell>
 import pickle
@@ -1009,10 +957,10 @@ import os
 bncwordlist = pickle.load(open('spindle-code-master/keywords/bnc.p', 'rb')) # unpack the pickled list
 bnc_commonwords = [] # empty list
 for word in bncwordlist:
-	getval = bncwordlist[word] # find out number of occurrences of word
-	if getval > 20: # if more than 20
-		bnc_commonwords.append(word) # add to common word list
-print bnc_commonwords[:250] # what are our results?
+    getval = bncwordlist[word] # find out number of occurrences of word
+    if getval > 20: # if more than 20
+        bnc_commonwords.append(word) # add to common word list
+print bnc_commonwords[:200] # what are our results?
 
 # <markdowncell>
 # So, this gives us a list of any word appearing more than twenty times in the BNC. We could build this function into our stemmer:
@@ -1021,47 +969,42 @@ print bnc_commonwords[:250] # what are our results?
 # Now, let's use this as the dict for our stemmer
 # The third variable sets a default threshold, but also allows us to enter one.
 def newstemmer(words, stemmer, threshold = 20):
-	"""A stemmer that uses Lancaster/porter stemmer plus a dictionary.
-	First argument is either raw text or a list of words.
-	Second argument is 'Lancaster' or 'Porter'.
-	Third argument is an integer with minimum BNC occurrences."""
-	import pickle
-	import os
-	bncwordlist = pickle.load(open('spindle-code-master/keywords/bnc.p', 'rb'))
-	bnc_commonwords = []
-	for word in bncwordlist:
-		getval = bncwordlist[word]
-		if getval > threshold:
-			bnc_commonwords.append(word)
-	if type(words) == str:
-		tokens = nltk.word_tokenize(words)
-	else:
-		tokens = words
-	if stemmer == 'Lancaster':
-	    stemmertouse = nltk.LancasterStemmer()
-	if stemmer == 'Porter':
-		stemmertouse = nltk.PorterStemmer()
-	stems = []
-	for w in tokens:
-		stem = stemmertouse.stem(w)
-		answer = stem in bnc_commonwords
-		if answer is True:
-			stems.append(stem)
-		elif answer is False:
-			stems.append(w)
-	return stems
+    """A stemmer that uses Lancaster/porter stemmer plus a dictionary."""
+    import pickle
+    import os
+    import nltk
+    bncwordlist = pickle.load(open('spindle-code-master/keywords/bnc.p', 'rb'))
+    bnc_commonwords = {k for (k,v) in bncwordlist.iteritems() if v > threshold}
+    # if words is a raw string, tokenise it
+    if type(words) == unicode or type(words) == string:
+        tokens = nltk.word_tokenize(words)
+    # or, if list of tokens, duplicate the list
+    else:
+        tokens = words
+    if stemmer == 'Lancaster':
+        stemmertouse = nltk.LancasterStemmer()
+    if stemmer == 'Porter':
+        stemmertouse = nltk.PorterStemmer()
+    stems = []
+    for w in tokens:
+        stem = stemmertouse.stem(w)
+        if stem in bnc_commonwords:
+            stems.append(stem)
+        else:
+            stems.append(w)
+    return stems
 
 # <markdowncell>
 # Now, we can fiddle with the stemmer and BNC frequency to get different keyword lists.
 
+# <codecell>
+# try raising the threshold if there are still bad spellings!
+stemmed = newstemmer(raw, 'Lancaster', 10)
 
 # <codecell>
-stemmed = newstemmer(raw, 'Lancaster', 50)
-joinedstems = ' '.join(stemmed) # DM: not sure if this is needed:
-keys = keywords_and_ngrams(joinedstems, 100000, 19, 10, 2)
-pprint.pprint(keys)
-#print keys[0] # only keywords
-#print keys[1] # only n-grams
+keys = keywords_and_ngrams(stemmed)
+pprint.pprint(keys[0]) # only keywords
+pprint.pprint(keys[1]) # only n-grams
 
 # <headingcell level=2>
 # Collocation
@@ -1073,8 +1016,113 @@ pprint.pprint(keys)
 
 # This kind of information may be useful to lexicographers, discourse analysts, or advanced language learners.
 
+# In NLTK, collocation works from ordered lists of tokens. Let's put out tokenised sents into a single, huge list of tokens:
+
+# <codecell>
+allwords = []
+for sent in tokenized_sents:
+    for word in sent:
+        allwords.append(word)
+print allwords[:20]
+
+# <markdowncell>
+# Now, let's feed these to an NLTK function for measuring collocations:
+
+# <codecell>
+from nltk.collocations import *
+bigram_measures = nltk.collocations.BigramAssocMeasures()
+trigram_measures = nltk.collocations.TrigramAssocMeasures()
+finder = BigramCollocationFinder.from_words(allwords)
+
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
+
+# <markdowncell>
+# So, that tells us a little: we can see that terrorists, Muslims and the Middle East are commonly collocating in the text. At present, we are only looking for immediately adjacent words. So, let's expand out search to a window of *five words either side*
+
+# window size specifies the distance
+# at which two tokens can still be considered collocates
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
+
+# <markdowncell>
+# Now we have the appearance of very common words! Let's use NLTK's stopwords list to remove entries containing these:
+
+# <codecell>
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+ignored_words = nltk.corpus.stopwords.words('english')
+finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words)
+finder.apply_freq_filter(2)
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
+
+# <markdowncell>
+# There! Now we have some interesting collocates. Finally, let's remove punctuation-only entries, or entries that are *n't*, as this is caused by different tokenisers:
+
+# <codecell>
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+ignored_words = nltk.corpus.stopwords.words('english')
+# anything containing letter or number
+regex = r'[A-Za-z0-9]'
+# the n't token
+nonot = r'n\'t'
+# lots of conditions!
+finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or not re.match(regex, w) or re.match(nonot, w))
+finder.apply_freq_filter(2)
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
+
+# <markdowncell>
+# You can get a lot more info on collocation at the [NLTK homepage](http://www.nltk.org/howto/collocations.html).
+
 # <headingcell level=2>
-# Clustering
+# Clustering/n-grams
+
+# <markdowncell>
+# Clustering is the task of finding words that are commonly **immediately** adjacent (as opposed to collocates, which may just be nearby). This is also often called n-grams: bigrams are two tokens that appear together, trigrams are three, etc.
+
+# Clusters/n-grams have a spooky ability to tell us what a text is about.
+
+# We can use *Spindle* for bigram searching as well:
+
+# <codecell>
+# an argument here to stop keywords from being produced.
+keywords_and_ngrams(raw, nKeywords=0)
+
+# <markdowncell>
+# There's also a method for n-gram production in NLTK. We can use this to understand how n-gramming works.
+
+# Below, we get lists of any ten adjacent tokens:
+
+# <codecell>
+from nltk.util import ngrams
+sentence = 'give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime'
+n = 10
+tengrams = ngrams(sentence.split(), n)
+for gram in tengrams:
+  print gram
+
+# <markdowncell>
+# We could now wrap this up in a function, and use it to locate any duplicated n-grams:
+
+# <codecell>
+def ngrammer(text, gramsize, threshold = 2):
+    """Get any repeating ngram containing gramsize tokens"""
+    from collections import defaultdict
+    def list_duplicates(seq):
+        tally = defaultdict(list)
+        for i,item in enumerate(seq):
+            tally[item].append(i)
+        return ((len(locs),key) for key,locs in tally.items() 
+               if len(locs) > threshold)
+    from nltk.util import ngrams
+    raw_grams = ngrams(text.split(), gramsize)
+    dupes = list_duplicates(raw_grams)
+    return sorted(dupes, reverse = True)
+
+# <codecell>
+ngrammer(raw, 3)
+
+# <codecell>
+ngrammer(raw, 3, threshold = 10)
+
 
 # <headingcell level=2>
 # Concordancing with regular expressions
@@ -1083,21 +1131,88 @@ pprint.pprint(keys)
 # We've already done a bit of concordancing. In discourse-analytic research, concordancing is often used to perform thematic categorisation.
 
 # <codecell>
-# Some concordancing here
+text = nltk.Text(tokens) # formats our tokens for concordancing
+text.concordance("muslims")
 
 # <markdowncell>
-# Concordancing can be used to perform linguistic categorisation: if we want to know whether 'pervert' is more commonly a noun or a verb, we can manually code each concordance output. On the other hand, as we'll learn in the next session, we can use grammatical annotation to do this automatically.
+# We could even our stemmed corpus here:
+text = nltk.Text(stemmed)
+text.concordance("muslims")
+
+# <markdowncell>
+# You get no matches in the latter case, because all instances of *muslims* were stemmed to *muslim*.
+
+# A problem with the NLTK concordancer is that it only works with individual tokens.
+
+# What if we want to find words that end with **ment*, or words beginning with *poli**?
+
+# We already searched text with Regular Expressions. It's not much more work to build regex functionality into our own concordancer.
+
+# From running the code below, you can see that bracketting sections of our regex causes results to split into lists:
+
+# <codecell>
+aussie = r'(?i)(aussie|ozzie|ozzy)'
+searchpattern = re.compile(r"(.*)" + aussie + r"(.*)")
+search = re.findall(searchpattern, raw)
+pprint.pprint(search[:5])
+
+# <markdowncell>
+# Well, it's ugly, but it works. We can see five bracketted results, each containing three strings. The first and third strings are the left-context and right-context. The second of the three strings is the search term.
+
+# These three sections are, with a bit of tweaking, the same as the output given by a concordancer.
+
+# Let's go ahead and turn our regex seacher into a concordancer:
+
+# <codecell>
+def concordancer(text, regex):
+    """Concordance using regular expressions"""
+    import re
+    # limit context to 30 characters max
+    searchpattern = re.compile(r"(.{,30})(\b" + regex + r"\b)(.{,30})")
+    # find all instances of our regex
+    search = re.findall(searchpattern, raw)
+    for result in search:
+        #join each result with a tab, and print
+        print("\t".join(result).expandtabs(20)) 
+        # expand tabs helps align results
+
+# <codecell>
+concordancer(raw, r'aus.*?')
+
+# <markdowncell>
+# Great! With six lines of code, we've officially created a function that improves on the one provided by NLTK! And think how easy it would be to add more functionality: an argument dictating the size of the window (currently 30 characters), or printing line numbers beside matches, would be pretty easy to add, as well.
+
+# > Adding too much functionality is known as *feature creep*. It's often best to keep your functions simple and more varied. An old adage in programming is to *make each program do one thing well*.
+
+# <markdowncell>
+# In the cells below, try concordancing a few things. Also try creating variables with concordance results, and then manipulate the lists. If you encounter problems with the way the concordancer runs, alter the function and redefine it. If you want, try implementing the window size variable!
+
+# > **Tip:** If you wanted to get really creative, you could try stemming concordance or n-gram results!
+
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
 
 # <headingcell level=2>
 # Summary
 
 # <markdowncell>
-# That's the end of session two! Great work.
+# That's the end of session three! Great work.
 
-# So, some of these tasks are a little dry---but ultimately, they're pretty important things to know if you want to avoid the 'black box approach'. Almost every task in distance reading depends on how we segment our data into sentences, clauses, words, etc.
+# So, some of these tasks are a little dry---seeing results as lists of words and scores isn't always a lot of fun. But ultimately, they're pretty important things to know if you want to avoid the 'black box approach', where you simply dump words into a machine and analyse what the machine spits out.
 
-# Building a stemmer from scratch taught us how to use regular expressions, and their power. But, we also saw that they weren't perfect for the task.
+# Remember that almost every task in corpus linguistics/distance reading depends on how we segment our data into sentences, clauses, words, etc.
 
+# Building a stemmer from scratch taught us how to use regular expressions, and their power. But, we also saw that they weren't perfect for the task. In later lessons, we'll use more advanced methods to normalise our data. 
+
+# *See you tomorrow!*
 
 # <headingcell level=1>
 # Bibliography
@@ -1114,4 +1229,3 @@ pprint.pprint(keys)
 
 # <markdowncell>
 # 
-

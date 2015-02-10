@@ -55,7 +55,7 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 # <headingcell level=3>
 # Discussion
 
-#<markdowncell>
+# <markdowncell>
 # *What are the characterisitics of clean and messy data? Any personal experiences? Discuss with your neighbours.* 
 
 # It will be important to bear these characteristics in mind once you start building your own datasets and corpora. 
@@ -75,7 +75,7 @@ from nltk.text import Text
 
 # <codecell>
 #access items in the directory 'UMA_Fraser_Radio_Talks' and view the first 3
-os.listdir('UMA_Fraser_Radio_Talks')[:3]
+os.listdir('corpora/UMA_Fraser_Radio_Talks')[:3]
 
 # <headingcell level=3>
 # Exploring further: splitting up text
@@ -86,8 +86,14 @@ os.listdir('UMA_Fraser_Radio_Talks')[:3]
 # We can ask Python to show us the start of the file. For analysing the text, it is useful to split the metadata section off, so that we can interrogate it separately but also so that it won't distort our results when we analyse the text.
 
 # <codecell>
+# Let's set the path to our corpus as a variable:
+# This makes our code easier to use on other projects
+corpus_path = 'corpora/UMA_Fraser_Radio_Talks'
+
+# <codecell>
 # open the first file, read it and then split it into two parts, metadata and body
-data = open('UMA_Fraser_Radio_Talks/' + os.listdir('UMA_Fraser_Radio_Talks')[0]).read().split("<!--end metadata-->")
+data = open(os.path.join(corpus_path, os.listdir(corpus_path)[0])).read().split("<!--end metadata-->")
+# notice that many different commands can be strung together in one line!
 
 # <codecell>
 # view the first part
@@ -158,7 +164,7 @@ print metadata['Date']
 
 # <codecell>
 #open the first file, read it and then split it into two parts, metadata and body
-data = open('UMA_Fraser_Radio_Talks/UDS2013680-100-full.txt')
+data = open(os.path.join(corpus_path, 'UDS2013680-100-full.txt')
 data = data.read().split("<!--end metadata-->")
 
 # <markdowncell>
@@ -193,8 +199,8 @@ from nltk.probability import ConditionalFreqDist
 import matplotlib
 % matplotlib inline
 cfdist = ConditionalFreqDist()
-for filename in os.listdir('UMA_Fraser_Radio_Talks'):
-    text = open('UMA_Fraser_Radio_Talks/' + filename).read()
+for filename in os.listdir(corpus_path):
+    text = open(os.path.join(corpus_path, filename)).read()
     #split text of file on 'end metadata'
     text = text.split("<!--end metadata-->")
     #parse metadata using previously defined function "parse_metadata"
@@ -209,8 +215,8 @@ cfdist.plot()
 # <codecell>
 # Now let's build another graph, but this time by the 'Description' field
 cfdist2 = ConditionalFreqDist()
-for filename in os.listdir('UMA_Fraser_Radio_Talks'):
-    text = open('UMA_Fraser_Radio_Talks/' + filename).read()
+for filename in os.listdir(corpus_path):
+    text = open(os.path.join(corpus_path, filename))).read()
     text = text.split("<!--end metadata-->")
     metadata = parse_metadata(text[0])
     if metadata['Date'][0] == 'c':
@@ -231,8 +237,8 @@ cfdist2.plot()
 
 # <codecell>
 cfdist3 = ConditionalFreqDist()
-for filename in os.listdir('UMA_Fraser_Radio_Talks'):
-    text = open('UMA_Fraser_Radio_Talks/' + filename).read()
+for filename in os.listdir(corpus_path):
+    text = open(os.path.join(corpus_path, filename)).read()
     text = text.split("<!--end metadata-->")
     metadata = parse_metadata(text[0])
     date = metadata['Date']
