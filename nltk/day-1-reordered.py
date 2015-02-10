@@ -87,7 +87,9 @@ len(text3)/len(set(text3))
 text4.count("American")
 
 # <codecell>
-# Challenge! How would you calculate the percentage of Text 4 that is taken up by the word "America"?
+# Challenge! 
+
+# How would you calculate the percentage of Text 4 that is taken up by the word "America"?
 100.0*text4.count("America")/len(text4)# 
 
 # <headingcell level=3>
@@ -122,7 +124,9 @@ text1.dispersion_plot(["whale"])
 # <markdowncell>
 # > **Note**: The second line of the code above is IPython specific, and will not necessarily work in other Python environments!
 # <br>
-#Challenge! Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
+#Challenge!
+
+#Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
 #What do you think it tells you? 
 
 #<codecell>
@@ -235,7 +239,6 @@ secondnumber = '2'
 
 # > IPython highlights your code automatically, which can help you read it faster and spot problems.
 
-
 # <codecell>
 from math import sqrt  # importing math library and square root function
 avariable = 50  # make a variable that is 50 as integer
@@ -244,32 +247,10 @@ print answer  # tell us
 
 # <codecell>
 #This example has two arguments
-
 from math import pow  # importing pow function
 avariable = 50
 answer = pow(avariable, 3)  # 50 to the power of 3
 print answer
-
-# <headingcell level=3>
-# Defining functions
-
-# <markdowncell>
-# **Functions** are bits of code that you'll reuse. Here, we'll make a
-# quick function that welcomes you and tells you the time. If you were
-# making an app, maybe this pops up when the app is opened.
-
-# <codecell>
-def welcomefunction(firstname):  # declare that you're defining a function,
-# give it a name, and name its optional argument
-    import time
-    thetime = time.strftime("%H:%M:%S")
-    print 'Welcome, ' + firstname + '. The time is ' + thetime
-# make sure you run this cell to define the function
-
-# <codecell>
-# Now you can call the function with your name as an argument
-
-welcomefunction('your name here!')
 
 # <headingcell level=2>
 # Advantages of IPython
@@ -283,8 +264,7 @@ welcomefunction('your name here!')
 
 # You can get more information on IPython, including how to install it on your own machine, at the [IPython Homepage](http://ipython.org).
 
-# > **Note**: not everybody uses IPython, so later in the course we'll explain how to convert your work here into 'regular python' scripts.
-
+# > **Note**: not everybody uses *IPython*, so later in the course we'll explain how to convert your work here into 'regular python' scripts.
 
 # <headingcell level=3>
 # Defining a function
@@ -301,18 +281,21 @@ welcomefunction('your name here!')
  
 # <markdown cell>
 # *Challenge*
+
 # Using a function, determine which of the nine texts in the NLTK Book has the highest lexical diversity score.
 
 # <codecell>
-
 def lexical_diversity(text):
     return len(text)/len(set(text))
+
+# <codecell>
+#After the function has been defined, we can run it:
 lexical_diversity(text2)
 
 # <markdowncell>
 # The parentheses are important here as they sepatate the the task, that is the work of the function, from the data that the function is to be performed on. The data in parentheses is called the argument of the function. When we use a function, we say that we 'call' it. 
 
-# Other functions that we've used already include len() and sorted() - these were predefined. Lexical_diversity() is one we set up ourselves; note that it's conventional to put a set of parentheses after a function, to make it clear what we're talking about.
+# Other functions that we've used already include len() and sorted() - these were predefined. *lexical_diversity()* is one we set up ourselves; note that it's conventional to put a set of parentheses after a function, to make it clear what we're talking about.
 
 # <headingcell level=3>
 # Lists
@@ -381,7 +364,6 @@ print 'Our fruit salad contains: ' + listasastring
 # <codecell>
 text4.index('awaken')
 
-
 # <markdowncell>
 #  This works in reverse as well. We can ask Python to locate the 158th item in our list (note that we use square brackets here, not parentheses)
 
@@ -442,7 +424,6 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';' 'the', 'rain'
 clause = opening[0:7]
 alphabetised = sorted(clause)
 
-
 # Note that assigning a variable just causes Python to remember that information without generating any output. If you want Python to show you the result, you have to ask for it (this is a good thing when you assign a variable to a very long list!).
 
 # <codecell>
@@ -476,6 +457,7 @@ fdist1.plot(50, cumulative = True)
 
 # <markdowncell>
 # *Challenge!*
+
 # Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
 # Discuss what you found with your neighbour
 
@@ -513,6 +495,7 @@ sorted(long_words)
 # <markdowncell>
 # We can fine-tune our selection even further by adding further conditions. For instance, we might want to find long words that occur frequently (or rarely)
 # *Challenge!*
+
 # Can you find all the words in a text that are more than seven letters long and occur more than seven times?
 
 # <codecell>
@@ -543,16 +526,15 @@ sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 # <codecell>
 text4.collocations()
 
-
 # <markdowncell>
 # We can also use numerical operators to refine the types of searches we ask Python to run. We can use the following relational operators:
 
-# * < 	less than
-# * <= 	less than or equal to
-# * == 	equal to (note this is two "=" signs, not one)
-# * != 	not equal to
-# * \> 	greater than
-# * \>= 	greater than or equal to
+# * <       less than
+# * <=      less than or equal to
+# * ==      equal to (note this is two "=" signs, not one)
+# * !=      not equal to
+# * \>      greater than
+# * \>=     greater than or equal to
 
 # <headingcell level=4>
 # Challenge!
@@ -580,13 +562,11 @@ text4.collocations()
 # <codecell>
 sorted(w for w in set(text1) if w.endswith('ableness'))
 
-
 # <codecell>
 sorted(n for n in sent7 if n.isdigit())
 
-
 # <markdowncell>
-# > Bonus! 
+# > **Bonus!**
 
 # You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
 
@@ -675,6 +655,7 @@ raw = urlopen(url).read() # download and read the corpus into raw variable
 raw = unicode(raw, 'utf-8')
 print len(raw) # how many characters does it contain?
 print raw[:2000] # first 2000 characters
+
 # <markdowncell>
 # We actually already downloaded this file when we first cloned the ResBaz GitHub repository. It's in our *corpora* folder. We can access it like this:
 
@@ -1084,7 +1065,7 @@ sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # <codecell>
 # an argument here to stop keywords from being produced.
-keywords_and_ngrams(raw, nKeywords=0)
+keywords_and_ngrams(raw.encode("UTF=8"), nKeywords=0)
 
 # <markdowncell>
 # There's also a method for n-gram production in NLTK. We can use this to understand how n-gramming works.
