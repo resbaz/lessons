@@ -86,10 +86,12 @@ len(text3)/len(set(text3))
 # <codecell>
 text4.count("American")
 
-# <codecell>
+# <markdowncell>
 # Challenge! 
 
 # How would you calculate the percentage of Text 4 that is taken up by the word "America"?
+
+# <codecell>
 100.0*text4.count("America")/len(text4)# 
 
 # <headingcell level=3>
@@ -133,7 +135,7 @@ text1.dispersion_plot(["whale"])
 text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"]) # plot five words longitudinally
 
 # <headingcell level=2>
-# Quickstart
+# How Python works
 
 # <markdowncell>
 # We've seen a bit now of how NLTK can help you to interrogate a text. Let's back up and talk about Python itself and the environment we're using
@@ -566,7 +568,7 @@ sorted(w for w in set(text1) if w.endswith('ableness'))
 sorted(n for n in sent7 if n.isdigit())
 
 # <markdowncell>
-# > **Bonus!**
+# **Bonus!**
 
 # You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
 
@@ -1065,7 +1067,7 @@ sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # <codecell>
 # an argument here to stop keywords from being produced.
-keywords_and_ngrams(raw.encode("UTF=8"), nKeywords=0)
+keywords_and_ngrams(raw.encode("UTF-8"), nKeywords=0)
 
 # <markdowncell>
 # There's also a method for n-gram production in NLTK. We can use this to understand how n-gramming works.
