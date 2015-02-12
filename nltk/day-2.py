@@ -377,7 +377,7 @@ for filename in files:
 # Phrase structure grammar is the tree-style representation popularised by generative grammarians (i.e. [Chomsky 1965](#ref:chomsky)):
 
 # <br>
-# <img style="float:left" src="http://specgram.com/CLIII.d/syntax_tree.gif" />
+# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/wooltree.png" />
 # <br>
 
 # <headingcell level=2>
@@ -450,12 +450,12 @@ path = 'fraser-corpus-annotated' # path to corpora from our current working dire
 
 
 # <markdowncell>
-# To interrogate the corpus, we need a crash course in Tregex syntax. Let's define a tree (from the Fraser Corpus), and have a look at its visual representation.
+# To interrogate the corpus, we need a crash course in Tregex syntax. Let's define a tree (from the Fraser Corpus, 1956), and have a look at its visual representation.
 
-#      Melbourne has been transformed over the let 18 months in preparation for the visitors.*
+#      *Melbourne has been transformed over the let 18 months in preparation for the visitors.*
 
 # <codecell>
-tree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VBN transformed) '
+melbtree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VBN transformed) '
            r'(PP (IN over) (NP (NP (DT the) (VBN let) (CD 18) (NNS months)) (PP (IN in) (NP (NP (NN preparation)) '
            r'(PP (IN for) (NP (DT the) (NNS visitors)))))))))) (. .)))')
 
@@ -463,7 +463,7 @@ tree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VBN tr
 # Notice that an OCR error caused a parsing error. Oh well. Here's a visual representation, drawn with NLTK:
 
 # <br>
-# <img style="float:left" src="https://raw.githubusercontent.com/interrogator/sfl_corpling/master/cmc-2014/images/tree.png" />
+# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/melbtree.png" />
 # <br>
 
 # <markdowncell>
@@ -472,16 +472,16 @@ tree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VBN tr
 # <codecell>
 # any plural noun
 query = r'NNS'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <codecell>
 # A token matching the regex *Melb.?\**
 query = r'/Melb.?/'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <codecell>
 query = r'NP'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <markdowncell>
 # To make things more specific, we can create queries with multiple criteria to match, and specify the relationship between each criterion we want to match. Tregex will print everything matching the leftmost criterion.
@@ -489,25 +489,25 @@ searchtree(tree, query)
 # <codecell>
 # NP with 18 as a descendent
 query = r'NP << /18/'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <markdowncell>
 # Using an exclamation mark negates the relationship. Try producing a query for a noun phrase (NP) without a Melb descendent
 
 # <codecell>
 query = r'NP !<< /Melb.?/'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <codecell>
 # NP with a sister VP
 # This corresponds to 'subject' in many grammars
 query = r'NP $ VP'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <codecell>
 # Prepositional phrase in other prepositional phrases
 query = r'PP >> PP'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <markdowncell>
 # There is also a double underscore, which functions as a wildcard.
@@ -515,7 +515,7 @@ searchtree(tree, query)
 # <codecell>
 # anything with any kind of noun tag
 query = r'__ > /NN.?/'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <markdowncell>
 # Using brackets, it's possible to create very verbose queries, though this goes well beyond our scope. Just know that it can be done!
@@ -525,10 +525,50 @@ searchtree(tree, query)
 # the particle verb must also be in a verb phrase with a child preposition phrase
 # and this child preposition phrase must be headed by the preposition 'over'.
 query = r'VBN >> (VP $ (NP <<# /Melb.?/)) > (VP < (PP <<# (IN < /over/)))'
-searchtree(tree, query)
+searchtree(melbtree, query)
 
 # <markdowncell>
+# Here are two more trees for you to query, from 1969 and 1973.
+
+#      *We continue to place a high value on economic aid through the Colombo Plan, involving considerable aid to Asian students in Australia.*
+
+# <markdowncell>
+# <br>
+# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/colombotree.png" />
+# <br>
+
+# <codecell>
+colombotree = r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB place) (NP (NP (DT a) (JJ high) (NN value)) (PP (IN on) (NP (JJ economic) (NN aid)))) (PP (IN through) (NP (DT the) (NNP Colombo) (NNP Plan))) (, ,) (S (VP (VBG involving) (NP (JJ considerable) (NN aid)) (PP (TO to) (NP (NP (JJ Asian) (NNS students)) (PP (IN in) (NP (NNP Australia))))))))))) (. .)))'
+
+# <markdowncell>
+#      *As a result, wool industry and the research bodies are in a state of wonder and doubt about the future.*
+
+# <markdowncell>
+# <br>
+# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/wooltree.png" />
+# <br>
+
+# <codecell>
+wooltree = r'(ROOT (S (PP (IN As) (NP (DT a) (NN result))) (, ,) (NP (NP (NN wool) (NN industry)) (CC and) (NP (DT the) (NN research) (NNS bodies))) (VP (VBP are) (PP (IN in) (NP (NP (DT a) (NN state)) (PP (IN of) (NP (NN wonder) (CC and) (NN doubt))))) (PP (IN about) (NP (DT the) (NN future)))) (. .)))'
+
+# <markdowncell>
+# Try a few queries in the cells below.
+
 # > If you need help constructing a Tregex query, ask Daniel. He writes them all day long for fun.
+
+# <codecell>
+query = '?'
+searchtree(colombotree, query)
+
+# <codecell>
+# 
+
+# <codecell>
+#
+
+# <codecell>
+#
+
 
 # So, now we understand the basics of a Tregex query (don't worry! Most of the queries are already written for you). We can start our investigation of the Fraser Corpus by generating some general information about it. First, let's define a query to find every word in the corpus. Run the cell below to define the *allwords_query* as the Tregex query.
 
@@ -1048,8 +1088,9 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 
 # Particularly rewarding can be playing more with the proper nouns section, as in the cells above. Shout out if you find something interesting!
 
+# <markdowncell>
 # <br>
-# <img style="float:left" src="https://raw.githubusercontent.com/interrogator/sfl_corpling/master/cmc-2014/images/options.png" />
+# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/options.png" />
 # <br>
 
 # <codecell>
