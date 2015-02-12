@@ -16,11 +16,19 @@
 # * Overlapping research areas: **Corpus linguistics**, **Natural language processing**, **Distant reading**
 # * Additional skills: **Regular Expressions**, some **Shell commands**, and **tips on managing your data**
 
-# You can head [here](https://github.com/interrogator/lessons/blob/master/nltk/session-plan.md) for the fully articulated overview of the course, but we'll almost always stay within IPython. Remember, everything we cover here will remain available to you after ResBaz is over, including these Notebooks. It's all accessible at the [ResBaz Github](https://github.com/resbaz).
+# You can head [here](https://github.com/resbaz/lessons/blob/master/nltk/README.md) for the fully articulated overview of the course, but we'll almost always stay within IPython. 
+# Remember, everything we cover here will remain available to you after ResBaz is over, including these Notebooks. It's all accessible at the [ResBaz Github](https://github.com/resbaz/lessons/tree/master/nltk).
 
 # **Any questions before we begin?**
 
 # Alright, we're off!
+
+# <headingcell level=2>
+# Text as data
+
+# <markdowncell>
+# Programming languages like Python are great for processing data. In order to apply it to *text*, we need to think about our text as data.
+# This means being aware of how text is structured, what extra information might be encoded in it, and how to manage to give the best results. 
 
 # <headingcell level=2>
 # What is the Natural Language Toolkit?
@@ -38,7 +46,7 @@
 
 # <codecell>
 import nltk # imports all the nltk basics
-user_nltk_dir = "/home/researcher/lessons/nltk/nltk_data" # specify our data directory
+user_nltk_dir = "/home/researcher/nltk_data" # specify our data directory
 if user_nltk_dir not in nltk.data.path: # make sure nltk can access this dir
     nltk.data.path.insert(0, user_nltk_dir)
 nltk.download("book", download_dir=user_nltk_dir) # download book materials to data directory
@@ -77,7 +85,8 @@ len(set(text3))
 sorted(set(text3)) 
 
 # <markdowncell>
-# We can investigate the *lexical richness* of a text. For example, by dividing the total number of words by the number of words, we can see the average number of times each word is used. We can also count the number of times a word is used and calculate what percentage of the text it represents.
+# We can investigate the *lexical richness* of a text. For example, by dividing the total number of words by the number of unique words, we can see the average number of times each word is used. 
+# We can also count the number of times a word is used and calculate what percentage of the text it represents.
 
 # <codecell>
 
@@ -87,19 +96,19 @@ len(text3)/len(set(text3))
 text4.count("American")
 
 # <markdowncell>
-# Challenge! 
+# **Challenge!** 
 
 # How would you calculate the percentage of Text 4 that is taken up by the word "America"?
 
 # <codecell>
-100.0*text4.count("America")/len(text4)# 
+100.0*text4.count("America")/len(text4) 
 
 # <headingcell level=3>
 # Exploring text - concordances, similar contexts, dispersion
 
 # <markdowncell>
-# 'Concordance' shows you a word in context and is useful if you want to be able to discuss the ways in which a word is used in a text 
-#'Similar' will find words used in similar contexts; remember it is not looking for synonyms, 
+# 'Concordance' shows you a word in context and is useful if you want to be able to discuss the ways in which a word is used in a text. 
+# 'Similar' will find words used in similar contexts; remember it is not looking for synonyms, 
 # although the results may include synonyms
 
 # <codecell>
@@ -108,6 +117,8 @@ text1.concordance("monstrous")
 # <codecell>
 
 text1.similar("monstrous")
+
+# <codecell>
 text2.similar("monstrous")
 
 # <codecell>
@@ -120,18 +131,16 @@ text2.common_contexts(["monstrous", "very"])  # this function takes two argument
 
 # <codecell>
 import numpy
-get_ipython().magic(u'matplotlib inline') # allow visuals to show up in this interface---see note below
+% matplotlib inline # allow visuals to show up in this interface---see note below
 text1.dispersion_plot(["whale"])
 
 # <markdowncell>
-# > **Note**: The second line of the code above is IPython specific, and will not necessarily work in other Python environments!
+# **Challenge!**
 # <br>
-#Challenge!
+# Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
+# What do you think it tells you? 
 
-#Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
-#What do you think it tells you? 
-
-#<codecell>
+# <codecell>
 text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"]) # plot five words longitudinally
 
 # <headingcell level=2>
@@ -176,7 +185,8 @@ if condition is True:
 # Significant Whitespace
 
 # <markdowncell>
-# One thing that makes Python unique is that whitespace at the start of the line (use a tab!) is meaningful. In many other language, whitespace at the start of lines is simply a readability convention.
+# One thing that makes Python unique is that whitespace at the start of the line (use a tab for consistency!) is meaningful. 
+# In many other languages, whitespace at the start of lines is simply a readability convention.
 
 # <codecell>
 # Fix this whitespace problem!
@@ -189,8 +199,7 @@ print 'Phew, fixed.'
 # So, whitespace tells both Python and human readers where things start and stop.
 
 # <codecell>
-#You should be able to get different kinds of output depending on 
-# how you indent this code.
+# You should be able to get different kinds of output depending on how you indent this code.
 
 print 'Python\nis\n'
 for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
@@ -199,7 +208,13 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
         print 'interesting!'
     else:
         print 'complicated!'
-#print 'day.'  # at present, this occurs after the three repetitions.
+ print 'day.'  # at present, this occurs after the three repetitions.
+
+# <markdowncell>
+# Note the error message. These will help you to understand what went wrong. 
+# The first part looks like gobeldegook, but the rest is helpful. Line 3 of error tells us what command
+# was executing when the error happened, which can assist in isolating a problem. 
+# Line 4 actually tells us what the error was - that's what we would have googled if we were looking for a solution.
 
 # <headingcell level=3>
 # Input/Output Types
@@ -227,7 +242,7 @@ var = ['item']
 print type(var)
 
 # <markdowncell>
-# You can sometimes easily convert between types.
+# Sometimes you can sometimes easily convert between types.
 
 # <codecell>
 secondnumber = '2'
@@ -248,8 +263,8 @@ answer = sqrt(avariable)  # figure out the answer by issuing a command with avar
 print answer  # tell us
 
 # <codecell>
-#This example has two arguments
-from math import pow  # importing pow function
+# This example has two arguments
+from math import pow  # importing pow function (pow is short for 'power')
 avariable = 50
 answer = pow(avariable, 3)  # 50 to the power of 3
 print answer
@@ -280,9 +295,12 @@ print answer
 # Advantages of functions:
 # 1. Save you typing
 # 2. You can be sure you're doing exactly the same operation every time
+# <br>
+# > **Note** Learn to love tab-completion! Typing the first one or two letters of a command you've used previously then hitting tab 
+# will auto-complete that command, saving you typing (i.e. time and mistakes!). 
  
 # <markdown cell>
-# *Challenge*
+# *Challenge!*
 
 # Using a function, determine which of the nine texts in the NLTK Book has the highest lexical diversity score.
 
@@ -295,7 +313,8 @@ def lexical_diversity(text):
 lexical_diversity(text2)
 
 # <markdowncell>
-# The parentheses are important here as they sepatate the the task, that is the work of the function, from the data that the function is to be performed on. The data in parentheses is called the argument of the function. When we use a function, we say that we 'call' it. 
+# The parentheses are important here as they sepatate the the task, that is the work of the function, from the data that the function is to be performed on. 
+# The data in parentheses is called the argument of the function. When we use a function, we say that we 'call' it. 
 
 # Other functions that we've used already include len() and sorted() - these were predefined. *lexical_diversity()* is one we set up ourselves; note that it's conventional to put a set of parentheses after a function, to make it clear what we're talking about.
 
@@ -323,10 +342,11 @@ len(sent1)
 # <codecell>
 sent4 + sent1
 
+# <markdowncell>
 # We can also add an item to the end of a list by appending. When we append(), the list itself is updated. 
 
 # <codecell>
-sent1.append("Please")
+sent1.append('Please')
 sent1
 
 # <markdowncell>
@@ -367,7 +387,7 @@ print 'Our fruit salad contains: ' + listasastring
 text4.index('awaken')
 
 # <markdowncell>
-#  This works in reverse as well. We can ask Python to locate the 158th item in our list (note that we use square brackets here, not parentheses)
+# This works in reverse as well. We can ask Python to locate the 158th item in our list (note that we use square brackets here, not parentheses)
 
 # <codecell>
 text4[158]
@@ -409,7 +429,8 @@ sent
 #  Defining variables
 
 # <markdowncell>
-# In Python, we give the items we're working with names, a process called assignment. For instance, in the NLTK corpus, 'Sense and Sensibility' has been assigned the name 'text2', which is much easier to work with. We also assigend the name 'sent' to the sentence that we created in the previous exercise, so that we could then instruct Python to do various things with it. Assigning a variable in python looks like this:
+# In Python, we give the items we're working with names, a process called assignment. For instance, in the NLTK corpus, 'Sense and Sensibility' has been assigned the name 'text2', which is much easier to work with. 
+# We also assigend the name 'sent' to the sentence that we created in the previous exercise, so that we could then instruct Python to do various things with it. Assigning a variable in python looks like this:
 # variable = expression
 # You can call your variables (almost) anything you like, but it's a good idea to pick names that will be meaningful and easy to type. You can't use words that already have a meaning in Python, such as import, def, or not. If you try to use a word that is reserved, you'll get a syntax error.
 
@@ -426,7 +447,8 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';' 'the', 'rain'
 clause = opening[0:7]
 alphabetised = sorted(clause)
 
-# Note that assigning a variable just causes Python to remember that information without generating any output. If you want Python to show you the result, you have to ask for it (this is a good thing when you assign a variable to a very long list!).
+# Note that assigning a variable just causes Python to remember that information without generating any output. 
+# If you want Python to show you the result, you have to ask for it (this is a good thing when you assign a variable to a very long list!).
 
 # <codecell>
 
@@ -463,7 +485,7 @@ fdist1.plot(50, cumulative = True)
 # Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
 # Discuss what you found with your neighbour
 
-#<codecell>
+# <codecell>
 # As well as counting individual words, we can count other features of vocabulary, such as how often words of different lengths occur. We do this by putting together a number of the commands we've already learned.
 # We could start like this: [len(w) for w in text1], but this would print the length of every word in the whole book, so let's skip that bit!
 
@@ -482,15 +504,16 @@ fdist2.freq(3)
 
 
 # <markdowncell>
-# These last two commands tell us that the most common word length is 3, and that these 3 letter words account for about 20% of the book. We can see this just by visually inspecting the list produced by fdist.most_common(), but if this list were too long to inspect readily, or we didn't want to print it, there are others ways to explore it.  
+# These last two commands tell us that the most common word length is 3, and that these 3 letter words account for about 20% of the book. 
+# We can see this just by visually inspecting the list produced by fdist2.most_common(), but if this list were too long to inspect readily, or we didn't want to print it, there are other ways to explore it.  
 
 
 # <markdowncell> 
 # It is possible to select the longest words in a text, which may tell you something about its vocabulary and style
 
 # <codecell>
-V = set(text4)
-long_words = [word for word in V if len(word) > 15]
+v = set(text4)
+long_words = [word for word in v if len(word) > 15]
 sorted(long_words)
 
 
@@ -501,7 +524,7 @@ sorted(long_words)
 # Can you find all the words in a text that are more than seven letters long and occur more than seven times?
 
 # <codecell>
-fdist5 = FreqDist(text5)
+fdist3 = FreqDist(text5)
 sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 
 # <markdowncell>
@@ -538,10 +561,8 @@ text4.collocations()
 # * \>      greater than
 # * \>=     greater than or equal to
 
-# <headingcell level=4>
-# Challenge!
-
 # <markdowncell>
+# *Challenge!*
 # Using one of the pre-defined sentences in the NLTK corpus, use the relational operators above to find:
 
 # <markdowncell>
@@ -549,7 +570,10 @@ text4.collocations()
 # 2. Words of four or more characters
 # 3. Words of exactly four characters
 
-# We can also look for features such as letter combinations, upper and lowercase letters, and digits. some operators you might like to use are:
+# <codecell>
+#
+# <markdowncell>
+# We can also look for features such as letter combinations, upper and lowercase letters, and digits. Some operators you might like to use are:
 
 # * s.startswith(t) test if s starts with t
 # * s.endswith(t)   test if s ends with t
@@ -572,7 +596,7 @@ sorted(n for n in sent7 if n.isdigit())
 
 # You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
 
-#This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix this. We can start by getting rid of capitalised words, then we can get rid of the punctuation and numbers
+# This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix this. We can start by getting rid of capitalised words, then we can get rid of the punctuation and numbers
 
 # <codecell>
 len(set(word.lower() for word in text1))
@@ -586,18 +610,16 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # <br>
 
 # <markdowncell>
-# You've completed the first session. To summarise, here's what you've learned so far:
+# You've completed the introduction to Python Natural Language Toolkit! To summarise, here's what you've learned so far:
 
 # * How to navigate the iPython notebook
 # * How Python uses whitespace 
 # * Why functions are useful and how to define one
-# * How to use basic Pyton commands to start exploring features of a text
+# * How to use basic Python commands to start exploring features of a text
 #
 # We'll practice all these commands in the following lessons ... so don't panic!
 
 # It's a lot to take in and it will probably take a while before you feel really comfortable.
-
-# *See you after the break!*
 
 # <headingcell level=1>
 # Session 2: Common NLTK tasks
@@ -622,7 +644,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # * **Language pedagogy** (advanced language learners can use a concordancing GUI or collocation tests to understand how certain words are used in the target language)
 # * **Discourse analysis** (researching how meaning is made beyond the level of the clause/sentence)
 
-# Notably, corpus linguistic methods have been embraced within the emerging paradigm of Digital Humanities, often under the banner of *data carpentry* or *distance reading*.
+# Notably, corpus linguistic methods have been embraced within the emerging paradigm of Digital Humanities, where it's sometimes called *distant reading*.
 
 # <headingcell level=3>
 # Corpora and discourse
@@ -636,7 +658,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 
 # > **Note:** Some linguists remain skeptical of corpus linguistics generally. In a well-known critique, Henry Widdowson ([2000, p. 6-7](#ref:widdowson)) said:
 # >
-# > Corpus linguistics \[...\] is no doubt that this is an immensely important development in descriptive linguistics. That is not the issue here. The quantitative analysis of text by computer reveals facts about actual language behaviour which are not, or at least not immediately, accessible to intuition. There are frequencies of occurrence of words, and regular patterns of collocational co-occurrence, which users are unaware of, though they must be part of their competence in a procedural sense since they would not otherwise be attested. They are third person observed data ('When do they use the word X?') which are different from the first person data of introspection ('When do I use the word X?'), and the second person data of elicitation ('When do you use the word X?'). Corpus analysis reveals textual facts, fascinating profiles of produced language, and its concordances are always springing surprises. They do indeed reveal a reality about language usage which was hitherto not evident to its users.
+# > Corpus linguistics \[...\] (there) is no doubt that this is an immensely important development in descriptive linguistics. That is not the issue here. The quantitative analysis of text by computer reveals facts about actual language behaviour which are not, or at least not immediately, accessible to intuition. There are frequencies of occurrence of words, and regular patterns of collocational co-occurrence, which users are unaware of, though they must be part of their competence in a procedural sense since they would not otherwise be attested. They are third person observed data ('When do they use the word X?') which are different from the first person data of introspection ('When do I use the word X?'), and the second person data of elicitation ('When do you use the word X?'). Corpus analysis reveals textual facts, fascinating profiles of produced language, and its concordances are always springing surprises. They do indeed reveal a reality about language usage which was hitherto not evident to its users.
 # >
 # > But this achievement of corpus analysis at the same time necessarily defines its limitations. For one thing, since what is revealed is contrary to intuition, then it cannot represent the reality of first person awareness. We get third person facts of what people do, but not the facts of what people know, nor what they think they do: they come from the perspective of the observer looking on, not the introspective of the insider. In ethnomethodogical terms, we do not get member categories of description. Furthermore, it can only be one aspect of what they do that is captured by such quantitative analysis. For, obviously enough, the computer can only cope with the material products ofwhat people do when they use language. It can only analyse the textual traces of the processes whereby meaning is achieved: it cannot account for the complex interplay of linguistic and contextual factors whereby discourse is enacted. It cannot produce ethnographic descriptions of language use. In reference to Hymes's components of communicative competence (Hymes 1972), we can say that corpus analysis deals with the textually attested, but not with the encoded possible, nor the contextually appropriate.
 # > 
@@ -652,7 +674,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 
 # <codecell>
 from urllib import urlopen # a library for working with urls
-url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/corpora/oz_politics/ozpol.txt" # provide a url
+url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/corpora/oz_politics/ozpol.txt" # define the url
 raw = urlopen(url).read() # download and read the corpus into raw variable
 raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
 print len(raw) # how many characters does it contain?
@@ -666,7 +688,6 @@ f = open('corpora/oz_politics/ozpol.txt')
 raw = f.read()
 raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
 len(raw)
-print len(raw)
 print raw[:2000] 
 
 # <headingcell level=2>
@@ -676,7 +697,7 @@ print raw[:2000]
 # Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming platforms, and can also be used in GUI text editors and word processers.
 
 # <codecell>
-import nltk # just in case
+import nltk # just in case (you should only need to import a library once per session, but nothing bad will happen if you do it again)
 import re # import this before using regexes!
 
 # <markdowncell>
@@ -898,7 +919,7 @@ def stem(word):
 
 
 # <markdowncell>
-# Here's a very quick implemenation of our stemmer on our raw tokens:
+# Here's a very quick implementation of our stemmer on our raw tokens:
 
 # <codecell>
 tokens = nltk.word_tokenize(raw)
@@ -906,13 +927,13 @@ stemmed = [stem(t) for t in tokens]
 print stemmed[:50]
 
 # <markdowncell>
-# We can see that this approach has obvious limitations. So, let's rely on a purpose-built stemmer. These rely in part on dictionaries. Note subtle differences between the two possible stemmers:
+# We can see that this approach has obvious limitations. So, let's rely on a purpose-built stemmer. These rely in part on dictionaries. Note the subtle differences between the two possible stemmers:
 
 # <codecell>
 # define stemmers
 lancaster = nltk.LancasterStemmer()
 porter = nltk.PorterStemmer()
-# steam each word in tokens
+# stem each word in tokens
 stems = [lancaster.stem(t) for t in tokens]  # replace lancaster with porter here
 print stems[:100]
 
@@ -925,11 +946,11 @@ print stems[:100]
 # Keywording: 'the aboutness of a text'
 
 # <markdowncell>
-# Keywording is the process of genererating a list of words that are unusually frequent in the corpus of interest. To do it, you need a *reference corpus*, or at least a *reference wordlist* to which your *target corpus* can be compared. Often, *reference corpora* take the form of very large collections of language drawn from a variety of spoken and written sources.
+# Keywording is the process of generating a list of words that are unusually frequent in the corpus of interest. To do it, you need a *reference corpus*, or at least a *reference wordlist* to which your *target corpus* can be compared. Often, *reference corpora* take the form of very large collections of language drawn from a variety of spoken and written sources.
 
-# Keywording is what generates word-clouds beside online news stories, blog posts, and the like. In combination with speech-to-text, it's used in Oxford Uni's [Spindle Project](http://openspires.oucs.ox.ac.uk/spindle/) to automatically archive recorded lectures with useful tags.
+# Keywording is what generates word-clouds beside online news stories, blog posts, and the like. In combination with speech-to-text, it's used in Oxford University's [Spindle Project](http://openspires.oucs.ox.ac.uk/spindle/) to automatically archive recorded lectures with useful tags.
 
-# In fact, the keywording part of the Spindle Project is written in Python, and open source.
+# In fact, the keywording part of the Spindle Project is written in Python, and in open source.
 
 # Spindle has sensible defaults for keyword calculation. Let's download their code and use it to generate keywords from our corpus.
 
@@ -1182,7 +1203,7 @@ ngrammer(raw, 3, threshold = 10)
 # We've already done a bit of concordancing. In discourse-analytic research, concordancing is often used to perform thematic categorisation.
 
 # <codecell>
-text = nltk.Text(tokens) # formats our tokens for concordancing
+text = nltk.Text(tokens)  # formats our tokens for concordancing
 text.concordance("muslims")
 
 # <markdowncell>
@@ -1225,7 +1246,7 @@ def concordancer(text, regex):
     search = re.findall(searchpattern, raw)
     for result in search:
         #join each result with a tab, and print
-        print("\t".join(result).expandtabs(20)) 
+        print("\t".join(result).expandtabs(20))
         # expand tabs helps align results
 
 # <codecell>
@@ -1280,4 +1301,3 @@ concordancer(raw, r'aus.*?')
 # Widdowson, H. G. (2000). On the limitations of linguistics applied. Applied Linguistics, 21(1), 3. Available at [http://applij.oxfordjournals.org/content/21/1/3.short](http://applij.oxfordjournals.org/content/21/1/3.short).
 
 # <markdowncell>
-# 
