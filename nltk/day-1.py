@@ -919,7 +919,7 @@ def stem(word):
 
 
 # <markdowncell>
-# Here's a very quick implemenation of our stemmer on our raw tokens:
+# Here's a very quick implementation of our stemmer on our raw tokens:
 
 # <codecell>
 tokens = nltk.word_tokenize(raw)
@@ -927,13 +927,13 @@ stemmed = [stem(t) for t in tokens]
 print stemmed[:50]
 
 # <markdowncell>
-# We can see that this approach has obvious limitations. So, let's rely on a purpose-built stemmer. These rely in part on dictionaries. Note subtle differences between the two possible stemmers:
+# We can see that this approach has obvious limitations. So, let's rely on a purpose-built stemmer. These rely in part on dictionaries. Note the subtle differences between the two possible stemmers:
 
 # <codecell>
 # define stemmers
 lancaster = nltk.LancasterStemmer()
 porter = nltk.PorterStemmer()
-# steam each word in tokens
+# stem each word in tokens
 stems = [lancaster.stem(t) for t in tokens]  # replace lancaster with porter here
 print stems[:100]
 
@@ -946,11 +946,11 @@ print stems[:100]
 # Keywording: 'the aboutness of a text'
 
 # <markdowncell>
-# Keywording is the process of genererating a list of words that are unusually frequent in the corpus of interest. To do it, you need a *reference corpus*, or at least a *reference wordlist* to which your *target corpus* can be compared. Often, *reference corpora* take the form of very large collections of language drawn from a variety of spoken and written sources.
+# Keywording is the process of generating a list of words that are unusually frequent in the corpus of interest. To do it, you need a *reference corpus*, or at least a *reference wordlist* to which your *target corpus* can be compared. Often, *reference corpora* take the form of very large collections of language drawn from a variety of spoken and written sources.
 
-# Keywording is what generates word-clouds beside online news stories, blog posts, and the like. In combination with speech-to-text, it's used in Oxford Uni's [Spindle Project](http://openspires.oucs.ox.ac.uk/spindle/) to automatically archive recorded lectures with useful tags.
+# Keywording is what generates word-clouds beside online news stories, blog posts, and the like. In combination with speech-to-text, it's used in Oxford University's [Spindle Project](http://openspires.oucs.ox.ac.uk/spindle/) to automatically archive recorded lectures with useful tags.
 
-# In fact, the keywording part of the Spindle Project is written in Python, and open source.
+# In fact, the keywording part of the Spindle Project is written in Python, and in open source.
 
 # Spindle has sensible defaults for keyword calculation. Let's download their code and use it to generate keywords from our corpus.
 
