@@ -96,7 +96,7 @@ len(text3)/len(set(text3))
 text4.count("American")
 
 # <markdowncell>
-# Challenge! 
+# **Challenge!** 
 
 # How would you calculate the percentage of Text 4 that is taken up by the word "America"?
 
@@ -131,18 +131,16 @@ text2.common_contexts(["monstrous", "very"])  # this function takes two argument
 
 # <codecell>
 import numpy
-get_ipython().magic(u'matplotlib inline') # allow visuals to show up in this interface---see note below
+% matplotlib inline # allow visuals to show up in this interface---see note below
 text1.dispersion_plot(["whale"])
 
 # <markdowncell>
-# > **Note**: The second line of the code above is IPython specific, and will not necessarily work in other Python environments!
-# <br>
-# *Challenge!*
+# **Challenge!**
 # <br>
 # Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
 # What do you think it tells you? 
 
-#<codecell>
+# <codecell>
 text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"]) # plot five words longitudinally
 
 # <headingcell level=2>
@@ -201,8 +199,7 @@ print 'Phew, fixed.'
 # So, whitespace tells both Python and human readers where things start and stop.
 
 # <codecell>
-# You should be able to get different kinds of output depending on 
-# how you indent this code.
+# You should be able to get different kinds of output depending on how you indent this code.
 
 print 'Python\nis\n'
 for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
@@ -211,7 +208,7 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
         print 'interesting!'
     else:
         print 'complicated!'
-# print 'day.'  # at present, this occurs after the three repetitions.
+ print 'day.'  # at present, this occurs after the three repetitions.
 
 # <markdowncell>
 # Note the error message. These will help you to understand what went wrong. 
@@ -345,6 +342,7 @@ len(sent1)
 # <codecell>
 sent4 + sent1
 
+# <markdowncell>
 # We can also add an item to the end of a list by appending. When we append(), the list itself is updated. 
 
 # <codecell>
@@ -487,7 +485,7 @@ fdist1.plot(50, cumulative = True)
 # Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
 # Discuss what you found with your neighbour
 
-#<codecell>
+# <codecell>
 # As well as counting individual words, we can count other features of vocabulary, such as how often words of different lengths occur. We do this by putting together a number of the commands we've already learned.
 # We could start like this: [len(w) for w in text1], but this would print the length of every word in the whole book, so let's skip that bit!
 
@@ -572,6 +570,9 @@ text4.collocations()
 # 2. Words of four or more characters
 # 3. Words of exactly four characters
 
+# <codecell>
+#
+# <markdowncell>
 # We can also look for features such as letter combinations, upper and lowercase letters, and digits. Some operators you might like to use are:
 
 # * s.startswith(t) test if s starts with t
@@ -595,7 +596,7 @@ sorted(n for n in sent7 if n.isdigit())
 
 # You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
 
-#This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix this. We can start by getting rid of capitalised words, then we can get rid of the punctuation and numbers
+# This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix this. We can start by getting rid of capitalised words, then we can get rid of the punctuation and numbers
 
 # <codecell>
 len(set(word.lower() for word in text1))
