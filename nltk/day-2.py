@@ -329,13 +329,37 @@ for filename in files:
 # Keywords in Fraser's speeches
 
 # <markdowncell>
-# **to add**
+# Last time we tried keywording, we simply looked for keywords in a single text file corpus.
+
+# A bit part of the power of programming is that we can perform a very similar operation again and again.
+
+# Using a GUI (*graphical user interface*) tool for keywording would mean that you have to reload the tool with every subcorpus, run the keyworder, save the result, unload the subcorpus, and repeat.
+
+
+
+# <codecell>
+# corpus as single file ... ?
+keywords_and_ngrams(raw.encode("UTF-8"), nBigrams = 0)
 
 # <headingcell level=3>
 # Collocation in Fraser's speeches
 
 # <markdowncell>
-# **to add**
+# We've already done collocation, too. Below is the code we ended up with last time, with an empty cell under that. Your challenge is to get it to work with for each annual subcorpus of the Fraser Corpus, and to reimplement something that stops punctuation from matching.
+
+# <codecell>
+from nltk.collocations import *
+bigram_measures = nltk.collocations.BigramAssocMeasures()
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+ignored_words = nltk.corpus.stopwords.words('english')
+finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words)
+finder.apply_freq_filter(2)
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
+
+# <codecell>
+#Your attempt
+
+
 
 # <headingcell level=2>
 # Adding information to the corpus
@@ -352,7 +376,6 @@ for filename in files:
 # <codecell>
 # pre-parsed treebank ...
 
-
 # <headingcell level=2>
 # Part-of-speech tagging
 
@@ -361,13 +384,50 @@ for filename in files:
 
 # > **Note:** It is generally considered good practice to train your tagger by exposing it to well-annotated language of a similar variety. For reasons of scope, however, training taggers and parsers is not covered in these sessions.
 
+# <codecell>
+text = word_tokenize("We can put any text we like here, and NLTK will tag each word with its part of speech.")
+tagged = nltk.pos_tag(text)
+tagged
+
+# <markdowncell>
+# We could use this to search text by part of speech:
+
+# <codecell>
+for word_and_tag in tagged:
+    if word_and_tag[1] == 'NN':
+        print word_and_tag[0]
+
+# <markdowncell>
+# It's possible, but tricky, to design more complex queries with tagged data:
+
+# <codecell>
+for word_and_tag in tagged:
+    # let's find modal auxiliaries ...
+    if word_and_tag[1] == 'MD':
+        # when the next word is tag
+        if tagged[tagged.index(word_and_tag) + 1][0] == 'tag':
+            #and when the next word's tag is VB
+            if tagged[tagged.index(word_and_tag) + 1][1] == 'VB':
+                print word_and_tag[0]
+
+# <markdowncell>
+# This is pretty cool, but it's a fairly limited approach. 
+
+# In linguistics, there is a level *between* the word and the clause: we call this the *phrase*.
+
+# Noun phrase: *the happy fellow*, *interested parties* *
+
+# Things can get even more complicated than that: 
+
+# Prepositional phrases typically contain a preposition, followed by a noun phrase. So, phrases may be embedded within other phrases.
+
+# Because of these issues, it becomes necessary to *parse* language---that is, represent not only parts of speech, but phrases and clauses.
+
 # <headingcell level=2>
 # Parsing
 
 # <markdowncell>
-# Parsing involves determining the underlying grammatical structure of a sentence. 
-
-# There are many grammars available, and thus, many kinds of parsing. We'll focus on phrase-structure parsing
+# Parsing involves determining parts of speech for each word, but also the underlying grammatical structure of a sentence.
 
 # <headingcell level=3>
 # Phrase structure grammar
@@ -450,7 +510,7 @@ path = 'fraser-corpus-annotated' # path to corpora from our current working dire
 
 
 # <markdowncell>
-# To interrogate the corpus, we need a crash course in Tregex syntax. Let's define a tree (from the Fraser Corpus, 1956), and have a look at its visual representation.
+# To interrogate the corpus, we need a crash course in parse labels and Tregex syntax. Let's define a tree (from the Fraser Corpus, 1956), and have a look at its visual representation.
 
 #      *Melbourne has been transformed over the let 18 months in preparation for the visitors.*
 
@@ -465,6 +525,11 @@ melbtree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VB
 # <br>
 # <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/melbtree.png" />
 # <br>
+# <markdowncell>
+# The data is annotated at word, phrase and clause level. Embedded here is an elaboration of the meanings of tags *(ask Daniel if you need some clarification!)*:
+
+# <codecell>
+HTML('<iframe src=http://www.surdeanu.info/mihai/teaching/ista555-fall13/readings/PennTreebankConstituents.html width=700 height=350></iframe>')
 
 # <markdowncell>
 # *searchtree()* is a tiny function that searches a syntax tree. We'll use the sample sentence and *searchtree()* to practice our Tregex queries. We can feed it either *tags* (S, NP, VBZ, DT etc.) or *tokens* enclosed in forward slashes.
@@ -492,7 +557,7 @@ query = r'NP << /18/'
 searchtree(melbtree, query)
 
 # <markdowncell>
-# Using an exclamation mark negates the relationship. Try producing a query for a noun phrase (NP) without a Melb descendent
+# Using an exclamation mark negates the relationship. Try producing a query for a *noun phrase* (NP) without a *Melb* descendent
 
 # <codecell>
 query = r'NP !<< /Melb.?/'
