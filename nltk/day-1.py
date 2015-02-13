@@ -446,7 +446,7 @@ sent
 
 # <codecell>
 
-opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';' 'the', 'rain', 'fell', 'in', 'torrents']
+opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain', 'fell', 'in', 'torrents']
 clause = opening[0:7]
 alphabetised = sorted(clause)
 
@@ -535,7 +535,7 @@ sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 # * fdist.freq('monstrous')     frequency of a given sample
 # * fdist.N()   total number of samples
 # * fdist.most_common(n)    the n most common samples and their frequencies
-# * for sample in fdist:    iterate over the samples
+# * for sample in fdist:    iterate over the items in fdist, when in the loop, we refer to each item as sample
 # * fdist.max()     sample with the greatest count
 # * fdist.tabulate()    tabulate the frequency distribution
 # * fdist.plot()    graphical plot of the frequency distribution
@@ -570,7 +570,8 @@ text4.collocations()
 # 3. Words of exactly four characters
 
 # <codecell>
-#
+
+
 # <markdowncell>
 # We can also look for features such as letter combinations, upper and lowercase letters, and digits. Some operators you might like to use are:
 
@@ -595,7 +596,7 @@ sorted(n for n in sent7 if n.isdigit())
 
 # You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
 
-# This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix this. We can start by getting rid of capitalised words, then we can get rid of the punctuation and numbers
+# This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix these problems. We start by getting rid of capitalised words, then we get rid of the punctuation and numbers.
 
 # <codecell>
 len(set(word.lower() for word in text1))
