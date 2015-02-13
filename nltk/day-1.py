@@ -140,7 +140,7 @@ text1.dispersion_plot(["whale"])
 # <markdowncell>
 # **Challenge!**
 # <br>
-# Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
+# Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus.
 # What do you think it tells you? 
 
 # <codecell>
@@ -150,7 +150,7 @@ text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"])
 # How Python works
 
 # <markdowncell>
-# We've seen a bit now of how NLTK can help you to interrogate a text. Let's back up and talk about Python itself and the environment we're using
+# We've seen a bit now of how NLTK can help you to interrogate a text. Let's back up and talk about Python itself and the environment we're using.
 
 # <codecell>
 # A simple welcome message printer.
@@ -213,12 +213,6 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
         print 'complicated!'
  print 'day.'  # at present, this occurs after the three repetitions.
 
-# <markdowncell>
-# Note the error message. These will help you to understand what went wrong. 
-# The first part looks like gobeldegook, but the rest is helpful. Line 3 of error tells us what command
-# was executing when the error happened, which can assist in isolating a problem. 
-# Line 4 actually tells us what the error was - that's what we would have googled if we were looking for a solution.
-
 # <headingcell level=3>
 # Input/Output Types
 
@@ -232,6 +226,12 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 
 # <codecell>
 1 + '2'  # integer plus string
+
+# <markdowncell>
+# Note the error message. These will help you to understand what went wrong. 
+# The first part looks like gobbledygook, but the rest is helpful. Line 3 of error tells us what command
+# was executing when the error happened, which can assist in isolating a problem. The leading digit is the line number.
+# Line 4 actually tells us what the error was - that's what we would have googled if we were looking for a solution.
 
 # <markdowncell>
 # You can determine the type of data stored in a variable with type():
