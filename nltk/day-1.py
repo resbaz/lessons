@@ -68,12 +68,15 @@ text2
 # Exploring vocabulary
 
 # <markdowncell>
-# NLTK makes it really easy to get basic information about the size of a text and the complexity of its vocalbulary
+# NLTK makes it really easy to get basic information about the size of a text and the complexity of its vocabulary.
+
 # *len* gives the number of symbols or 'tokens' in your text. This is the total number of words and items of punctuation.
 
 # *set* gives you a list of all the tokens in the text, without the duplicates.
 
-# Hence, **len(set(text3))** will give you the total number unique tokens. Remember this still includes punctuation. 'sorted' places items in the list into alphabetical order, with punctuation symbols and capitalised words first.
+# Hence, **len(set(text3))** will give you the total number unique tokens. Remember this still includes punctuation. 
+
+#*sorted* places items in the list into alphabetical order, with punctuation symbols and capitalised words first.
 
 # <codecell>
 len(text3)
