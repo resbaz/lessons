@@ -677,8 +677,8 @@ from urllib import urlopen # a library for working with urls
 url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/corpora/oz_politics/ozpol.txt" # define the url
 raw = urlopen(url).read() # download and read the corpus into raw variable
 raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
-print len(raw) # how many characters does it contain?
-print raw[:2000] # first 2000 characters
+len(raw) # how many characters does it contain?
+raw[:2000] # first 2000 characters
 
 # <markdowncell>
 # We actually already downloaded this file when we first cloned the ResBaz GitHub repository. It's in our *corpora* folder. We can access it like this:
@@ -688,13 +688,13 @@ f = open('corpora/oz_politics/ozpol.txt')
 raw = f.read()
 raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
 len(raw)
-print raw[:2000] 
+raw[:2000] 
 
 # <headingcell level=2>
 # Regular Expressions
 
 # <markdowncell>
-# Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming platforms, and can also be used in GUI text editors and word processers.
+# Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming languages, and can also be used in GUI text editors and word processers.
 
 # <codecell>
 import nltk # just in case (you should only need to import a library once per session, but nothing bad will happen if you do it again)
