@@ -384,7 +384,7 @@ print 'Our fruit salad contains: ' + listasastring
 #  Indexing Lists
 
 # <markdowncell>
-# We can navigate this list with the help of indexes. Just as we can find out the number of times a word occurs in a text, we can also find where a word first occurs. We can also navigate to different points in a text.
+# We can navigate this list with the help of indexes. Just as we can find out the number of times a word occurs in a text, we can also find where a word first occurs. We can navigate to different points in a text without restriction, so long as we can describe where we want to be.
 
 # <codecell>
 text4.index('awaken')
@@ -418,9 +418,9 @@ sent = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
 sent[0]
 sent[8]
 
-# Note that the first element in the list is zero. This is because we are telling Python to go zero steps forward in the list. If we use an idnex that is too large (that is, we ask for something that doesn't exist), we'll get an error.
+# Note that the first element in the list is zero. This is because we are telling Python to go zero steps forward in the list. If we use an index that is too large (that is, we ask for something that doesn't exist), we'll get an error.
 
-# We can modify elements in a list by assigning to one of its index values. We can also replace a slice with new material.
+# We can modify elements in a list by assigning new data to one of its index values. We can also replace a slice with new material.
 
 # <codecell>
 
@@ -433,8 +433,8 @@ sent
 
 # <markdowncell>
 # In Python, we give the items we're working with names, a process called assignment. For instance, in the NLTK corpus, 'Sense and Sensibility' has been assigned the name 'text2', which is much easier to work with. 
-# We also assigend the name 'sent' to the sentence that we created in the previous exercise, so that we could then instruct Python to do various things with it. Assigning a variable in python looks like this:
-# variable = expression
+# We also assigend the name 'sent' to the sentence that we created in the previous exercise, so that we could then instruct Python to do various things with it. Assigning a variable in python looks like this:  
+# variable = expression   
 # You can call your variables (almost) anything you like, but it's a good idea to pick names that will be meaningful and easy to type. You can't use words that already have a meaning in Python, such as import, def, or not. If you try to use a word that is reserved, you'll get a syntax error.
 
 # <markdowncell>
