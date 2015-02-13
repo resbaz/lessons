@@ -72,6 +72,7 @@ So, we've learned some great skills! But, we need to know how to put these skill
 * Storing your data and results
 * Using what you’ve found
 * Summary
+
 # Additional resources
 
 Here are some links that may come in handy if you want more information about what the NLTK stream is all about.

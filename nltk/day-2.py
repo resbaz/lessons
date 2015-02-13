@@ -1230,7 +1230,7 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 # <markdowncell>
 
 # 1. Most importantly, **write comments on your code**. You **will** forget what bits of code are supposed to do. Using others' code is much easier if it's commented up. A related point is to name your variables meaningfully: *variablexxy* does not tell us much about what it will contain.
-# 2. **Version control**. When editing your code, you may sometimes break it. LINK TO DAMIEN'S STUFF
+# 2. **Version control**. When editing your code, you may sometimes break it. [Here](https://drclimate.wordpress.com/2012/11/16/version-control/)'s a write-up about version control from Damien Irving.
 # 3. **Share your code**. You are often doing novel things when you code, and sharing what you've done can save somebody else a lot of work. *Github* is free for open-source projects. Github provides version control, which is especially useful when you are working with a team.
 
 # <headingcell level=3>

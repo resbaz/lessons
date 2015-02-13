@@ -17,7 +17,7 @@
 # * Additional skills: **Regular Expressions**, some **Shell commands**, and **tips on managing your data**
 
 # You can head [here](https://github.com/resbaz/lessons/blob/master/nltk/README.md) for the fully articulated overview of the course, but we'll almost always stay within IPython. 
-# Remember, everything we cover here will remain available to you after ResBaz is over, including these Notebooks. It's all accessible at the [ResBaz Github](https://github.com/resbaz/lessons/tree/master/nltk).
+# Remember, everything we cover here will remain available to you after ResBaz is over, including these Notebooks. It's all accessible at the [ResBaz GitHub](https://github.com/resbaz/lessons/tree/master/nltk).
 
 # **Any questions before we begin?**
 
@@ -115,14 +115,12 @@ text4.count("American")
 text1.concordance("monstrous")
 
 # <codecell>
-
 text1.similar("monstrous")
 
 # <codecell>
 text2.similar("monstrous")
 
 # <codecell>
-
 text2.common_contexts(["monstrous", "very"])  # this function takes two arguments
 
 # <markdowncell>
@@ -196,11 +194,10 @@ if string == 'user':
 print 'Phew, fixed.'
 
 # <markdowncell>
-# So, whitespace tells both Python and human readers where things start and stop.
+# So, whitespace tells both Python and human readers where things start and stop. You should be able to get different kinds of output depending on how you indent the code below.
 
 # <codecell>
-# You should be able to get different kinds of output depending on how you indent this code.
-
+# \n means 'newline character'---i.e. print a line break
 print 'Python\nis\n'
 for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
     print i + '\n'
@@ -220,9 +217,10 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 # Input/Output Types
 
 # <markdowncell>
-# * Python understands different *types* of input, including *string*, *integer*, *array*, *item* ... 
+# * Python understands different *types* of input, including *string*, *unicode string*, *integer*, *item*, *tuple*, *dict*.
+# * Different types of information behave in different ways, and the ways they are represented visually are different as well.
 # * You need to always make sure your input types are correct, or Python won't know what to do with them.
-# * For example, if you're trying to do maths, everything has to be an integer:
+# * For example, if you're trying to do maths, you'll want to be working with *integers*:
 
 # <codecell>
 1 + 2  # integer plus integer
@@ -231,14 +229,20 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 1 + '2'  # integer plus string
 
 # <markdowncell>
-# You can determine the type of data stored in a variable with type():
+# You can determine the type of data stored in a variable with *type()*. Below are the most common types. Note how quotation marks, and brackets are used to distinguish between them when writing code.
 
 # <codecell>
 var = 'A string'
 print type(var)
+var = u'A unicode string'
+print type(var)
 var = 42
 print type(var)
 var = ['item']
+print type(var)
+var = ('item', 'another')
+print type(var)
+var = {'entry': 7}
 print type(var)
 
 # <markdowncell>
@@ -282,6 +286,19 @@ print answer
 # You can get more information on IPython, including how to install it on your own machine, at the [IPython Homepage](http://ipython.org).
 
 # > **Note**: not everybody uses *IPython*, so later in the course we'll explain how to convert your work here into 'regular python' scripts.
+
+# <markdowncell>
+# So, the last thing to do in this session is to discuss what you all make of IPython. Can anyone see potential for Python in their own research? What are you working on, anyway? 
+
+# Anything you're struggling with so far?
+
+# <headingcell level=1>
+# Session 2: Functions, lists and variables
+
+# <markdowncell>
+# Welcome back. How's everybody settling in?
+
+# At this point, we want to dive more deeply into general Python functionality. We want to define some functions, manipulate some lists, and understand better what variables are and what they do.
 
 # <headingcell level=3>
 # Defining a function
@@ -369,13 +386,12 @@ listasastring = ''.join(fruitsalad)  # create a string with all the list items j
 print 'Our fruit salad contains: ' + listasastring
 
 # <markdowncell>
-# ... whoops! Still ugly. We didn't put anything in between the '' to use as a delimiter
+# ... whoops! Still ugly. We didn't put anything in between the '' to use as a delimiter.
 
 # <codecell>
 fruitsalad.append('canteloupe')
 listasastring = ', '.join(fruitsalad)  # note the comma and space in quotation marks
 print 'Our fruit salad contains: ' + listasastring
-
 
 # <headingcell level=3>
 #  Indexing Lists
@@ -451,17 +467,15 @@ alphabetised = sorted(clause)
 # If you want Python to show you the result, you have to ask for it (this is a good thing when you assign a variable to a very long list!).
 
 # <codecell>
-
 clause
 
 
 # <codecell>
-
 alphabetised
 
 
 # <headingcell level=3>
-# Exploring vocabulary 2
+# Frequency distributions
 
 # <markdowncell>
 # We can use Python's ability to perform statistical analysis of data to do further exploration of vocabulary. For instance, we might want to be able to find the most common or least common words in a text. We'll start by looking at frequency distribution.
@@ -622,7 +636,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # It's a lot to take in and it will probably take a while before you feel really comfortable.
 
 # <headingcell level=1>
-# Session 2: Common NLTK tasks
+# Session 3: Common NLTK tasks
 
 # <markdowncell>
 # <br>
@@ -668,7 +682,15 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # Loading a corpus
 
 # <markdowncell>
-# First, we have to load a corpus. We'll use a text file containing posts to an Australian forum. This file is available online, at the [ResBaz Github](https://github.com/resbaz). We can ask Python to get it for us. 
+# First, we have to load a corpus. We'll use a text file containing posts to an Australian online forum for discussing politics. It's full of very interesting natural language data!
+
+# <codecell>
+from IPython.display import display
+from IPython.display import HTML
+HTML('<iframe src=http://www.ozpolitic.com/forum/YaBB.pl?board=global')
+
+# <markdowncell>
+# This file is available online, at the [ResBaz GitHub](https://github.com/resbaz). We can ask Python to get it for us. 
 
 # > Later in the course, we'll discuss how to extract data from the Web and turn this data into a corpus.
 
@@ -722,11 +744,11 @@ for line in raw.splitlines():
 # ... but regex can be much more powerful than that. Certain characters have special meanings:
 
 # * . (period): any character
-# * * (asterisk): any number of times
+# * \* (asterisk): any number of times
 # * \b: word boundary
 # * ^ (carat): start of a line
 # * $ (dollar sign): end of a line
-# * + (plus): one or more times
+# * \+ (plus): one or more times
 # * [xy]: either x or y
 # * o{5}: five os in a row
 # * o{5,}: at least five os in a row
