@@ -232,11 +232,12 @@ for filename in os.listdir(corpus_path):
     cfdist['count'][metadata['Date'].split('/')[-1]] += 1
 cfdist.plot()
 
+# <markdowncell>
+# Now let's build another graph, but this time by the 'Description' field:
 # <codecell>
-# Now let's build another graph, but this time by the 'Description' field
 cfdist2 = ConditionalFreqDist()
 for filename in os.listdir(corpus_path):
-    text = open(os.path.join(corpus_path, filename))).read()
+    text = open(os.path.join(corpus_path, filename)).read()
     text = text.split("<!--end metadata-->")
     metadata = parse_metadata(text[0])
     if metadata['Date'][0] == 'c':
@@ -339,6 +340,9 @@ for filename in files:
 
 # <codecell>
 # corpus as single file ... ?
+from keywords import keywords_and_ngrams
+import sys
+sys.path.insert(0, 'spindle-code-master/keywords')
 keywords_and_ngrams(raw.encode("UTF-8"), nBigrams = 0)
 
 # <headingcell level=3>
@@ -416,6 +420,12 @@ for word_and_tag in tagged:
 # In linguistics, there is a level *between* the word and the clause: we call this the *phrase*.
 
 # Noun phrase: *the happy fellow*, *interested parties* *
+
+
+
+
+
+
 
 # Things can get even more complicated than that: 
 
@@ -503,7 +513,7 @@ from IPython.display import display, clear_output # for clearing huge lists of o
 # We should set two variables that are used repeatedly during the investigation. If you were using this interface for your own corpora, you would change 'fraser' to the path to your data.
 
 # <codecell>
-path = 'fraser-corpus-annotated' # path to corpora from our current working directory.
+path = 'corpora/fraser-corpus-annotated' # path to corpora from our current working directory.
 
 # <headingcell level=3>
 # Interrogating the corpus
@@ -851,26 +861,26 @@ plotter('After merging Australian and Australians', merged, num_to_plot = 2)
 # <codecell>
 # here, we use a subcorpus of politics articles,
 # rather than the total annual editions.
-conc('fraser-corpus-annotated/1966', r'/(?i)\baustral.?/') # adj containing a risk word
+conc(os.path.join(path,'1966'), r'/(?i)\baustral.?/') # adj containing a risk word
 
 # <markdowncell>
 # You can set *conc()* to print *n* random concordances with the *random = n* parameter. You can also store the output to a variable for further searching.
 
 # <codecell>
-randoms = conc('fraser-corpus-annotated/1963', r'/(?i)\baustral.?/', random = 5)
+randoms = conc(os.path.join(path,'1963'), r'/(?i)\baustral.?/', random = 5)
 pprint.pprint(randoms)
 
 # <markdowncell>
 # *conc()* takes another argument, window, which alters the amount of co-text appearing either side of the match.
 
 # <codecell>
-conc('fraser-corpus-annotated/1981', r'/(?i)\baustral.?/', random = 5, window = 50)
+conc(os.path.join(path,'1981'), r'/(?i)\baustral.?/', random = 5, window = 50)
 
 # <markdowncell>
 # *conc()* also allows you to view parse trees. By default, it's false:
 
 # <codecell>
-conc('fraser-corpus-annotated/1954', r'/(?i)\baustral.?/', random = 5, window = 30, trees = True)
+conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, trees = True)
 
 # <markdowncell>
 # The final *conc()* argument is a *csv = 'filename'*, which will produce a comma-separated spreadsheet with the results of your query. 
@@ -878,7 +888,7 @@ conc('fraser-corpus-annotated/1954', r'/(?i)\baustral.?/', random = 5, window = 
 
 # <codecell>
 # <codecell>
-conc('fraser-corpus-annotated/1954', r'/(?i)\baustral.?/', random = 5, window = 30, trees = True, csvmake = 'conc.txt')
+conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, trees = True, csvmake = 'conc.txt')
 
 # <codecell>
 # get the first ten lines of the csv file:
@@ -1113,7 +1123,6 @@ plotter('Processes', processes.results[2:], fract_of = processes.totals)
 
 # <markdowncell>
 # For discussion: what events are being discussed when *believe* is the process? Why use *believe* here?
-# <br>
 # <br>
 
 # Next, let's chart noun phrases headed by a proper noun (*the Prime Minister*, *Sydney*, *John Howard*, etc.). We can define them like this:
