@@ -278,9 +278,9 @@ print answer
 # <markdowncell>
 # So, we've been writing Python code in an IPython notebook. Why?
 
-# 1. The main strength of IPython is that you can run bits of code individually, so you don't have to keep repeating things. In the previous cell, IPython remembered two ingredients in the fruit salad.
-# 2. IPython also allows you to display images alongside code, and to save the input and output together.
-# 3. IPython also makes learning a bit easier, as mistakes are easier to find and do not break an entire workflow.
+# 1. The main strength of IPython is that you can run bits of code individually, so you don't have to keep repeating things. For example, if you scroll up to the last function and replace the 50 with 2, you can re-run that code and get the new answer. 
+# 2. IPython allows you to display images alongside code, and to save the input and output together.
+# 3. IPython makes learning a bit easier, as mistakes are easier to find and do not break an entire workflow.
 
 # You can get more information on IPython, including how to install it on your own machine, at the [IPython Homepage](http://ipython.org).
 
