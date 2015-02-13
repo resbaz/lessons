@@ -457,18 +457,15 @@ alphabetised = sorted(clause)
 
 clause
 
-
 # <codecell>
 
 alphabetised
-
 
 # <headingcell level=3>
 # Exploring vocabulary 2
 
 # <markdowncell>
 # We can use Python's ability to perform statistical analysis of data to do further exploration of vocabulary. For instance, we might want to be able to find the most common or least common words in a text. We'll start by looking at frequency distribution.
-
 
 # <codecell>
 fdist1 = FreqDist(text1)
@@ -486,7 +483,7 @@ fdist1.plot(50, cumulative = True)
 # *Challenge!*
 
 # Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
-# Discuss what you found with your neighbour
+# Discuss what you found with your neighbour.
 
 # <codecell>
 # As well as counting individual words, we can count other features of vocabulary, such as how often words of different lengths occur. We do this by putting together a number of the commands we've already learned.
@@ -500,15 +497,13 @@ fdist2= FreqDist(len(w) for w in text1)
 
 fdist2.max()
 
-
 # <codecell>
 
 fdist2.freq(3)
 
-
 # <markdowncell>
 # These last two commands tell us that the most common word length is 3, and that these 3 letter words account for about 20% of the book. 
-# We can see this just by visually inspecting the list produced by fdist2.most_common(), but if this list were too long to inspect readily, or we didn't want to print it, there are other ways to explore it.  
+# We can see this just by visually inspecting the list produced by *fdist2.most_common()*, but if this list were too long to inspect readily, or we didn't want to print it, there are other ways to explore it.  
 
 
 # <markdowncell> 
@@ -521,7 +516,8 @@ sorted(long_words)
 
 
 # <markdowncell>
-# We can fine-tune our selection even further by adding further conditions. For instance, we might want to find long words that occur frequently (or rarely)
+# We can fine-tune our selection even further by adding other conditions. For instance, we might want to find long words that occur frequently (or rarely).  
+
 # *Challenge!*
 
 # Can you find all the words in a text that are more than seven letters long and occur more than seven times?
