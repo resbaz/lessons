@@ -389,7 +389,7 @@ sorted(finder.nbest(bigram_measures.raw_freq, 30))
 # > **Note:** It is generally considered good practice to train your tagger by exposing it to well-annotated language of a similar variety. For reasons of scope, however, training taggers and parsers is not covered in these sessions.
 
 # <codecell>
-text = word_tokenize("We can put any text we like here, and NLTK will tag each word with its part of speech.")
+text = word_tokenize("We can easily put any text we like here, and NLTK will tag each word with its part of speech.")
 tagged = nltk.pos_tag(text)
 tagged
 
@@ -402,53 +402,85 @@ for word_and_tag in tagged:
         print word_and_tag[0]
 
 # <markdowncell>
-# It's possible, but tricky, to design more complex queries with tagged data:
+# It's possible, but tricky, to design more complex queries with tagged data. Below, we find words based on the adjacency of other words:
 
 # <codecell>
 for word_and_tag in tagged:
     # let's find modal auxiliaries ...
     if word_and_tag[1] == 'MD':
-        # when the next word is tag
-        if tagged[tagged.index(word_and_tag) + 1][0] == 'tag':
-            #and when the next word's tag is VB
-            if tagged[tagged.index(word_and_tag) + 1][1] == 'VB':
+        print word_and_tag[0]
+        if tagged[tagged.index(word_and_tag) + 1][1] == 'VB':
+            print word_and_tag[0]
+            if tagged[tagged.index(word_and_tag) + 1][0] == 'tag':
                 print word_and_tag[0]
 
 # <markdowncell>
-# This is pretty cool, but it's a fairly limited approach. 
+# This is pretty cool, but it's a fairly limited approach. The reason it's limited is that adjacency is not the only way in which words in a sentence are related to one another. If we are interested in modal auxiliaries that modify the verb *tag*, we would like our search to match:
 
-# In linguistics, there is a level *between* the word and the clause: we call this the *phrase*.
+# * it **will** tag ...
+# * it **could** potentially tag
+# * it **can**'t always easily tag
+# and so on...
 
-# Noun phrase: *the happy fellow*, *interested parties* *
+# In order to match these examples, we have to develop annotations not only of words, but groups of words. If we recognise *will tag*, *could potentially tag*, and *can't always easily tag* as groups, it makes it much easier to search for the modal auxiliaries within them.
 
-
-
-
-
-
-
-# Things can get even more complicated than that: 
-
-# Prepositional phrases typically contain a preposition, followed by a noun phrase. So, phrases may be embedded within other phrases.
-
-# Because of these issues, it becomes necessary to *parse* language---that is, represent not only parts of speech, but phrases and clauses.
+# The task of automatically annotating this level of information is called *parsing*.
 
 # <headingcell level=2>
 # Parsing
 
 # <markdowncell>
-# Parsing involves determining parts of speech for each word, but also the underlying grammatical structure of a sentence.
+# Parsing involves determining parts of speech for each word, but also the underlying grammatical structure of a sentence. There are many different grammars for a language like English, and accordingly, many different parsers. We're going to work for now with a very mainstream grammar, and a well-known parser.
 
 # <headingcell level=3>
 # Phrase structure grammar
 
 # <markdowncell>
-
 # Phrase structure grammar is the tree-style representation popularised by generative grammarians (i.e. [Chomsky 1965](#ref:chomsky)):
 
 # <br>
 # <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/wooltree.png" />
 # <br>
+
+# <markdowncell>
+# EXPLAIN A LITTLE BIT ABOUT PSG HERE...
+
+
+# <headingcell level=3>
+# heading
+
+# <markdowncell>
+# NLTK as a library consists of many, many computational linguistic tools.
+
+# It is largely oriented toward *building* parsers, rather than simply *using* them. Building parsers is a *very* complicated thing, however. To build a parser, you need to write out a grammar, and train a machine to learn this grammar by feeding it a corpus of correctly annotated clauses. This kind of task is well beyond the scope of our short course, unfortunately.
+
+# > If you're interested in the idea of developing a grammar, you can head [here](http://www.nltk.org/book/ch08.html) for NLTK's documentation.
+
+# What we're going to do is use a parser that works 'out of the box', without any training. One of the simpest to use within NLTK/Python is *pyStatParser*. First, we have to install it.
+
+# <codecell>
+# copy the parser files
+! git clone https://github.com/emilmont/pyStatParser.git
+import os
+# go to parser directory
+os.chdir('pyStatParser')
+# install parser
+! python setup.py install
+# back to original directory
+os.chdir('..')
+
+# <codecell>
+#import parser
+from stat_parser import Parser
+# instantiate parser
+parser = Parser()
+# parse and print a sentence
+print parser.parse("We act to prevent a wider war, to diffuse a powder keg at the heart of Europe that has exploded twice before in this century with catastrophic results.")
+
+
+# <markdowncell>
+# VISUALISE THE PARSE AND SUMMARISE HERE.
+
 
 # <headingcell level=2>
 # Summary
