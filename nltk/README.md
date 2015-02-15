@@ -34,14 +34,13 @@ In this session, we devote more time to the fundamentals of Python, learning how
 
 We've now got a basic understanding of Python. There's still a lot more to learn, though! This final session on the first day of ResBaz involves using the skills we've already learned to perform common kinds of analysis on real data. Key tasks covered are:
 
-
 * Overview of common tasks, and why we need them
 * Using our own data (from web and from disk)
 * Searching with [Regular Expressions](http://www.regular-expressions.info/) and then by NLTK stemmer
 * Sentence splitting: trivial or not?
 * Tokenisation: defining a word and operationalising this definition
 * Keywording
-* Clustering
+* Clustering/n-gramming
 * Collocation
 * Concordancing
 
@@ -72,8 +71,9 @@ In this session, we're going to use some purpose-built tools to look for longitu
 So, we've learned some great skills! But, we need to know how to put these skills into practice within our own work. Using the Fraser Speech Corpus data and our findings, we'll conclude the stream by focussing on:
 
 * Storing your data and results
-* Using what you’ve found
-* Summary
+* Using what you’ve learned here
+* Developing your skills further
+* Summarising and saying goodbye
 
 # Additional resources
 
@@ -85,7 +85,4 @@ Here are some links that may come in handy if you want more information about wh
 * [GitHub](https://github.com): a home for you code, with version control
 * [ResBaz materials on GitHub](https://github.com/resbaz): where all the open-source ResBaz materials can be found, including the IPython Notebooks and functions for turning them into .py, .tex, .html or .md files
 * [Stack Overflow](http://stackoverflow.com/): many common Python/IPython/NLTK/Regex/Shell questions and answers can be found here.
-
-That's all for now, but watch this space, as the materials are constantly being developed!
-
 
