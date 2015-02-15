@@ -104,13 +104,14 @@ from nltk.text import Text
 
 # <codecell>
 # make a list of files in the directory 'UMA_Fraser_Radio_Talks'
-#
+files = os.listdir('corpora/UMA_Fraser_Radio_Talks')
+files[:3]
 
 # <markdowncell>
 # Actually, since we'll be referring to this path quite a bit, let's make it into a variable. This makes our code easier to use on other projects (and saves typing)
 
 # <codecell> 
-#
+corpus_path = 'corpora/UMA_Fraser_Radio_Talks'
 
 # <markdowncell>
 # We can now tell Python to get the contents of a file in the file list and print it:
@@ -118,7 +119,9 @@ from nltk.text import Text
 # <codecell>
 # print file contents
 # change zero to something else to print a different file
-#
+f = open(os.path.join(corpus_path, files[0]), "r")
+text = f.read()
+print text
 
 # <headingcell level=3>
 # Exploring further: splitting up text
@@ -137,25 +140,44 @@ data = open(os.path.join(corpus_path, os.listdir(corpus_path)[0])).read().split(
 
 # <codecell>
 # view the first part
-#
+data[0]
+# put print before this to change the way you see it!
 
 # <codecell>
 # split into lines, add '*' to the start of each line
 # \r is a carriage return, like on a typewriter.
 # \n is a newline character
-#
+for line in data[0].split('\r\n'):
+    print '*', line
 
 # <codecell>
 # skip empty lines and any line that starts with '<'
-#
+for line in data[0].split('\r\n'):
+    if not line:
+        continue
+    if line[0] == '<':
+        continue
+    print '*', line
 
 # <codecell>
 # split the metadata items on ':' so that we can interrogate each one
-#
+for line in data[0].split('\r\n'):
+    if not line:
+        continue
+    if line[0] == '<':
+        continue
+    element = line.split(':')
+    print '*', element
 
 # <codecell>
 # actually, only split on the first colon
-#
+for line in data[0].split('\r\n'):
+    if not line:
+        continue
+    if line[0] == '<':
+        continue
+    element = line.split(':', 1)
+    print '*', element
 
 # <headingcell level=3>
 # **Challenge**: Building a Dictionary
@@ -169,10 +191,10 @@ data = open(os.path.join(corpus_path, os.listdir(corpus_path)[0])).read().split(
 # create a dictionary
 commonwords = {'the': 4023, 'of': 3809, 'a': 3098}
 # search the dictionary for 'of'
-# 
+commonwords['of']
 
 # <codecell>
-#
+type(commonwords)
 
 # <markdowncell>
 # The point of dictionaries is to store a *key* (the word) and a *value* (the count). When you ask for the key, you get its value.
@@ -186,11 +208,19 @@ commonwords = {'the': 4023, 'of': 3809, 'a': 3098}
 #       metadata = {}
 
 # <codecell>
-#
+metadata = {}
+for line in data[0].split('\r\n'):
+    if not line:
+        continue
+    if line[0] == '<':
+        continue
+    element = line.split(':', 1)
+    metadata[element[0]] = element[-1]
+print metadata
 
 # <codecell>
 # look up the date
-#
+print metadata['Date']
 
 # <headingcell level=3>
 # Building functions
@@ -202,16 +232,26 @@ commonwords = {'the': 4023, 'of': 3809, 'a': 3098}
 
 # <codecell>
 # open the first file, read it and then split it into two parts, metadata and body
-#
+data = open(os.path.join(corpus_path, 'UDS2013680-100-full.txt'))
+data = data.read().split("<!--end metadata-->")
 
 # <codecell>
-#
+def parse_metadata(text):
+    metadata = {}
+    for line in text.split('\r\n'):
+        if not line:
+            continue
+        if line[0] == '<':
+            continue
+        element = line.split(':', 1)
+        metadata[element[0]] = element[-1].strip(' ')
+    return metadata
 
 # <markdowncell>
 # Test it out!
 
 # <codecell>
-#
+parse_metadata(data[0])
 
 # <markdowncell>
 # Now that we're confident that the function works, let's find out a bit about the corpus.
@@ -222,13 +262,33 @@ commonwords = {'the': 4023, 'of': 3809, 'a': 3098}
 from nltk.probability import ConditionalFreqDist
 import matplotlib
 % matplotlib inline
-#
+cfdist = ConditionalFreqDist()
+for filename in os.listdir(corpus_path):
+    text = open(os.path.join(corpus_path, filename)).read()
+    #split text of file on 'end metadata'
+    text = text.split("<!--end metadata-->")
+    #parse metadata using previously defined function "parse_metadata"
+    metadata = parse_metadata(text[0])
+    #skip all speeches for which there is no exact date
+    if metadata['Date'][0] == 'c':
+        continue
+    #build a frequency distribution graph by year, that is, take the final bit of the 'Date' string after '/'
+    cfdist['count'][metadata['Date'].split('/')[-1]] += 1
+cfdist.plot()
 
 # <markdowncell>
 # Now let's build another graph, but this time by the 'Description' field:
 
 # <codecell>
-#
+cfdist2 = ConditionalFreqDist()
+for filename in os.listdir(corpus_path):
+    text = open(os.path.join(corpus_path, filename)).read()
+    text = text.split("<!--end metadata-->")
+    metadata = parse_metadata(text[0])
+    if metadata['Date'][0] == 'c':
+        continue
+    cfdist2['count'][metadata['Description']] += 1
+cfdist2.plot()
 
 # <headingcell level=4>
 # Discussion
@@ -242,7 +302,18 @@ import matplotlib
 # Hint: you'll need to tell Python to ignore the 'c' and just take the digits
 
 # <codecell>
-#
+cfdist3 = ConditionalFreqDist()
+for filename in os.listdir(corpus_path):
+    text = open(os.path.join(corpus_path, filename)).read()
+    text = text.split("<!--end metadata-->")
+    metadata = parse_metadata(text[0])
+    date = metadata['Date']
+    if date[0] == 'c':
+        year = date[1:]
+    elif date[0] != 'c':
+        year = date.split('/')[-1]
+    cfdist3['count'][year] += 1
+cfdist3.plot()
 
 # <headingcell level=3>
 # Structuring our data by metadata feature
@@ -257,7 +328,34 @@ import matplotlib
 # So, let's try this:
 
 # <codecell>
-#
+import re
+# a path to our soon-to-be organised corpus
+newpath = 'corpora/fraser-annual'
+#if not os.path.exists(newpath):
+    #os.makedirs(newpath)
+files = os.listdir(corpus_path)
+# define a regex to match year portion of date
+yearfinder = re.compile('[0-9]{4}')
+for filename in files:
+    # split file contents at end of metadata
+    data = open(os.path.join(corpus_path, filename)).read().split("<!--end metadata-->")
+    # get date from data[0]
+    # use our metadata parser to get metadata
+    metadata = parse_metadata(data[0])
+    #look up date field of dict entry
+    date = metadata.get('Date')
+    # search date for year
+    yearmatch = re.search(yearfinder, str(date))
+    #get the year as a string
+    year = str(yearmatch.group())
+    # make a directory with the year name
+    if not os.path.exists(os.path.join(newpath, year)):
+        os.makedirs(os.path.join(newpath, year))
+    # make a new file with the same name as the old one in the new dir
+    fo = open(os.path.join(newpath, year, filename),"w")
+    # write the content portion, without metadata
+    fo.write(data[1])
+    fo.close()
 
 # <markdowncell>
 # Did it work? How can we check?
@@ -279,15 +377,33 @@ import matplotlib
 # So, let's do it a much more sustainable way.
 
 # <codecell>
-#
+import os
+corpus = 'corpora/fraser-annual'
+all_text = []
+for subcorpus in os.listdir(corpus):
+    subcorpus_text = []
+    for txtfile in os.listdir(os.path.join(corpus, subcorpus)):
+        data = open(os.path.join(corpus, subcorpus, txtfile)).read()
+        data = data.lower() # make it lowercase!
+        subcorpus_text.append(data)
+    subcorpus_text = '\n'.join(subcorpus_text)
+    all_text.append(subcorpus_text)
 
 # <markdowncell>
 # So now we have each subcorpus as a list item in *all_text*. We can generate keywords for each:
 
 # <codecell>
-# reimport keyworder ...
-#
+# reimport keyworder
+import sys
+sys.path.insert(0, 'spindle-code-master/keywords')
+from keywords import keywords_and_ngrams 
+results = []
+for text in all_text:
+    result = keywords_and_ngrams(text)
+    results.append(result)
 
+# this takes a while to complete. maybe you want to add in some
+# print commands that tell you where the code is currently at?
 
 # <markdowncell>
 # ... and do whatever we like with our results. In the cell below, why don't you try to develop a way of printing some useful results?
@@ -296,7 +412,13 @@ import matplotlib
 
 # <codecell>
 # print top 10 keywords and bigrams from each subcorpus, maybe?
-#
+corpus = 'corpora/fraser-annual'
+subcorpora = os.listdir(corpus)
+for index, result in enumerate(results):
+    keys = result[0]
+    print subcorpora[index]
+    for key in keys[:10]:
+        print key[0]
 
 # <headingcell level=3>
 # Collocation in Fraser's speeches
@@ -397,7 +519,10 @@ finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or n
 # Before we start annotating our own corpora, let's just quickly play with a pre-annotated corpus.
 
 # <codecell>
-#
+from nltk.corpus import brown
+print(brown.words())
+print(brown.tagged_words())
+
 # <markdowncell>
 # So, each word in the 1961 *Brown Corpus* is tagged for its part of speech, as well as some additional information. The tag descriptions are available here:
 
@@ -405,12 +530,18 @@ finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or n
 HTML('<iframe src=http://en.wikipedia.org/wiki/Brown_Corpus#Part-of-speech_tags_used width=700 height=350></iframe>')
 
 # <markdowncell>
-# So, we can pretty easily make lists containing all words of a given type. Below, we'll print the first 50 adverbs. Try changing the 'RB' to another kind of tag, and see what results turn up. 
+# So, we can pretty easily make lists containing all words of a given type. Below, we print the first 50 adverbs. Try changing the 'RB' to another kind of tag, and see what results turn up. 
 
 # > JJ and RB are shorthand for adjective and adverb.
 
 # <codecell>
-#
+from nltk.corpus import brown
+adverbs = []
+for tup in brown.tagged_words():
+    # get any word whose tag is adverb
+    if tup[1] == 'RB':
+        adverbs.append(tup[0])
+adverbs[:50]
 
 # <markdowncell>
 # It's easy to grasp the potential power of annotation: think how difficult it would be to write regular expressions that locate all adverbs!
@@ -427,14 +558,16 @@ HTML('<iframe src=http://en.wikipedia.org/wiki/Brown_Corpus#Part-of-speech_tags_
 
 # <codecell>
 text = word_tokenize("We can put any text we like here, and NLTK will tag each word with its part of speech.")
-#
-#
+tagged = nltk.pos_tag(text)
+tagged
 
 # <markdowncell>
 # We could use this to search text by part of speech:
 
 # <codecell>
-#
+for word_and_tag in tagged:
+    if word_and_tag[1] == 'NN':
+        print word_and_tag[0]
 
 # <markdowncell>
 # It's possible, but tricky, to design more complex queries with tagged data. Below, we find words based on the adjacency of other words:
@@ -512,7 +645,13 @@ os.chdir('..')
 
 # <codecell>
 #import parser
-#
+from stat_parser import Parser
+# name and load the parser
+parser = Parser()
+# parse and print a sentence
+tree = parser.parse("We act to prevent a wider war, to diffuse a powder keg at the heart of Europe "
+    "that has exploded twice before in this century with catastrophic results.")
+print tree
 
 # <markdowncell>
 # NLTK provides a *draw()* function for graphically representing these bracketted trees. With a bit of hacking, we can get IPython to show us the tree:
@@ -863,7 +1002,10 @@ aust.results[:3] # just the first few entries
 # We can use a *fract_of* argument to plot our results as a percentage of something else. This helps us deal with the issue of different amounts of data per year.
 
 # <codecell>
-#
+# as a percentage of all aust* words:
+plotter('Austral*', aust.results, fract_of = aust.totals)
+# as a percentage of all words (using our previous interrogation)
+plotter('Austral*', aust.results, fract_of = allwords.totals)
 
 # <markdowncell>
 # Great! So, we now have a basic understanding of the *interrogator()* and *plotter()* functions.
@@ -893,11 +1035,11 @@ aust.results[:3] # just the first few entries
 
 # <codecell>
 # maybe we want to get rid of all those non-words?
-
+plotter('Austral*', aust.results, fract_of = allwords.totals, num_to_plot = 3, y_label = 'Percentage of all words')
 
 # <codecell>
 # or see only the 1960s?
-
+plotter('Austral*', aust.results, fract_of = allwords.totals, num_to_plot = 3, yearspan = [1960,1969])
 
 # <markdowncell>
 # **Challenge:**: Use these examples to construct a plot that shows you something about the way in which Fraser talks about 'government' during the 1970s
@@ -920,7 +1062,7 @@ aust.results[:3] # just the first few entries
 # We can see the full glory of bad OCR here:
 
 # <codecell>
-#
+quickview(aust.results, n = 20)
 
 # <markdowncell>
 # The number shown next to the item is its index. You can use this number to refer to an entry when editing results.
@@ -936,13 +1078,13 @@ aust.results[:3] # just the first few entries
 # * a regular expression to search for
 # * a string, 'all', which will tally every result. This could be very many results, so it may be worth limiting the number of items you pass to it with [:n],
 # <codecell>
-#
+tally(aust.results, [0, 3])
 
 # <markdowncell> 
 # **Your turn**: Use 'all' to tally the result for the first 11 items in aust.results
 
 # <codecell>
-#
+tally(aust.results[:10], 'all')
 
 # <markdowncell>
 # The Regular Expression option is useful for merging results (see below).
@@ -962,7 +1104,8 @@ aust.results[:3] # just the first few entries
 # We can use it to remove some obvious non-words.
 
 # <codecell>
-#
+non_words_removed = surgeon(aust.results, [5, 9], remove = True)
+plotter('Some non-words removed', non_words_removed, fract_of = allwords.totals)
 
 # <markdowncell>
 # Note that you do not access surgeon lists with *aust.non_words_removed* syntax, but simply with *non_words_removed*.
@@ -984,9 +1127,10 @@ aust.results[:3] # just the first few entries
 
 # <codecell>
 # before:
-#
+plotter('Before merging Australian and Australians', aust.results, num_to_plot = 3)
 # after:
-#
+merged = merger(aust.results, [1, 2],  newname = 'australian(s)')
+plotter('After merging Australian and Australians', merged, num_to_plot = 2)
 
 # <headingcell level=4>
 # conc()
@@ -998,19 +1142,22 @@ aust.results[:3] # just the first few entries
 # 2. A Tregex query
 
 # <codecell>
-#
+# here, we use a subcorpus of politics articles,
+# rather than the total annual editions.
+conc(os.path.join(path,'1966'), r'/(?i)\baustral.?/') # adj containing a risk word
 
 # <markdowncell>
 # You can set *conc()* to print *n* random concordances with the *random = n* parameter. You can also store the output to a variable for further searching.
 
 # <codecell>
-#
+randoms = conc(os.path.join(path,'1963'), r'/(?i)\baustral.?/', random = 5)
+randoms
 
 # <markdowncell>
 # *conc()* takes another argument, window, which alters the amount of co-text appearing either side of the match.
 
 # <codecell>
-#
+conc(os.path.join(path,'1981'), r'/(?i)\baustral.?/', random = 5, window = 50)
 
 # <markdowncell>
 # *conc()* also allows you to view parse trees. By default, it's false:
@@ -1030,7 +1177,7 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 # get the first ten lines of the csv file:
 ! cat 'conc.txt' | head -n 10
 # and to delete it:
-# ! rm conc.txt
+# !rm conc.txt
 
 # <markdowncell>
 # OK, they're all the functions we need.
@@ -1112,10 +1259,14 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 
 # <codecell>
 # number of content words per clause
-#
+openwords = r'/\b(JJ|NN|VB|RB)+.?\b/'
+clauses = r'S < __'
+opencount = interrogator(path, '-C', openwords, lemmatise = True)
+clausecount = interrogator(path, '-C', clauses)
 
 # <codecell>
-#
+plotter('Lexical density', opencount.totals, 
+        fract_of = clausecount.totals, y_label = 'Lexical Density Score', multiplier = 1)
 
 # <markdowncell>
 # We can also look at the use of modals auxiliaries (*would could, may, etc.*) over time. This can be interesting, as modality is responsible for communicating certainty, probability, obligation, etc.
@@ -1127,45 +1278,52 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 # If modality interests you, later, it could be a good set of results to manipulate and plot.
 
 # <codecell>
-#modal query
-
-# <codecell>
-# modal plotter
+query = r'MD < __'
+modals = interrogator(path, '-t', query)
+plotter('Modals', modals.results, fract_of = modals.totals)
 
 # <codecell>
 # percentage of tokens that are I/me
+query = r'/PRP.?/ < /(?i)^(i|me|my)$/'
+firstperson = interrogator(path, '-C', query)
 
 # <codecell>
-# 
+plotter('First person', firstperson.totals, fract_of = allwords.totals)
 
 # <codecell>
 # percentage of questions
 query = r'ROOT <<- /.?\?.?/'
+questions = interrogator(path, '-C', query)
 
 # <codecell>
-# questions plotter
+plotter('Questions/all clauses', questions.totals, fract_of = clausecount.totals)
 
 # <codecell>
 # ratio of open/closed class words
 closedwords = r'/\b(DT|IN|CC|EX|W|MD|TO|PRP)+.?\b/'
-#
+closedcount = interrogator(path, '-C', closedwords)
 
 # <codecell>
-#
+plotter('Open/closed word classes', opencount.totals, 
+        fract_of = closedcount.totals, y_label = 'Open/closed ratio', multiplier = 1)
 
 # <codecell>
 # ratio of nouns/verbs
-#
+nouns = r'/NN.?/ < __'
+verbs = r'/VB.?/ < __'
+nouncount = interrogator(path, '-C', nouns)
+verbcount = interrogator(path, '-C', verbs)
 
 # <codecell>
-#
+plotter('Noun/verb ratio', nouncount.totals, fract_of = verbcount.totals, multiplier = 1)
 
 # <markdowncell>
 # Finally, to determine the diversity of nouns and verbs in each year, we can use a few different functions together, combined with a lemmatiser, and a bit of hacking of our functions. First, let's get lemmatised results for all nouns and all verbs:
 
 # <codecell>
 # these queries take a few minutes each!
-#
+differentnouns = interrogator(path, '-t', nouns, lemmatise = True) 
+differentverbs = interrogator(path, '-t', verbs, lemmatise = True)
 
 # <markdowncell>
 # Now, let's devise a function that will turn any result over zero occurrences to 1, to indicate its presence in that year.
@@ -1187,14 +1345,16 @@ def diversity_counter(results):
 # Run our lists through this new function:
 
 # <codecell>
-#
+num_different_nouns = diversity_counter(differentnouns.results)
+num_different_verbs = diversity_counter(differentverbs.results)
+print num_different_nouns[:2] # print a couple to see how our results look now
 
 # <markdowncell>
-# ... now merge all entries in both lists, and give the noun part a new name for our plotter:
-
+# ... now merge all entries in both lists, and give the noun part a new name for our plotter
 # <codecell>
-#
-#
+num_different_nouns = merger(differentnouns.results, r'.*', 
+    newname = 'Noun to verb diversity')
+num_different_verbs = merger(differentverbs.results, r'.*')
 clear_output() # this just stops the display of thousands of merged items...
 
 # <codecell>
@@ -1214,10 +1374,11 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 
 # <codecell>
 # heads of participants (heads of NPS not in prepositional phrases)
-#
+query = r'/NN.?/ >># (NP !> PP)'
+participants = interrogator(path, '-t', query, lemmatise = True)
 
 # <codecell>
-#
+plotter('Participants', participants.results, fract_of = allwords.totals)
 
 # <markdowncell>
 # Next, we can get the most common processes. That is, the rightmost verb in a verbal group (take a look at the visualised tree!)
@@ -1226,10 +1387,11 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 
 # <codecell>
 # most common processes
-#
+query = r'/VB.?/ >># VP >+(VP) VP'
+processes = interrogator(path, '-t', query, lemmatise = True)
 
 # <codecell>
-#
+plotter('Processes', processes.results[2:], fract_of = processes.totals)
 
 # <markdowncell>
 # It seems that the verb *believe* is a common process in 1973. Try to run *conc()* in the cell below to look at the way the word behaves.
@@ -1249,23 +1411,23 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 
 # <codecell>
 # any noun phrase headed by a proper noun
-#
+pn_query = r'NP <# NNP'
 
 # <markdowncell>
 # To make for more accurate results the *interrogator()* function has an option, *titlefilter*, which uses a regular expression to strip determiners (*a*, *an*, *the*, etc.), titles (*Mr*, *Mrs*, *Dr*, etc.) and first names from the results. This will ensure that the results for *Prime Minister* also include *the Prime Minister*, and *Fraser* results will include the *Malcolm* variety. The option is turned on in the cell below:
 
 # <codecell>
 # Proper noun groups
-#
+propernouns = interrogator(path, '-t', pn_query, titlefilter = True)
 
 # <codecell>
-#
+plotter('Proper noun groups', propernouns.results, fract_of = propernouns.totals, num_to_plot = 15)
 
 # <markdowncell>
 # Proper nouns are a really good category to investigate further, as it is through proper nouns that we can track discussion of particular people, places or things. So, let's look at the top 100 results:
 
 # <codecell>
-#
+quickview(propernouns.results, n = 100)
 
 # <markdowncell>
 #  You can now use the *merger()* and *surgeon()* options to make new lists to plot. Here's one example: we'll use *merger()* to merge places in Victoria, and then *surgeon()* to create a list of places in Australia.

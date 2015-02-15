@@ -7,6 +7,7 @@
 # <headingcell level=1>
 # Session 1: Orientation
 
+
 # <markdowncell>
 # <br>
 # Welcome to the *IPython Notebook*. Through this interface, you'll be learning a lot of things:
@@ -55,13 +56,15 @@ nltk.download("book", download_dir=user_nltk_dir) # download book materials to d
 # Oh, we've got to import some corpora used in the book as well...
 
 # <codecell>
-#
+from nltk.book import *  # asterisk means 'everything'
 
 # <markdowncell>
 # Importing the book has assigned variable names to ten corpora. We can call these names easily: 
 
 # <codecell>
-#
+#text1
+text2
+#text3
 
 # <headingcell level=3>
 # Exploring vocabulary
@@ -69,22 +72,22 @@ nltk.download("book", download_dir=user_nltk_dir) # download book materials to d
 # <markdowncell>
 # NLTK makes it really easy to get basic information about the size of a text and the complexity of its vocabulary.
 
-# *len()* gives the number of symbols or 'tokens' in your text. This is the total number of words and items of punctuation.
+# *len* gives the number of symbols or 'tokens' in your text. This is the total number of words and items of punctuation.
 
-# *set()* gives you a list of all the tokens in the text, without the duplicates.
+# *set* gives you a list of all the tokens in the text, without the duplicates.
 
 # Hence, **len(set(text3))** will give you the total number unique tokens. Remember this still includes punctuation. 
 
-# *sorted()* places items in the list into alphabetical order, with punctuation symbols and capitalised words first.
+#*sorted* places items in the list into alphabetical order, with punctuation symbols and capitalised words first.
 
 # <codecell>
-#
+len(text3)
 
 # <codecell>
-#
+len(set(text3))
 
 # <codecell>
-#
+sorted(set(text3)) 
 
 # <markdowncell>
 # We can investigate the *lexical richness* of a text. For example, by dividing the total number of words by the number of unique words, we can see the average number of times each word is used. 
@@ -92,10 +95,10 @@ nltk.download("book", download_dir=user_nltk_dir) # download book materials to d
 
 # <codecell>
 
-#
+len(text3)/len(set(text3))
 
 # <codecell>
-#
+text4.count("American")
 
 # <markdowncell>
 # **Challenge!** 
@@ -103,7 +106,7 @@ nltk.download("book", download_dir=user_nltk_dir) # download book materials to d
 # How would you calculate the percentage of Text 4 that is taken up by the word "America"?
 
 # <codecell>
-#
+100.0*text4.count("America")/len(text4) 
 
 # <headingcell level=3>
 # Exploring text - concordances, similar contexts, dispersion
@@ -114,13 +117,13 @@ nltk.download("book", download_dir=user_nltk_dir) # download book materials to d
 # although the results may include synonyms
 
 # <codecell>
-#
+text1.concordance("monstrous")
 
 # <codecell>
-#
+text1.similar("monstrous")
 
 # <codecell>
-#
+text2.similar("monstrous")
 
 # <codecell>
 text2.common_contexts(["monstrous", "very"])  # this function takes two arguments
@@ -132,7 +135,7 @@ text2.common_contexts(["monstrous", "very"])  # this function takes two argument
 # <codecell>
 import numpy
 % matplotlib inline # allow visuals to show up in this interface---see note below
-# create a dispersion plot here
+text1.dispersion_plot(["whale"])
 
 # <markdowncell>
 # **Challenge!**
@@ -141,7 +144,7 @@ import numpy
 # What do you think it tells you? 
 
 # <codecell>
-#
+text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"]) # plot five words longitudinally
 
 # <headingcell level=2>
 # How Python works
@@ -153,8 +156,10 @@ import numpy
 # A simple welcome message printer.
 # Anything after a hash is ignored
 # Run a cell with shift+enter
-#
-#
+
+condition = True
+if condition is True:
+    print 'Welcome to Python and the IPython Notebook.'
 
 # <markdowncell>
 # Success! *And so it begins ... *
@@ -217,10 +222,10 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 # * For example, if you're trying to do maths, you'll want to be working with *integers*:
 
 # <codecell>
-#
+1 + 2  # integer plus integer
 
 # <codecell>
-#
+1 + '2'  # integer plus string
 
 # <markdowncell>
 
@@ -233,19 +238,33 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 # You can determine the type of data stored in a variable with *type()*. Below are the most common types. Note how quotation marks, and brackets are used to distinguish between them when writing code.
 
 # <codecell>
-#
+var = 'A string'
+print type(var)
+var = u'A unicode string'
+print type(var)
+var = 42
+print type(var)
+var = ['item']
+print type(var)
+var = ('item', 'another')
+print type(var)
+var = {'entry': 7}
+print type(var)
 
 # <markdowncell>
 # Sometimes you can sometimes easily convert between types.
 
 # <codecell>
-#
+secondnumber = '2'
+1 + int(secondnumber)
 
 # <markdowncell>
 # ... and sometimes it's not so easy:
 
 # <codecell>
-#
+adjectives = ['wicked', 'radical', 'awesome']
+more_adjectives = str(adjectives) + 'overwhelmed'
+print more_adjectives
 
 # <headingcell level=3>
 # Basic syntax
@@ -256,11 +275,17 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 # > IPython highlights your code automatically, which can help you read it faster and spot problems.
 
 # <codecell>
-#
+from math import sqrt  # importing math library and square root function
+avariable = 50  # make a variable that is 50 as integer
+answer = sqrt(avariable)  # figure out the answer by issuing a command with avariable as an argument
+print answer  # tell us
 
 # <codecell>
 # This example has two arguments
-#
+from math import pow  # importing pow function (pow is short for 'power')
+avariable = 50
+answer = pow(avariable, 3)  # 50 to the power of 3
+print answer
 
 # <headingcell level=2>
 # Advantages of IPython
@@ -309,18 +334,18 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 # Using a function, determine which of the nine texts in the NLTK Book has the highest lexical diversity score.
 
 # <codecell>
-#
+def lexical_diversity(text):
+    return len(text)/len(set(text))
 
 # <codecell>
 #After the function has been defined, we can run it:
-#
+lexical_diversity(text2)
 
 # <markdowncell>
-# The parentheses are important here as they separate the the task, that is the work of the function, from the data that the function is to be performed on. 
-
+# The parentheses are important here as they sepatate the the task, that is the work of the function, from the data that the function is to be performed on. 
 # The data in parentheses is called the argument of the function. When we use a function, we say that we 'call' it. 
 
-# Other functions that we've used already include *len()* and *sorted()* - these were predefined. *lexical_diversity()* is one we set up ourselves; note that it's conventional to put a set of parentheses after a function, to make it clear what we're talking about.
+# Other functions that we've used already include len() and sorted() - these were predefined. *lexical_diversity()* is one we set up ourselves; note that it's conventional to put a set of parentheses after a function, to make it clear what we're talking about.
 
 # <headingcell level=3>
 # Lists
@@ -332,10 +357,10 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 sent1 = ['Call', 'me', 'Ishmael', '.']
 
 # <codecell>
-#
+sent1
 
 # <codecell>
-#
+len(sent1)
 
 # <markdowncell>
 # The opening sentences of each of our texts have been pre-defined for you. You can inspect them by typing in 'sent2' etc.
@@ -343,13 +368,14 @@ sent1 = ['Call', 'me', 'Ishmael', '.']
 # You can add lists together, creating a new list containing all the items from both lists. You can do this by typing out the two lists or you can add two or more pre-defined lists. This is called concatenation.
 
 # <codecell>
-#
+sent4 + sent1
 
 # <markdowncell>
-# We can also add an item to the end of a list by appending. When we *append()*, the list itself is updated. 
+# We can also add an item to the end of a list by appending. When we append(), the list itself is updated. 
 
 # <codecell>
-#
+sent1.append('Please')
+sent1
 
 # <markdowncell>
 # There are some things we can do to make it easier to read the contents of a string. Note that we get some brackets and so on when we try to print the items in a list as a string.
@@ -358,7 +384,7 @@ sent1 = ['Call', 'me', 'Ishmael', '.']
 fruitsalad = []  # declare an empty list
 fruitsalad.append('watermelon')  # add watermelon
 fruitsalad.append('orange')  # add orange
-# try to print our salad here
+print 'Our fruit salad contains: ' + str(fruitsalad)
 
 # <markdowncell>
 # If we want to print our ingredients in a nicer looking form, we might use a function like *join()*
@@ -367,6 +393,8 @@ fruitsalad.append('orange')  # add orange
 fruitsalad = []
 fruitsalad.append('watermelon')
 fruitsalad.append('orange')
+listasastring = ''.join(fruitsalad)  # create a string with all the list items joined together
+print 'Our fruit salad contains: ' + listasastring
 
 # <markdowncell>
 # ... whoops! Still ugly. We didn't put anything in between the '' to use as a delimiter.
@@ -389,19 +417,20 @@ text4.index('awaken')
 # This works in reverse as well. We can ask Python to locate the 158th item in our list (note that we use square brackets here, not parentheses)
 
 # <codecell>
-#
+text4[158]
 
 # <markdowncell>
 # As well as pulling out individual items from a list, indexes can be used to pull out selections of text from a large corpus to inspect. We call this slicing
 
 # <codecell>
-#
+text5[16715:16735]
 
 # <markdowncell>
 # If we're asking for the beginning or end of a text, we can leave out the first or second number. For instance, [:5] will give us the first five items in a list while [8:] will give us all the elements from the eighth to the end. 
 
 # <codecell>
-#
+text2[:10]
+text4[145700:]
 
 # <markdowncell>
 # To help you understand how indexes work, let's create one.
@@ -410,8 +439,8 @@ text4.index('awaken')
 
 # <codecell>
 sent = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
-#
-#
+sent[0]
+sent[8]
 
 # <markdowncell>
 # Note that the first element in the list is zero. This is because we are telling Python to go zero steps forward in the list. If we use an index that is too large (that is, we ask for something that doesn't exist), we'll get an error.
@@ -419,9 +448,10 @@ sent = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
 # We can modify elements in a list by assigning new data to one of its index values. We can also replace a slice with new material.
 
 # <codecell>
-#
-#
-#
+
+sent[2] = 'furry'
+sent[7] = 'spotty'
+sent
 
 # <headingcell level=3>
 #  Defining variables
@@ -442,7 +472,8 @@ sent = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
 # <codecell>
 
 opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain', 'fell', 'in', 'torrents']
-#
+clause = opening[0:7]
+alphabetised = sorted(clause)
 
 # <markdowncell>
 # Note that assigning a variable just causes Python to remember that information without generating any output. 
@@ -450,10 +481,10 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 # If you want Python to show you the result, you have to ask for it (this is a good thing when you assign a variable to a very long list!).
 
 # <codecell>
-#
+clause
 
 # <codecell>
-#
+alphabetised
 
 # <headingcell level=3>
 # Frequency distributions
@@ -462,21 +493,21 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 # We can use Python's ability to perform statistical analysis of data to do further exploration of vocabulary. For instance, we might want to be able to find the most common or least common words in a text. We'll start by looking at frequency distribution.
 
 # <codecell>
-#
+fdist1 = FreqDist(text1)
 
 # <codecell>
-#
+fdist1.most_common(50)
 
 # <codecell>
-#
+fdist1['whale']
 
 # <codecell>
-#
+fdist1.plot(50, cumulative = True)
 
 # <markdowncell>
-# **Challenge!**
+# *Challenge!*
 
-# Create a function called *common_words()* and use it to compare the 15 most common words of four of the texts in the NLTK book. 
+# Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
 # Discuss what you found with your neighbour.
 
 # <markdowncell>
@@ -489,13 +520,13 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 # ... but this would print the length of every word in the whole book, so let's skip that bit!
 
 # <codecell>
-#
+fdist2= FreqDist(len(w) for w in text1)
 
 # <codecell>
-#
+fdist2.max()
 
 # <codecell>
-#
+fdist2.freq(3)
 
 # <markdowncell>
 # These last two commands tell us that the most common word length is 3, and that these 3 letter words account for about 20% of the book. 
@@ -505,7 +536,9 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 # It is possible to select the longest words in a text, which may tell you something about its vocabulary and style
 
 # <codecell>
-#
+v = set(text4)
+long_words = [word for word in v if len(word) > 15]
+sorted(long_words)
 
 # <markdowncell>
 # We can fine-tune our selection even further by adding other conditions. For instance, we might want to find long words that occur frequently (or rarely).  
@@ -515,7 +548,8 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 # Can you find all the words in a text that are more than seven letters long and occur more than seven times?
 
 # <codecell>
-#
+fdist3 = FreqDist(text5)
+sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 
 # <markdowncell>
 # There are a number of functions defined for NLTK's frequency distributions:
@@ -535,11 +569,12 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 #  | fdist.plot(cumulative=True) | cumulative plot of the frequency distribution |
 #  | fdist1 < fdist2 | test if samples in fdist1 occur less frequently than in fdist2 |
 
+
 # <markdowncell>
 # We can also find words that typically occur together, which tend to be very specific to a text or genre of texts. We'll talk more about these features and how to use them later.
 
 # <codecell>
-#
+text4.collocations()
 
 # <markdowncell>
 # We can also use numerical operators to refine the types of searches we ask Python to run. We can use the following relational operators:
@@ -589,10 +624,10 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 #  | s.istitle()    |  test if s contains cased characters and is titlecased (i.e. all words in s have initial capitals) | 
 
 # <codecell>
-#
+sorted(w for w in set(text1) if w.endswith('ableness'))
 
 # <codecell>
-#
+sorted(n for n in sent7 if n.isdigit())
 
 # <markdowncell>
 # Have a play around with some of these operators in the cells below.
@@ -616,10 +651,10 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 # This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix these problems. We start by getting rid of capitalised words, then we get rid of the punctuation and numbers.
 
 # <codecell>
-#
+len(set(word.lower() for word in text1))
 
 # <codecell>
-#
+len(set(word.lower() for word in text1 if word.isalpha()))
 
 # <markdowncell>
 # <img style="float:left" src="http://images.catsolonline.com/cache/custom/CEN/CE651-250x250.jpg" />
@@ -699,15 +734,20 @@ HTML('<iframe src=http://www.ozpolitic.com/forum/YaBB.pl?board=global width=700 
 # <codecell>
 from urllib import urlopen # a library for working with urls
 url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/corpora/oz_politics/ozpol.txt" # define the url
-#
-#
-#
+raw = urlopen(url).read() # download and read the corpus into raw variable
+raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
+len(raw) # how many characters does it contain?
+raw[:2000] # first 2000 characters
 
 # <markdowncell>
 # We actually already downloaded this file when we first cloned the ResBaz GitHub repository. It's in our *corpora* folder. We can access it like this:
 
 # <codecell>
-#
+f = open('corpora/oz_politics/ozpol.txt')
+raw = f.read()
+raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
+len(raw)
+raw[:2000] 
 
 # <headingcell level=2>
 # Regular Expressions
@@ -725,14 +765,18 @@ import re # import this before using regexes!
 
 # <codecell>
 # print only match
-#
+regex = re.compile(r"government")
+re.findall(regex, raw)
 
 # <markdowncell>
 # Hmm ... not very useful.
 
 # <codecell>
 # print whole line
-#
+regex = re.compile(r'government')
+for line in raw.splitlines():
+    if regex.search(line) is not None:
+        print line
 
 # <markdowncell>
 # ... but regex can be much more powerful than that. Certain characters have special meanings:
@@ -752,11 +796,17 @@ import re # import this before using regexes!
 # <codecell>
 # [a-z] means any letter
 # the plus means ''one or more of the thing before''
-#
+regex = re.compile(r"[a-z]+ment")
+# find all instances of regex in raw
+results = re.findall(regex, raw)
+sorted(set(results)) # sort and print only unique results
 
 # <codecell>
 # word at start of line that ends in ion:
-#
+regex = re.compile(r"^[a-z]+ion\b")
+# find all instances of regex in raw
+results = re.findall(regex, raw)
+sorted(set(results)) # sort and print only unique results
 
 # <markdowncell>
 # Sometimes, we want match the special characters:
@@ -764,14 +814,17 @@ import re # import this before using regexes!
 # <codecell>
 string = 'What!? :) U fink im flirtin wit *u*!? LOL'
 # define a regex:
-#
+regex = re.compile(r':)')
+re.findall(regex, string)
 
 # <markdowncell>
 # What happened? Well, if you want to search for any special character, it must be 'escaped' by a backslash:
 
 # <codecell>
 string = 'What!? :) U fink im flirtin wit *u*!? LOL'
-#
+# define a regex:
+regex = re.compile(r':\)')
+re.findall(regex, string)
 
 # <markdowncell>
 # Regular expressions take a while to master, but have great benefits for searching large texts for very specific things. Here are some additional regex resources:
@@ -781,11 +834,17 @@ string = 'What!? :) U fink im flirtin wit *u*!? LOL'
 # * [Regex crosswords](http://regexcrossword.com/): exactly what you think it is!
 
 # <markdowncell>
-# We can get any word over a minimum number of characters by passing an integer into a regex.
+# The code below will get any word over *minlength* alphabetic characters by passing an integer into a regex.
 
 # <codecell>
+minlength = 5  # minimum number of letters as integer 
+# gets passed into the building of the regex
 sentence = 'We, the democratically-elected leaders of our people, hereby declare Kosovo to be an independent and sovereign state'
-#
+
+# any letter, minlength times:
+pattern = re.compile(r'[A-Za-z]{' + str(minlength) + ',}') 
+# What happens if you add a hyphen after 'a-z' inside the square brackets above?
+re.findall(pattern, sentence)
 
 # <headingcell level=2>
 # Sentence segmentation
@@ -795,10 +854,12 @@ sentence = 'We, the democratically-elected leaders of our people, hereby declare
 
 #  We should break the string into segments. First, we'll split the corpus into sentences. This task is a pretty boring one, and it's tough for us to improve on existing resources. We'll try, though.
 
-# Let's define a sentence as any string ending with (one or more) newline, full stop, question mark, or exclamation mark. A regex can be written to find these, and the *split()* function can  be used to break the string into a list of strings.
+# Let's define a sentence as any string ending with (one or more) newline, full stop, question mark, or exclamation mark. A regex can be written to find these, and the split() function can  be used to break the string into a list of strings.
 
 # <codecell>
-#
+import re
+sentences = re.split("(\n|\.|\?|!)+", raw)
+print 'Sentence: ' + '\nSentence: '.join(sentences[:10]) # print the first ten sentences
 
 # <markdowncell>
 # Well, it worked, sort of. What problems do we have?
@@ -815,19 +876,28 @@ sentence = 'We, the democratically-elected leaders of our people, hereby declare
 
 # <codecell>
 sentences = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", raw)
-# print the first ten?
+print 'Sentence: ' + '\nSentence: '.join(sentences[:10])
 
 # <markdowncell>
 # Problem 1 is solved: *sh.thole* is now a single token. To fix Problem 2, we will remove list items not containing a letter, as any sentence must contain at least one by definition.
 
 # <codecell>
-#
+regex = re.compile('[a-zA-Z]')
+no_blanklines = [sentence for sentence in sentences if regex.match(sentence)]
+# or, an alternative approach using filter function:
+# no_blanklines = filter(regex.match, sentences)
+print 'Sentence: ' + '\nSentence: '.join(no_blanklines[:20]) # this should be better!
 
 # <markdowncell>
-# We can create a sentence segmenter function:
+# The code below turns out sentence segmenter into a function.
 
 # <codecell>
-#
+def sent_seg(string):
+    allmatches = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", string)
+    regex = re.compile('[a-zA-Z]')
+    sentences = [sentence for sentence in allmatches if regex.match(sentence)]
+    length = len(sentences)
+    return sentences
 
 # <codecell>
 # Call the segmenter on our raw text here. Store it in a variable called 'sents'
@@ -836,7 +906,9 @@ sentences = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", raw)
 # It's all academic, anyway: NLTK actually has a sentence segmenter built in that works better than ours (we didn't deal with quotation marks, or brackets, for example).
 
 # <codecell>
-#
+sent_tokenizer=nltk.data.load('tokenizers/punkt/english.pickle')
+sents = sent_tokenizer.tokenize(raw)
+sents[101:111]
 
 # <markdowncell>
 # Alright, we have sentences. Now what?
@@ -852,7 +924,10 @@ sentences = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", raw)
 # > **Note:** It is also possible to use NLTK to break tokens into morphemes, syllables, or phonemes. We're not going to go down those roads, though.
 
 # <codecell>
-#
+tokenized_sents = [nltk.word_tokenize(i) for i in sents]
+print tokenized_sents[:10]
+# another view:
+# tokenized_sents[:10]
 
 # <headingcell level=2>
 # Stemming
@@ -865,7 +940,11 @@ sentences = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", raw)
 # A stemmer is the kind of thing that would make a good function, so let's do that.
 
 # <codecell>
-# stem function here!
+def stem(word):
+    for suffix in ['ing', 'ly', 'ed', 'ious', 'ies', 'ive', 'es', 's', 'ment']: # list of suffixes
+        if word.endswith(suffix):
+            return word[:-len(suffix)] # delete the suffix
+    return word
 
 # <markdowncell>
 # Let's run it over some text and see how it performs.
@@ -873,16 +952,31 @@ sentences = re.split("(?:\n|\.|\?|!)+([^a-zA-Z]|$)", raw)
 # <codecell>
 # empty list for our output
 stemmed_sents = []
-#
+for sent in tokenized_sents:
+    # empty list for stemmed sentence:
+    stemmed = []
+    for word in sent:
+        # append the stem of every word
+        stemmed.append(stem(word))
+    # append the stemmed sentence to the list of sentences
+    stemmed_sents.append(stemmed)
+# pretty print the output
+stemmed_sents[:10]
 
 # <markdowncell>
 # Looking at the output, we can see that the stemmer works: *wingers* becomes *winger*, and *tearing* becomes *tear*. But, sometimes it does things we don't want: *Nothing* becomes *noth*, and *mate* becomes *mat*. Even so, for the learns, let's rewrite our function with a regex:
 
 # <codecell>
-#
+def stem(word):
+    import re
+    # define a regex to get word, and common suffixes
+    regex = r'^(.*?)(ing|ly|ed|ious|ies|ive|es|s|ment)?$'
+    stem, suffix = re.findall(regex, word)[0]
+    return stem
 
 # <markdowncell>
 # Because we just redefined the *stem()* function, we can run the previous code and get different results.
+
 
 # <markdowncell>
 # Here's a very quick implementation of our stemmer on our raw tokens:
@@ -897,9 +991,11 @@ print stemmed[:50]
 
 # <codecell>
 # define stemmers
-#
-# stem each word in tokens ...
-#
+lancaster = nltk.LancasterStemmer()
+porter = nltk.PorterStemmer()
+# stem each word in tokens
+stems = [lancaster.stem(t) for t in tokens]  # replace lancaster with porter here
+print stems[:100]
 
 # <markdowncell>
 # Notice that both stemmers handle some things rather poorly. The main reason for this is that they are not aware of the *word class* of any particular word: *nothing* is a noun, and nouns ending in *ing* should not have *ing* removed by the stemmer (swing, bling, ring...). Later in the course, we'll start annotating corpora with grammatical information. This improves the accuracy of stemmers a lot.
@@ -920,13 +1016,18 @@ print stemmed[:50]
 
 # <codecell>
 import sys
+ # download spindle from github
+!wget https://github.com/sgrau/spindle-code/archive/master.zip
+!unzip master.zip # unzip it
+!rm master.zip # remove the zip file
+# put the keyworder directory in python's path, so we can call it easily
 sys.path.insert(0, 'spindle-code-master/keywords')
 # import the function
 from keywords import keywords_and_ngrams # import keywords function
 
 # <codecell>
 # this tool works with raw text, not tokens!
-#
+keywords_and_ngrams(raw.encode("UTF-8"), nBigrams = 0)
 
 # <markdowncell>
 # Success! We have keywords.
@@ -936,12 +1037,12 @@ from keywords import keywords_and_ngrams # import keywords function
 # Our keywords would perhaps be better if they were stemmed. That shouldn't be too hard for us:
 
 # <codecell>
-#
+keywords_and_ngrams(stems, nBigrams = 0) # this will use our corpus of stems, as defined earlier.
 
 # <markdowncell>
 # Rats! Keywording with stems actually revealed a list of incorrect stems.
 
-# What we really need to do is improve our stemmer, and then come back and try again.
+# What re really need to do is improve our stemmer, and then come back and try again.
 
 # <headingcell level=2>
 # A return to stemming
@@ -952,9 +1053,15 @@ from keywords import keywords_and_ngrams # import keywords function
 # First, let's get a list of common words in the BNC from the *pickle* provided by SPINDLE (*pickle* is a kind of list compression).
 
 # <codecell>
-#
-#
-#
+import pickle
+import os
+# unpack the pickled list
+bncwordlist = pickle.load(open('spindle-code-master/keywords/bnc.p', 'rb')) 
+bnc_commonwords = [] # empty list
+for word in bncwordlist:
+    getval = bncwordlist[word] # find out number of occurrences of word
+    if getval > 20: # if more than 20
+        bnc_commonwords.append(word) # add to common word list
 print bnc_commonwords[:200] # what are our results?
 
 # <markdowncell>
@@ -1000,10 +1107,12 @@ def newstemmer(words, stemmer, threshold = 20):
 
 # <codecell>
 # try raising the threshold if there are still bad spellings!
-#
+stemmed = newstemmer(raw, 'Lancaster', 10)
 
 # <codecell>
-#
+keys = keywords_and_ngrams(stemmed)
+keys[0] # only keywords
+keys[1] # only n-grams
 
 # <headingcell level=2>
 # Collocation
@@ -1018,7 +1127,15 @@ def newstemmer(words, stemmer, threshold = 20):
 # In NLTK, collocation works from ordered lists of tokens. Let's put out tokenised sents into a single, huge list of tokens:
 
 # <codecell>
-#
+allwords = []
+# for each sentence,
+for sent in tokenized_sents:
+    # for each word,
+    for word in sent:
+        # make a list of all words
+        allwords.append(word)
+print allwords[:20]
+# small challenge: can you think of any other ways to do this?
 
 # <markdowncell>
 # Now, let's feed these to an NLTK function for measuring collocations:
@@ -1029,27 +1146,45 @@ from nltk.collocations import *
 # define statistical tests for bigrams
 bigram_measures = nltk.collocations.BigramAssocMeasures()
 # go and find bigrams
-#
+finder = BigramCollocationFinder.from_words(allwords)
 # measure which bigrams are important and print the top 30
-#
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # <markdowncell>
-# So, that tells us a little: we can see that *terrorists*, *Muslims* and the *Middle East* are commonly collocating in the text. At present, we are only looking for immediately adjacent words. So, let's expand out search to a window of *five words either side*:
+# So, that tells us a little: we can see that terrorists, Muslims and the Middle East are commonly collocating in the text. At present, we are only looking for immediately adjacent words. So, let's expand out search to a window of *five words either side*
 
-# <codecell>
-#
+# ''window size'' specifies the distance at which 
+# two tokens can still be considered collocates
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # <markdowncell>
 # Now we have the appearance of very common words! Let's use NLTK's stopwords list to remove entries containing these:
 
 # <codecell>
-#
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+# get a list of stopwords from nltk
+ignored_words = nltk.corpus.stopwords.words('english')
+# make sure no part of the bigram is in stopwords
+finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words)
+finder.apply_freq_filter(2)
+#print the sorted collocations
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # <markdowncell>
 # There! Now we have some interesting collocates. Finally, let's remove punctuation-only entries, or entries that are *n't*, as this is caused by different tokenisers:
 
 # <codecell>
-# can we use bits of the code above?
+finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+ignored_words = nltk.corpus.stopwords.words('english')
+# anything containing letter or number
+regex = r'[A-Za-z0-9]'
+# the n't token
+nonot = r'n\'t'
+# lots of conditions!
+finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or not re.match(regex, w) or re.match(nonot, w))
+finder.apply_freq_filter(2)
+sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # <markdowncell>
 # You can get a lot more info on collocation at the [NLTK homepage](http://www.nltk.org/howto/collocations.html).
@@ -1078,7 +1213,11 @@ from nltk.util import ngrams
 # define a sentence
 sentence = 'give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime'
 # length of ngram
-#
+n = 10
+# use builtin tokeniser (but we could use a different one)
+tengrams = ngrams(sentence.split(), n)
+for gram in tengrams:
+  print gram
 
 # <markdowncell>
 # So, there are plenty of tengrams in there! What we're interested in, however, is duplicated n-grams:
@@ -1090,7 +1229,6 @@ def ngrammer(text, gramsize, threshold = 4):
     # we need to import this in order to find the duplicates:
     from collections import defaultdict
     from nltk.util import ngrams
-
     # a subdefinition to get duplicate lists in a list
     def list_duplicates(seq):
         tally = defaultdict(list)
@@ -1099,7 +1237,6 @@ def ngrammer(text, gramsize, threshold = 4):
             # return to us the index and the ngram itself:
         return ((len(locs),key) for key,locs in tally.items() 
                if len(locs) > threshold)
-
     # get ngrams of gramsize    
     raw_grams = ngrams(text.split(), gramsize)
     # use our duplication detector to find duplicates
@@ -1111,14 +1248,13 @@ def ngrammer(text, gramsize, threshold = 4):
 # Now that it's defined, let's run it, looking for trigrams
 
 # <codecell>
-#
+ngrammer(raw, 3)
 
 # <markdowncell>
 # Too many results? Let's set a higher threshold than the default.
 
 # <codecell>
-#
-
+ngrammer(raw, 3, threshold = 10)
 
 # <headingcell level=2>
 # Concordancing with regular expressions
@@ -1127,14 +1263,16 @@ def ngrammer(text, gramsize, threshold = 4):
 # We've already done a bit of concordancing. In discourse-analytic research, concordancing is often used to perform thematic categorisation.
 
 # <codecell>
-#
+text = nltk.Text(tokens)  # formats our tokens for concordancing
+text.concordance("muslims")
 
 # <markdowncell>
 # We could even our stemmed corpus here:
-#
+text = nltk.Text(stemmed)
+text.concordance("muslims")
 
 # <markdowncell>
-# You get no matches for plurals in the latter case, because instances have all been stemmed.
+# You get no matches in the latter case, because all instances of *muslims* were stemmed to *muslim*.
 
 # A problem with the NLTK concordancer is that it only works with individual tokens. What if we want to find words that end with **ment*, or words beginning with *poli**?
 
@@ -1144,7 +1282,10 @@ def ngrammer(text, gramsize, threshold = 4):
 
 # <codecell>
 # define a regex for different aussie words
-#
+aussie = r'(aussie|australia)'
+searchpattern = re.compile(r"(.*)" + aussie + r"(.*)")
+search = re.findall(searchpattern, raw)
+search[:5]
 
 # <markdowncell>
 # Well, it's ugly, but it works. We can see five bracketted results, each containing three strings. The first and third strings are the left-context and right-context. The second of the three strings is the search term.
@@ -1154,10 +1295,20 @@ def ngrammer(text, gramsize, threshold = 4):
 # Let's go ahead and turn our regex seacher into a concordancer:
 
 # <codecell>
-# searchpattern = re.compile(r"(.{,30})(\b" + regex + r"\b)(.{,30})")
+def concordancer(text, regex):
+    """Concordance using regular expressions"""
+    import re
+    # limit context to 30 characters max
+    searchpattern = re.compile(r"(.{,30})(\b" + regex + r"\b)(.{,30})")
+    # find all instances of our regex
+    search = re.findall(searchpattern, raw)
+    for result in search:
+        #join each result with a tab, and print
+        print("\t".join(result).expandtabs(20))
+        # expand tabs helps align results
 
 # <codecell>
-#
+concordancer(raw, r'aus.*?')
 
 # <markdowncell>
 # Great! With six lines of code, we've officially created a function that improves on the one provided by NLTK! And think how easy it would be to add more functionality: an argument dictating the size of the window (currently 30 characters), or printing line numbers beside matches, would be pretty easy to add, as well.

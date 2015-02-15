@@ -348,3 +348,15 @@ def quicktree(sentence):
     ! rm tree.ps
     return Image(filename='tree.png')
     ! rm tree.png
+
+def parse_metadata(text):
+    "Parses Fraser Corpus metadata"
+    metadata = {}
+    for line in text.split('\r\n'):
+        if not line:
+            continue
+        if line[0] == '<':
+            continue
+        element = line.split(':', 1)
+        metadata[element[0]] = element[-1].strip(' ')
+    return metadata

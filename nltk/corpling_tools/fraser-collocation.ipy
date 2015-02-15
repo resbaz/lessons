@@ -1,0 +1,50 @@
+# a solution for getting collocates in the fraser corpus, if you're having trouble:
+
+
+# import needed stuff:
+import re
+from nltk.collocations import *
+bigram_measures = nltk.collocations.BigramAssocMeasures()
+sent_tokenizer=nltk.data.load('tokenizers/punkt/english.pickle')
+
+# loop through subcorpora and get all text
+corpus = 'corpora/fraser-annual'
+all_text = []
+results = []
+for subcorpus in os.listdir(corpus):
+    print str(subcorpus)
+    subcorpus_text = []
+    for txtfile in os.listdir(os.path.join(corpus, subcorpus)):
+        data = open(os.path.join(corpus, subcorpus, txtfile)).read()
+        data = data.decode('utf-8', 'ignore')
+        data = data.lower()
+        subcorpus_text.append(data)
+    subcorpus_text = '\n'.join(subcorpus_text)
+
+    # sentence segmentation
+    sents = sent_tokenizer.tokenize(subcorpus_text)
+
+    # tokenization
+    tokenized_sents = [nltk.word_tokenize(i) for i in sents]
+    allwords = []
+
+    # make into single list
+    for sent in tokenized_sents:
+        for word in sent:
+            allwords.append(word)
+
+    # collocation
+    finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+    ignored_words = nltk.corpus.stopwords.words('english')
+    regex = re.compile('[A-Za-z0-9]')
+    finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or not re.match(regex, w))
+    finder.apply_freq_filter(2)
+    result = sorted(finder.nbest(bigram_measures.raw_freq, 30))
+    print result[:5]
+    results.append(result)
+    
+# and one possible way to display some results:
+for index, result in enumerate(results):
+    print '\n', subcorpora[index], '\n'
+    for bigram in result[:25]:
+        print bigram
