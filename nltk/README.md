@@ -82,7 +82,7 @@ Here are some links that may come in handy if you want more information about wh
 * [IPython homepage](http://ipython.org/): local machine installation, documentation, add-ons
 * [NLTK homepage](http://www.nltk.org/): much of what is covered in this stream is also available in the NLTK Book, which is available both online and in print
 * [Figshare](http://figshare.com/): for uploading your raw findings
-* [Github](https://github.com): a home for you code, with version control
+* [GitHub](https://github.com): a home for you code, with version control
 * [ResBaz materials on GitHub](https://github.com/resbaz): where all the open-source ResBaz materials can be found, including the IPython Notebooks and functions for turning them into .py, .tex, .html or .md files
 * [Stack Overflow](http://stackoverflow.com/): many common Python/IPython/NLTK/Regex/Shell questions and answers can be found here.
 
