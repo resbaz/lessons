@@ -1,6 +1,5 @@
 # a solution for getting collocates in the fraser corpus, if you're having trouble:
 
-
 # import needed stuff:
 import re
 from nltk.collocations import *

@@ -66,3 +66,10 @@ def keywords_and_ngrams(input, nKeywords=100, thresholdLL=19, nBigrams=25, thres
         if w0 in keywords and w1 in keywords and c>thresholdBigrams:
             listBigrams.append((ng, c))
     return (listKeywords[0:nKeywords], listBigrams[0:nBigrams])
+
+if __name__=="__main__":
+if len(sys.argv) < 2:
+sys.stderr.write("Usage: python %s <text.txt>\n" % (sys.argv[0],))
+else:
+d = keywords_and_ngrams(open(sys.argv[1],"r").readlines(), 100, 19, 25, 2)
+print json.dumps(d)

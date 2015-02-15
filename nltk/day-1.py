@@ -916,7 +916,7 @@ print stemmed[:50]
 
 # In fact, the keywording part of the Spindle Project is written in Python, and in open source.
 
-# Spindle has sensible defaults for keyword calculation. Let's download their code and use it to generate keywords from our corpus.
+# Spindle has sensible defaults for keyword calculation. We've got their code on the cloud already, as we had a copy in our GitHub repository. We need to make sure Python knows where to find it before we can import it:
 
 # <codecell>
 import sys
