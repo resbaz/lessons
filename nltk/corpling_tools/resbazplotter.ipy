@@ -196,6 +196,10 @@ def plotter(title, results, fract_of = False, y_label = False,
             # get word
             word = entry[0]
             # for each datum [year, count]:
+
+            # If anybody is reading this, the following sections are nonfunctional 
+            #in ResBaz code, as they are mostly for use in NYT investigation. Sorry!
+
             toplot = []
             xvalsbelow = []
             yvalsbelow = []
