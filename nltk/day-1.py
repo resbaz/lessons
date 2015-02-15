@@ -68,12 +68,15 @@ text2
 # Exploring vocabulary
 
 # <markdowncell>
-# NLTK makes it really easy to get basic information about the size of a text and the complexity of its vocalbulary
+# NLTK makes it really easy to get basic information about the size of a text and the complexity of its vocabulary.
+
 # *len* gives the number of symbols or 'tokens' in your text. This is the total number of words and items of punctuation.
 
 # *set* gives you a list of all the tokens in the text, without the duplicates.
 
-# Hence, **len(set(text3))** will give you the total number unique tokens. Remember this still includes punctuation. 'sorted' places items in the list into alphabetical order, with punctuation symbols and capitalised words first.
+# Hence, **len(set(text3))** will give you the total number unique tokens. Remember this still includes punctuation. 
+
+#*sorted* places items in the list into alphabetical order, with punctuation symbols and capitalised words first.
 
 # <codecell>
 len(text3)
@@ -135,7 +138,7 @@ text1.dispersion_plot(["whale"])
 # <markdowncell>
 # **Challenge!**
 # <br>
-# Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus
+# Create a dispersion plot for the terms "citizens", "democracy", "freedom", "duties" and "America" in the innaugural address corpus.
 # What do you think it tells you? 
 
 # <codecell>
@@ -145,7 +148,7 @@ text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"])
 # How Python works
 
 # <markdowncell>
-# We've seen a bit now of how NLTK can help you to interrogate a text. Let's back up and talk about Python itself and the environment we're using
+# We've seen a bit now of how NLTK can help you to interrogate a text. Let's back up and talk about Python itself and the environment we're using.
 
 # <codecell>
 # A simple welcome message printer.
@@ -207,12 +210,6 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
         print 'complicated!'
  print 'day.'  # at present, this occurs after the three repetitions.
 
-# <markdowncell>
-# Note the error message. These will help you to understand what went wrong. 
-# The first part looks like gobeldegook, but the rest is helpful. Line 3 of error tells us what command
-# was executing when the error happened, which can assist in isolating a problem. 
-# Line 4 actually tells us what the error was - that's what we would have googled if we were looking for a solution.
-
 # <headingcell level=3>
 # Input/Output Types
 
@@ -227,6 +224,13 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 
 # <codecell>
 1 + '2'  # integer plus string
+
+# <markdowncell>
+
+# Note the error message. These will help you to understand what went wrong. 
+# The first part looks like gobbledygook, but the rest is helpful. Line 3 of error tells us what command
+# was executing when the error happened, which can assist in isolating a problem. The leading digit is the line number.
+# Line 4 actually tells us what the error was - that's what we would have googled if we were looking for a solution.
 
 # <markdowncell>
 # You can determine the type of data stored in a variable with *type()*. Below are the most common types. Note how quotation marks, and brackets are used to distinguish between them when writing code.
@@ -279,9 +283,9 @@ print answer
 # <markdowncell>
 # So, we've been writing Python code in an IPython notebook. Why?
 
-# 1. The main strength of IPython is that you can run bits of code individually, so you don't have to keep repeating things. In the previous cell, IPython remembered two ingredients in the fruit salad.
-# 2. IPython also allows you to display images alongside code, and to save the input and output together.
-# 3. IPython also makes learning a bit easier, as mistakes are easier to find and do not break an entire workflow.
+# 1. The main strength of IPython is that you can run bits of code individually, so you don't have to keep repeating things. For example, if you scroll up to the last function and replace the 50 with 2, you can re-run that code and get the new answer. 
+# 2. IPython allows you to display images alongside code, and to save the input and output together.
+# 3. IPython makes learning a bit easier, as mistakes are easier to find and do not break an entire workflow.
 
 # You can get more information on IPython, including how to install it on your own machine, at the [IPython Homepage](http://ipython.org).
 
@@ -397,7 +401,7 @@ print 'Our fruit salad contains: ' + listasastring
 #  Indexing Lists
 
 # <markdowncell>
-# We can navigate this list with the help of indexes. Just as we can find out the number of times a word occurs in a text, we can also find where a word first occurs. We can also navigate to different points in a text.
+# We can navigate this list with the help of indexes. Just as we can find out the number of times a word occurs in a text, we can also find where a word first occurs. We can navigate to different points in a text without restriction, so long as we can describe where we want to be.
 
 # <codecell>
 text4.index('awaken')
@@ -431,9 +435,9 @@ sent = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
 sent[0]
 sent[8]
 
-# Note that the first element in the list is zero. This is because we are telling Python to go zero steps forward in the list. If we use an idnex that is too large (that is, we ask for something that doesn't exist), we'll get an error.
+# Note that the first element in the list is zero. This is because we are telling Python to go zero steps forward in the list. If we use an index that is too large (that is, we ask for something that doesn't exist), we'll get an error.
 
-# We can modify elements in a list by assigning to one of its index values. We can also replace a slice with new material.
+# We can modify elements in a list by assigning new data to one of its index values. We can also replace a slice with new material.
 
 # <codecell>
 
@@ -446,8 +450,8 @@ sent
 
 # <markdowncell>
 # In Python, we give the items we're working with names, a process called assignment. For instance, in the NLTK corpus, 'Sense and Sensibility' has been assigned the name 'text2', which is much easier to work with. 
-# We also assigend the name 'sent' to the sentence that we created in the previous exercise, so that we could then instruct Python to do various things with it. Assigning a variable in python looks like this:
-# variable = expression
+# We also assigend the name 'sent' to the sentence that we created in the previous exercise, so that we could then instruct Python to do various things with it. Assigning a variable in python looks like this:  
+# variable = expression   
 # You can call your variables (almost) anything you like, but it's a good idea to pick names that will be meaningful and easy to type. You can't use words that already have a meaning in Python, such as import, def, or not. If you try to use a word that is reserved, you'll get a syntax error.
 
 # <markdowncell>
@@ -459,7 +463,7 @@ sent
 
 # <codecell>
 
-opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';' 'the', 'rain', 'fell', 'in', 'torrents']
+opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain', 'fell', 'in', 'torrents']
 clause = opening[0:7]
 alphabetised = sorted(clause)
 
@@ -469,17 +473,14 @@ alphabetised = sorted(clause)
 # <codecell>
 clause
 
-
 # <codecell>
 alphabetised
-
 
 # <headingcell level=3>
 # Frequency distributions
 
 # <markdowncell>
 # We can use Python's ability to perform statistical analysis of data to do further exploration of vocabulary. For instance, we might want to be able to find the most common or least common words in a text. We'll start by looking at frequency distribution.
-
 
 # <codecell>
 fdist1 = FreqDist(text1)
@@ -497,7 +498,7 @@ fdist1.plot(50, cumulative = True)
 # *Challenge!*
 
 # Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
-# Discuss what you found with your neighbour
+# Discuss what you found with your neighbour.
 
 # <codecell>
 # As well as counting individual words, we can count other features of vocabulary, such as how often words of different lengths occur. We do this by putting together a number of the commands we've already learned.
@@ -511,15 +512,13 @@ fdist2= FreqDist(len(w) for w in text1)
 
 fdist2.max()
 
-
 # <codecell>
 
 fdist2.freq(3)
 
-
 # <markdowncell>
 # These last two commands tell us that the most common word length is 3, and that these 3 letter words account for about 20% of the book. 
-# We can see this just by visually inspecting the list produced by fdist2.most_common(), but if this list were too long to inspect readily, or we didn't want to print it, there are other ways to explore it.  
+# We can see this just by visually inspecting the list produced by *fdist2.most_common()*, but if this list were too long to inspect readily, or we didn't want to print it, there are other ways to explore it.  
 
 
 # <markdowncell> 
@@ -532,7 +531,8 @@ sorted(long_words)
 
 
 # <markdowncell>
-# We can fine-tune our selection even further by adding further conditions. For instance, we might want to find long words that occur frequently (or rarely)
+# We can fine-tune our selection even further by adding other conditions. For instance, we might want to find long words that occur frequently (or rarely).  
+
 # *Challenge!*
 
 # Can you find all the words in a text that are more than seven letters long and occur more than seven times?
@@ -550,7 +550,7 @@ sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 # * fdist.freq('monstrous')     frequency of a given sample
 # * fdist.N()   total number of samples
 # * fdist.most_common(n)    the n most common samples and their frequencies
-# * for sample in fdist:    iterate over the samples
+# * for sample in fdist:    iterate over the items in fdist, when in the loop, we refer to each item as sample
 # * fdist.max()     sample with the greatest count
 # * fdist.tabulate()    tabulate the frequency distribution
 # * fdist.plot()    graphical plot of the frequency distribution
@@ -585,7 +585,8 @@ text4.collocations()
 # 3. Words of exactly four characters
 
 # <codecell>
-#
+
+
 # <markdowncell>
 # We can also look for features such as letter combinations, upper and lowercase letters, and digits. Some operators you might like to use are:
 
@@ -610,7 +611,7 @@ sorted(n for n in sent7 if n.isdigit())
 
 # You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
 
-# This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix this. We can start by getting rid of capitalised words, then we can get rid of the punctuation and numbers
+# This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix these problems. We start by getting rid of capitalised words, then we get rid of the punctuation and numbers.
 
 # <codecell>
 len(set(word.lower() for word in text1))
@@ -699,8 +700,8 @@ from urllib import urlopen # a library for working with urls
 url = "https://raw.githubusercontent.com/resbaz/lessons/master/nltk/corpora/oz_politics/ozpol.txt" # define the url
 raw = urlopen(url).read() # download and read the corpus into raw variable
 raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
-print len(raw) # how many characters does it contain?
-print raw[:2000] # first 2000 characters
+len(raw) # how many characters does it contain?
+raw[:2000] # first 2000 characters
 
 # <markdowncell>
 # We actually already downloaded this file when we first cloned the ResBaz GitHub repository. It's in our *corpora* folder. We can access it like this:
@@ -710,13 +711,13 @@ f = open('corpora/oz_politics/ozpol.txt')
 raw = f.read()
 raw = unicode(raw.lower(), 'utf-8') # make it lowercase and unicode
 len(raw)
-print raw[:2000] 
+raw[:2000] 
 
 # <headingcell level=2>
 # Regular Expressions
 
 # <markdowncell>
-# Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming platforms, and can also be used in GUI text editors and word processers.
+# Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming languages, and can also be used in GUI text editors and word processers.
 
 # <codecell>
 import nltk # just in case (you should only need to import a library once per session, but nothing bad will happen if you do it again)
