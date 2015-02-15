@@ -18,7 +18,7 @@
 
 # Today's focus will be on **developing more advanced NLTK skills** and using these skills to **investigate the Fraser Speeches Corpus**. In the final session, we will discuss **how to use what you have learned here in your own research**.
 
-# > *Any questions or anything before we dive in?*
+# *Any questions or anything before we dive in?*
 
 # <headingcell level=2>
 # Malcolm Fraser and his speeches
@@ -32,6 +32,7 @@ from IPython.display import display
 from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_svg
 from IPython.display import Image
 from IPython.display import HTML
+import nltk
 
 # <codecell>
 Image(url='http://www.unimelb.edu.au/malcolmfraser/photographs/family/105~36fam6p9.jpg')
@@ -40,8 +41,11 @@ Image(url='http://www.unimelb.edu.au/malcolmfraser/photographs/family/105~36fam6
 # Because our project here is *corpus driven*, we don't necessarily need to know about Malcolm Fraser and his speeches in order to analyse the data: we may be happy to let things emerge from the data themselves. Even so, it's nice to know a bit about him.
 
 # Malcolm Fraser was a member of Australian parliament between 1955 and 1983, holding the seat of Wannon in western Victoria. He held a number of ministries, including Education and Science, and Defence. 
+
 # He became leader of the Liberal Party in March 1975 and Prime Minister of Australia in December 1975, following the dismissal of the Whitlam government in November 1975.
-# He retired from parliament following the defeat of the Liberal party at the 1983 election and in 2009 resigned from the Liberal party after becoming increasingly critical of some of its policies
+
+# He retired from parliament following the defeat of the Liberal party at the 1983 election and in 2009 resigned from the Liberal party after becoming increasingly critical of some of its policies.
+
 # He can now be found on Twitter as **@MalcolmFraser12**
 
 # <codecell>
@@ -55,7 +59,9 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 
 # <markdowncell>
 # Every week, between 1954 until 1983, Malcolm Fraser made a talk to his electorate that was broadcast on Sunday evening on local radio.  
+
 # The speeches were transcribed years ago. Optical Character Recognition (OCR) was used to digitise the transcripts. This means that the texts are not of perfect quality. 
+
 # Some have been manually corrected, which has removed extraneous characters and mangled words, but even so there are still some quirks in the formatting. 
 
 # For much of this session, we are going to manipulate the corpus data, and use the data to restructure the corpus. 
@@ -76,7 +82,7 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 # Discussion
 
 # <markdowncell>
-# *What are the characterisitics of clean and messy data? Any personal experiences? Discuss with your neighbours.* 
+# *What are the characteristics of clean and messy data? Any personal experiences? Discuss with your neighbours.* 
 
 # It will be important to bear these characteristics in mind once you start building your own datasets and corpora. 
 
@@ -85,7 +91,10 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 
 # <markdowncell>
 # First of all, let's load in our text.
-# Via file management, open and inspect one file. What do you see? Are there any potential problems?
+
+# Via file management, open and inspect one file in *corpora/UMA_Fraser_Radio_Talks*. What do you see? Are there any potential problems?
+
+# We can also look at file contents within the IPython Notebook itself:
 
 # <codecell>
 import os
@@ -94,21 +103,35 @@ from nltk import word_tokenize
 from nltk.text import Text
 
 # <codecell>
-#access items in the directory 'UMA_Fraser_Radio_Talks' and view the first 3
-os.listdir('corpora/UMA_Fraser_Radio_Talks')[:3]
+# make a list of files in the directory 'UMA_Fraser_Radio_Talks'
+files = os.listdir('corpora/UMA_Fraser_Radio_Talks')
+files[:3]
+
+# <markdowncell>
+# Actually, since we'll be referring to this path quite a bit, let's make it into a variable. This makes our code easier to use on other projects (and saves typing)
+
+# <codecell> 
+corpus_path = 'corpora/UMA_Fraser_Radio_Talks'
+
+# <markdowncell>
+# We can now tell Python to get the contents of a file in the file list and print it:
+
+# <codecell>
+# print file contents
+# change zero to something else to print a different file
+f = open(os.path.join(corpus_path, files[0]), "r")
+text = f.read()
+print text
 
 # <headingcell level=3>
 # Exploring further: splitting up text
 
 # <markdowncell>
 # We've had a look at one file, but the real strength of NLTK is to be able to explore large bodies of text. 
-# When we manually inspected the first file, we saw that it contained a metadata section, before the body of the text. 
-# We can ask Python to show us the start of the file. For analysing the text, it is useful to split the metadata section off, so that we can interrogate it separately but also so that it won't distort our results when we analyse the text.
 
-# <codecell>
-# Let's set the path to our corpus as a variable:
-# This makes our code easier to use on other projects (and saves typing)
-corpus_path = 'corpora/UMA_Fraser_Radio_Talks'
+# When we manually inspected the first file, we saw that it contained a metadata section, before the body of the text. 
+
+# We can ask Python to show us just the start of the file. For analysing the text, it is useful to split the metadata section off, so that we can interrogate it separately but also so that it won't distort our results when we analyse the text.
 
 # <codecell>
 # open the first file, read it and then split it into two parts, metadata and body
@@ -118,6 +141,7 @@ data = open(os.path.join(corpus_path, os.listdir(corpus_path)[0])).read().split(
 # <codecell>
 # view the first part
 data[0]
+# put print before this to change the way you see it!
 
 # <codecell>
 # split into lines, add '*' to the start of each line
@@ -135,8 +159,8 @@ for line in data[0].split('\r\n'):
         continue
     print '*', line
 
- # <codecell>
- # split the metadata items on ':' so that we can interrogate each one
+# <codecell>
+# split the metadata items on ':' so that we can interrogate each one
 for line in data[0].split('\r\n'):
     if not line:
         continue
@@ -145,7 +169,7 @@ for line in data[0].split('\r\n'):
     element = line.split(':')
     print '*', element
 
-#<codecell>
+# <codecell>
 # actually, only split on the first colon
 for line in data[0].split('\r\n'):
     if not line:
@@ -159,8 +183,27 @@ for line in data[0].split('\r\n'):
 # **Challenge**: Building a Dictionary
 
 # <markdowncell>
-# Let's build a dictionary called *metadata*, so that we can interrogate the files.
-# To create a dictionary, use braces '{}'. Your first line will look like this:
+# We've already worked with strings, integers, and lists. Another kind of data structure in Python is a *dictionary*.
+
+# Here is how a simple dictionary works:
+
+# <codecell>
+# create a dictionary
+commonwords = {'the': 4023, 'of': 3809, 'a': 3098}
+# search the dictionary for 'of'
+commonwords['of']
+
+# <codecell>
+type(commonwords)
+
+# <markdowncell>
+# The point of dictionaries is to store a *key* (the word) and a *value* (the count). When you ask for the key, you get its value.
+
+# Notice that you use curly braces for dictionaries, but square brackets for lists.
+
+# Dictionaries are a great way to work with the metadata in our corpus. Let's build a dictionary called *metadata*:
+
+# Your first line will look like this:
 
 #       metadata = {}
 
@@ -182,14 +225,15 @@ print metadata['Date']
 # <headingcell level=3>
 # Building functions
 
-# <codecell>
-#open the first file, read it and then split it into two parts, metadata and body
-data = open(os.path.join(corpus_path, 'UDS2013680-100-full.txt'))
-data = data.read().split("<!--end metadata-->")
-
 # <markdowncell>
 # **Challenge**: define a function that creates a dictionary of the metadata for each file and gets rid of the whitespace at the start of each element
-# Hint - to get rid of the whitespace use the *.strip()* command.
+
+# **Hint**: to get rid of the whitespace use the *.strip()* command.
+
+# <codecell>
+# open the first file, read it and then split it into two parts, metadata and body
+data = open(os.path.join(corpus_path, 'UDS2013680-100-full.txt'))
+data = data.read().split("<!--end metadata-->")
 
 # <codecell>
 def parse_metadata(text):
@@ -234,6 +278,7 @@ cfdist.plot()
 
 # <markdowncell>
 # Now let's build another graph, but this time by the 'Description' field:
+
 # <codecell>
 cfdist2 = ConditionalFreqDist()
 for filename in os.listdir(corpus_path):
@@ -253,7 +298,7 @@ cfdist2.plot()
 # <br>
 #
 # <markdowncell>
-# Bonus chellenge: Build a frequency distribution graph that includes speeches without an exact date.
+# **Bonus chellenge**: Build a frequency distribution graph that includes speeches without an exact date.
 # Hint: you'll need to tell Python to ignore the 'c' and just take the digits
 
 # <codecell>
@@ -278,7 +323,7 @@ cfdist3.plot()
 
 # In order to study this, it is helpful to structure our data according to the year of the sample. This simply means creating folders for each sample year, and moving each text into the correct one.
 
-# We can use our metadata parser to help with this task. In fact, once we've moved the files to the right folder, we no longer need the metadata. In fact, we want it gone, so that when we count language features in the files, we are not also counting the metadata.
+# We can use our metadata parser to help with this task. Then, after structuring our corpus by date, we want the metadata gone, so that when we count language features in the files, we are not also counting the metadata.
 
 # So, let's try this:
 
@@ -319,50 +364,148 @@ for filename in files:
 # check if it worked here
 
 # <headingcell level=3>
-# More cleaning...
+# Keywords in Fraser's speeches
 
 # <markdowncell>
-# Unfortunately, a lot of metadata and blank space remains at the top of each file. This stuff could also corrupt our results.
-
-#**AUTHOR NOTE: still trying to figure out how to remove it easily in Python!**
-
-# <headingcell level=3>
-# Keywords in Fraser's speeches
+# So, we now have a structured, metadata-free corpus.
 
 # <markdowncell>
 # Last time we tried keywording, we simply looked for keywords in a single text file corpus.
 
-# A bit part of the power of programming is that we can perform a very similar operation again and again.
+# A bit part of the power of programming is that we can perform a very similar operation again and again. We should be able to generate the keywords for each subcorpus, one after the other. Using a GUI (*graphical user interface*) tool for keywording would mean that you have to reload the tool with every subcorpus, run the keyworder, save the result, unload the subcorpus, and repeat.
 
-# Using a GUI (*graphical user interface*) tool for keywording would mean that you have to reload the tool with every subcorpus, run the keyworder, save the result, unload the subcorpus, and repeat.
-
-
+# So, let's do it a much more sustainable way.
 
 # <codecell>
-# corpus as single file ... ?
-from keywords import keywords_and_ngrams
+import os
+corpus = 'corpora/fraser-annual'
+all_text = []
+for subcorpus in os.listdir(corpus):
+    subcorpus_text = []
+    for txtfile in os.listdir(os.path.join(corpus, subcorpus)):
+        data = open(os.path.join(corpus, subcorpus, txtfile)).read()
+        data = data.lower() # make it lowercase!
+        subcorpus_text.append(data)
+    subcorpus_text = '\n'.join(subcorpus_text)
+    all_text.append(subcorpus_text)
+
+# <markdowncell>
+# So now we have each subcorpus as a list item in *all_text*. We can generate keywords for each:
+
+# <codecell>
+# reimport keyworder
 import sys
 sys.path.insert(0, 'spindle-code-master/keywords')
-keywords_and_ngrams(raw.encode("UTF-8"), nBigrams = 0)
+from keywords import keywords_and_ngrams 
+results = []
+for text in all_text:
+    result = keywords_and_ngrams(text)
+    results.append(result)
+
+# this takes a while to complete. maybe you want to add in some
+# print commands that tell you where the code is currently at?
+
+# <markdowncell>
+# ... and do whatever we like with our results. In the cell below, why don't you try to develop a way of printing some useful results?
+
+# **Challenge**: print the year of each subcorpus before printing its top n keywords.
+
+# <codecell>
+# print top 10 keywords and bigrams from each subcorpus, maybe?
+corpus = 'corpora/fraser-annual'
+subcorpora = os.listdir(corpus)
+for index, result in enumerate(results):
+    keys = result[0]
+    print subcorpora[index]
+    for key in keys[:10]:
+        print key[0]
 
 # <headingcell level=3>
 # Collocation in Fraser's speeches
 
 # <markdowncell>
-# We've already done collocation, too. Below is the code we ended up with last time, with an empty cell under that. Your challenge is to get it to work with for each annual subcorpus of the Fraser Corpus, and to reimplement something that stops punctuation from matching.
+# We've already done collocation, too. Below are the bits of code we've already used to do sentence segmentation, tokenisation, keywording and collocation. Your challenge is to use these bits of code to get collocates for each subcorpus. If there's time, you can try to stop results including punctuation from matching.
+
+# > **Hint**: use some of the code from above to loop through each subcorpus. You'll need to indent a lot of the existing code!
 
 # <codecell>
+# code to loop through the data and store all data as list of strings
+for subcorpus in os.listdir(corpus):
+    # print a working message
+    print 'Doing ' + str(subcorpus)
+    subcorpus_text = []
+    # for each textfile in the folder:
+    for txtfile in os.listdir(os.path.join(corpus, subcorpus)):
+        # get the text from the file
+        data = open(os.path.join(corpus, subcorpus, txtfile)).read()
+        # make sure it's utf-8
+        data = data.decode('utf-8', 'ignore')
+        #make it lowercase
+        data = data.lower()
+        # add this text to a list of all text
+        subcorpus_text.append(data)
+    # turn subcorpus text into a single string
+    subcorpus_text = '\n'.join(subcorpus_text) # make into string
+
+# <codecell>
+# code to do sentence segmentation
+# load sentence tokenizer:
+sent_tokenizer=nltk.data.load('tokenizers/punkt/english.pickle')
+# tokenize 'raw'
+sents = sent_tokenizer.tokenize(raw)
+
+# <codecell>
+# code to do tokenisation of sents
+tokenized_sents = [nltk.word_tokenize(i) for i in sents]
+
+# <codecell>
+# code to put all tokens in a list 
+allwords = []
+for sent in tokenized_sents:
+    for word in sent:
+        allwords.append(word)
+
+# <codecell>
+# code for doing collocation of 'tokens', removing stopwords
 from nltk.collocations import *
+# get statistical tests
 bigram_measures = nltk.collocations.BigramAssocMeasures()
-finder = BigramCollocationFinder.from_words(allwords, window_size=5)
+# load the collocation searcher with window of 5
+finder = BigramCollocationFinder.from_words(tokens, window_size=5)
+# load stopword list
 ignored_words = nltk.corpus.stopwords.words('english')
+# find results 2 and over, not stopword
 finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words)
 finder.apply_freq_filter(2)
-sorted(finder.nbest(bigram_measures.raw_freq, 30))
+# get the best bigrams
+result = sorted(finder.nbest(bigram_measures.raw_freq, 30))
+print result
 
 # <codecell>
-#Your attempt
+# stop punctuation matches:
+regex = r'[A-Za-z0-9]'
+finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or not re.match(regex, w))
 
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <markdowncell>
+# If you're having trouble, you can load a solution here:
+
+# <codecell>
+% load corpling_tools/fraser-collocation.ipy
 
 
 # <headingcell level=2>
@@ -375,21 +518,46 @@ sorted(finder.nbest(bigram_measures.raw_freq, 30))
 
 # Before we start annotating our own corpora, let's just quickly play with a pre-annotated corpus.
 
-# > **Note:** John Sinclair, an early propoent of corpus linguistics generally, was famously resistent to the use of annotation and parsing. He felt that the corpus alone should be used to build theory, rather than using existing theories (grammars) to annotate data (e.g. [2004](#ref:sinclair)). Though this is an uncommon viewpoint today, it is still useful to remember that the process of value-adding is never free of theory or interpretation.
+# <codecell>
+from nltk.corpus import brown
+print(brown.words())
+print(brown.tagged_words())
+
+# <markdowncell>
+# So, each word in the 1961 *Brown Corpus* is tagged for its part of speech, as well as some additional information. The tag descriptions are available here:
 
 # <codecell>
-# pre-parsed treebank ...
+HTML('<iframe src=http://en.wikipedia.org/wiki/Brown_Corpus#Part-of-speech_tags_used width=700 height=350></iframe>')
+
+# <markdowncell>
+# So, we can pretty easily make lists containing all words of a given type. Below, we print the first 50 adverbs. Try changing the 'RB' to another kind of tag, and see what results turn up. 
+
+# > JJ and RB are shorthand for adjective and adverb.
+
+# <codecell>
+from nltk.corpus import brown
+adverbs = []
+for tup in brown.tagged_words():
+    # get any word whose tag is adverb
+    if tup[1] == 'RB':
+        adverbs.append(tup[0])
+adverbs[:50]
+
+# <markdowncell>
+# It's easy to grasp the potential power of annotation: think how difficult it would be to write regular expressions that locate all adverbs!
+
+# > **Note:** John Sinclair, an early proponent of corpus linguistics generally, was famously resistant to the use of annotation and parsing. He felt that the corpus alone should be used to build theory, rather than using existing theories (grammars) to annotate data (e.g. [2004](#ref:sinclair)). Though this is an uncommon viewpoint today, it is still useful to remember that the process of 'value-adding' is never free of theory or interpretation.
 
 # <headingcell level=2>
 # Part-of-speech tagging
 
 # <markdowncell>
-# Part-of-speech (POS) tagging is the process of assigning each token a label. One of the well-known tagsets is the Brown Tagset, used to annotate the Brown Corpus in the 1960s.
+# Part-of-speech (POS) tagging is the process of assigning each token a label. One of the well-known tagsets is the Brown Tagset, used to annotate the Brown Corpus in the 1960s. 
 
 # > **Note:** It is generally considered good practice to train your tagger by exposing it to well-annotated language of a similar variety. For reasons of scope, however, training taggers and parsers is not covered in these sessions.
 
 # <codecell>
-text = word_tokenize("We can easily put any text we like here, and NLTK will tag each word with its part of speech.")
+text = word_tokenize("We can put any text we like here, and NLTK will tag each word with its part of speech.")
 tagged = nltk.pos_tag(text)
 tagged
 
@@ -405,24 +573,50 @@ for word_and_tag in tagged:
 # It's possible, but tricky, to design more complex queries with tagged data. Below, we find words based on the adjacency of other words:
 
 # <codecell>
-for word_and_tag in tagged:
-    # let's find modal auxiliaries ...
+for index, word_and_tag in enumerate(tagged):
+    # let's print all modal auxiliaries ...
     if word_and_tag[1] == 'MD':
-        print word_and_tag[0]
-        if tagged[tagged.index(word_and_tag) + 1][1] == 'VB':
-            print word_and_tag[0]
-            if tagged[tagged.index(word_and_tag) + 1][0] == 'tag':
-                print word_and_tag[0]
+        print 'modal: ', word_and_tag[0]
+        # print modals adjacent to verb
+        if tagged[index + 1][1] == 'VB':
+            print 'to the left of a verb: ', word_and_tag[0]
+            # if the word to the right is 'tag'
+            if tagged[index + 1][0] == 'tag':
+                print ' ... and the verb is tag: ', word_and_tag[0]
 
 # <markdowncell>
-# This is pretty cool, but it's a fairly limited approach. The reason it's limited is that adjacency is not the only way in which words in a sentence are related to one another. If we are interested in modal auxiliaries that modify the verb *tag*, we would like our search to match:
+#  This is a fairly sophisticated approach. Through sentence segmentation and part of speech tagging, we could (for example) write a few lines of code to pull out any sentence containing a person's name, combined with a certain word of interest.
+
+# > In the legal profession, during the discovery process, a legal team may receive hundreds of thousands of pages of text. Searching of POS-tagged data can locate documents likely to contain important information, or at the very least, can sort texts in order of their relevance. This can save countless hours of work.
+
+# Part of speech tagging still has some limitations, though. The problem is that adjacency is not the only way in which words in a sentence are related to one another. If we are interested in modal auxiliaries that modify the verb *tag*, we would like our search to match:
 
 # * it **will** tag ...
 # * it **could** potentially tag
 # * it **can**'t always easily tag
-# and so on...
+# * and so on...
 
-# In order to match these examples, we have to develop annotations not only of words, but groups of words. If we recognise *will tag*, *could potentially tag*, and *can't always easily tag* as groups, it makes it much easier to search for the modal auxiliaries within them.
+# In order to match these examples, we have to develop annotations not only of words, but groups of words. If we recognise *will tag*, *could potentially tag*, and *can't always easily tag* as verbal groups (VPs), it makes it much easier to search for the modal auxiliaries within them.
+
+# The idea of mapping out the grammatical relationships between words in a sentence is a very, very old idea indeed. Hundreds of different models of grammar have been proposed. Right now, we'll focus on a very influential and well-known model of language called *phrase structure grammar*.
+
+# <headingcell level=3>
+# Phrase structure grammar
+
+# <markdowncell>
+# Phrase structure grammar is the tree-style representation of popularised by generative grammarians (i.e. [Chomsky 1965](#ref:chomsky)):
+
+# <br>
+# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/wooltree.png" />
+# <br>
+
+# <codecell>
+HTML('<iframe src=http://en.wikipedia.org/wiki/Phrase_structure_grammar width=700 height=350></iframe>')
+
+# <markdowncell>
+# Originally, generative grammarians were attempting to write rules that could account for any well-formed sentence in a language. The assumption was that we could do this for many languages, and then compare grammars in order to find *linguistic universals*---things common to all languages.
+
+# These days, people aren't so interested in this task. Phrase structure grammars, however, are still common within natural language processing. *Automatic text comprehension* and *text generation* are two tasks that are commonly approached with phrase-structure as an underlying theory.
 
 # The task of automatically annotating this level of information is called *parsing*.
 
@@ -430,33 +624,13 @@ for word_and_tag in tagged:
 # Parsing
 
 # <markdowncell>
-# Parsing involves determining parts of speech for each word, but also the underlying grammatical structure of a sentence. There are many different grammars for a language like English, and accordingly, many different parsers. We're going to work for now with a very mainstream grammar, and a well-known parser.
+# Parsing involves determining parts of speech for each word, but also the underlying grammatical structure of a sentence. There are many different grammars for a language like English, and accordingly, many different parsers. There is no way of determining which parser is objectively *the best*: some work well for multiple languages, or for certain genres of communication like journalism. Speed and portability may in some contexts be very important values (think *Siri*).
 
-# <headingcell level=3>
-# Phrase structure grammar
-
-# <markdowncell>
-# Phrase structure grammar is the tree-style representation popularised by generative grammarians (i.e. [Chomsky 1965](#ref:chomsky)):
-
-# <br>
-# <img style="float:left" src="https://raw.githubusercontent.com/resbaz/lessons/master/nltk/images/wooltree.png" />
-# <br>
-
-# <markdowncell>
-# EXPLAIN A LITTLE BIT ABOUT PSG HERE...
-
-
-# <headingcell level=3>
-# heading
-
-# <markdowncell>
-# NLTK as a library consists of many, many computational linguistic tools.
-
-# It is largely oriented toward *building* parsers, rather than simply *using* them. Building parsers is a *very* complicated thing, however. To build a parser, you need to write out a grammar, and train a machine to learn this grammar by feeding it a corpus of correctly annotated clauses. This kind of task is well beyond the scope of our short course, unfortunately.
+# NLTK as a library contains many different kinds of parsers. It also provides interfaces to work with a number of popular parsers such as *BLLIP*, *MaltParser* or *Stanford CoreNLP*. Unfortunately for us, NLTK as a library is largely oriented toward *building* parsers, rather than simply *using* them. Building parsers is a *very* complicated thing. To build a parser, you need to write out a grammar, and train a machine to learn this grammar by feeding it a corpus of correctly annotated clauses. This kind of task is well beyond the scope of our short course.
 
 # > If you're interested in the idea of developing a grammar, you can head [here](http://www.nltk.org/book/ch08.html) for NLTK's documentation.
 
-# What we're going to do is use a parser that works 'out of the box', without any training. One of the simpest to use within NLTK/Python is *pyStatParser*. First, we have to install it.
+# What we're going to do is use a parser that works 'out of the box', without any training. One of the simplest to use within NLTK/Python is *pyStatParser*. First, we have to get it from the web and install it.
 
 # <codecell>
 # copy the parser files
@@ -472,29 +646,87 @@ os.chdir('..')
 # <codecell>
 #import parser
 from stat_parser import Parser
-# instantiate parser
+# name and load the parser
 parser = Parser()
 # parse and print a sentence
-print parser.parse("We act to prevent a wider war, to diffuse a powder keg at the heart of Europe that has exploded twice before in this century with catastrophic results.")
-
+tree = parser.parse("We act to prevent a wider war, to diffuse a powder keg at the heart of Europe "
+    "that has exploded twice before in this century with catastrophic results.")
+print tree
 
 # <markdowncell>
-# VISUALISE THE PARSE AND SUMMARISE HERE.
+# NLTK provides a *draw()* function for graphically representing these bracketted trees. With a bit of hacking, we can get IPython to show us the tree:
 
+# <codecell>
+from nltk import Tree
+from nltk.draw.util import CanvasFrame
+from nltk.draw import TreeWidget
+cf = CanvasFrame()
+# draw the tree
+tc = TreeWidget(cf.canvas(),tree)
+cf.add_widget(tc,10,10) # (10,10) offsets
+# print it to file
+cf.print_to_file('tree.ps')
+# don't show it on screen (yet!)
+cf.destroy()
+# convert to displayable form
+! convert tree.ps tree.png
+# remove the old file
+! rm tree.ps
+# show the image
+Image(filename='tree.png')
+
+# <markdowncell>
+# Below is a simple function that uses the code above to turn a sentence into a visualised tree. Insert whatever text you like as a string, and see what happens!
+
+# <codecell>
+def quicktree(sentence):
+    """Parse a sentence and return a visual representation"""
+    from nltk import Tree
+    from nltk.draw.util import CanvasFrame
+    from nltk.draw import TreeWidget
+    from stat_parser import Parser
+    from IPython.display import display
+    from IPython.display import Image
+    parser = Parser()
+    parsed = parser.parse(sentence)
+    cf = CanvasFrame()
+    tc = TreeWidget(cf.canvas(),parsed)
+    cf.add_widget(tc,10,10) # (10,10) offsets
+    cf.print_to_file('tree.ps')
+    cf.destroy()
+    ! convert tree.ps tree.png
+    ! rm tree.ps
+    return Image(filename='tree.png')
+    ! rm tree.png
+
+# <codecell>
+quicktree("It depends upon what the meaning of the word is is.")
+
+# <markdowncell>
+# If we've got any spare time, you might like to try to build some functionality into *quicktree()*. Maybe it would be nice to be able to provide a filename, and not to delete the file after loading it ... ?
+
+# <codecell>
+# Use these cells to visualise some sentences, if you like!
+
+# <codecell>
+# 
+
+# <codecell>
+# 
 
 # <headingcell level=2>
 # Summary
 
 # <markdowncell>
-# So now we're able to do some pretty complex stuff!
+# So, that's the end of Session 4. Now, we're able to do some pretty complex stuff!
 
-# In this session, we've generated real insights into data using corpus linguistic/ distant reading techniques.
+# In this session, we've generated real insights into the Fraser Corpus using corpus linguistic/distant reading techniques (keywording, ngrams, and collocation).
 
-# Many of the things we've done (tagging, parsing, etc.) reduce the human readability of our raw data, but greatly enhance our ability to find things in it via code. What we've been doing also multiplies the length and size of our dataset.
+# We've also learned about some more advanced computational linguistic ideas, like tagging and parsing. It's good to keep in mind, however, that any kind of POS tagging or parsing is an act of interpretation. Just because it's being done by a computer doesn't mean it's objective. Certain kinds of meaning can be systematically missed by processes like parsing.
 
-# In the next lesson, we'll use a fully parsed version of the Fraser Corpus to look for longitudinal change in his use of language.
+# In the next lesson, we'll use a fully parsed version of the Fraser Corpus to look for longitudinal change in his use of language. The only reason we didn't all parse the texts ourselves is that the process is computationally intensive, and takes a few hours to complete. For this reason, you actually downloaded the parsed version of the corpus at the start of the first session.
 
-# *Stay tuned!*
+# *See you soon!*
 
 # <headingcell level=1>
 # Session 5: Charting change in Fraser's speeches
@@ -503,15 +735,13 @@ print parser.parse("We act to prevent a wider war, to diffuse a powder keg at th
 #
 # In this lesson, we investigate a fully-parsed version of the Fraser Corpus. We do this using purpose-built tools.
 
-# In the first part of the session, we will provide a basic orientation to the tools.
-
-# Later, you'll be able to use the tools to navigate the data and visualise results in any way you like.
+# In the first part of the session, we will go through how to use each of the tools. Later, you'll be able to use the tools to navigate the data and visualise results in any way you like.
 
 # The Fraser Speeches have been parsed for part of speech and grammatical structure by [*Stanford CoreNLP*](http://nlp.stanford.edu/software/corenlp.shtml), a parser that can be loaded within NLTK. We rely on [*Tregex*](http://nlp.stanford.edu/~manning/courses/ling289/Tregex.html) to interrogate the parse trees. Tregex allows very complex searching of parsed trees, in combination with [Java Regular Expressions](http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html), which are very similar to the regexes we've been using thus far.
 
-# If you plan to work more with parsed corpora later, it's definitely worthwhile to learn the Tregex syntax, but in case you're time-poor, at the end of this notebook are a series of Tregex queries that you can copy and paste. We'll explain the syntax as we go.
+# If you plan to work more with parsed corpora later, it's definitely worthwhile to learn the Tregex syntax in detail. For now, though, we'll use simple queries, and explain the query construction syntax as we go.
 
-# Before we get started, we have to install Java, as some of our tools rely on some Java code. You'll very likely have Java installed on your local machine, but we need it on the cloud. The following code should do it:
+# Before we get started, we have to install Java, as some of our tools rely on some Java code. You'll very likely have Java installed on your local machine, but we need it on the cloud. To make it work, you should run the following line of code in the cloud Terminal:
 
 # <codecell>
 ! sudo yum install java
@@ -519,7 +749,9 @@ print parser.parse("We act to prevent a wider war, to diffuse a powder keg at th
 # <markdowncell>
 # OK, that's out of the way. Next, let's import the functions we'll be using to investigate the corpus. These functions have been designed specifically for our investigation, but they will work with any parsed dataset.
 
-#We'll take a look at the code used in this session a little later on, if there's time. Much of the code is derived from things we've learned here, combined with a lot of Google and Stack Overflow queries. All our code is on GitHub too, remember.
+# We'll take a look at the code used in this session a little later on, if there's time. Much of the code is derived from things we've learned here, combined with a lot of Google and Stack Overflow searching. All our code is on GitHub too, remember. It's open-source, so you can do whatever you like with it.
+
+# Here's an overview of the functions we'll be using, and their purpose:
 
 # | **Function name** | Purpose                            | |
 # | ----------------- | ---------------------------------- | |
@@ -532,9 +764,10 @@ print parser.parse("We act to prevent a wider war, to diffuse a powder keg at th
 # | *merger()*       | merge *interrogator()* results      | |
 # | *conc()*          | complex concordancing of subcopora | |
 
+# We can import them using IPython Magic:
+
 # <codecell>
 import os # for joining paths
-import pprint # for displaying concordances
 from IPython.display import display, clear_output # for clearing huge lists of output
 # import functions to be used here:
 %run corpling_tools/interrogator.ipy
@@ -542,7 +775,7 @@ from IPython.display import display, clear_output # for clearing huge lists of o
 %run corpling_tools/additional_tools.ipy
 
 # <markdowncell>
-# We should set two variables that are used repeatedly during the investigation. If you were using this interface for your own corpora, you would change 'fraser' to the path to your data.
+# We also need to set the path to our corpus as a variable. If you were using this interface for your own corpora, you would change this to the path to your data.
 
 # <codecell>
 path = 'corpora/fraser-corpus-annotated' # path to corpora from our current working directory.
@@ -550,11 +783,10 @@ path = 'corpora/fraser-corpus-annotated' # path to corpora from our current work
 # <headingcell level=3>
 # Interrogating the corpus
 
-
 # <markdowncell>
 # To interrogate the corpus, we need a crash course in parse labels and Tregex syntax. Let's define a tree (from the Fraser Corpus, 1956), and have a look at its visual representation.
 
-#      *Melbourne has been transformed over the let 18 months in preparation for the visitors.*
+#      Melbourne has been transformed over the let 18 months in preparation for the visitors.
 
 # <codecell>
 melbtree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VBN transformed) '
@@ -574,7 +806,16 @@ melbtree = (r'(ROOT (S (NP (NNP Melbourne)) (VP (VBZ has) (VP (VBN been) (VP (VB
 HTML('<iframe src=http://www.surdeanu.info/mihai/teaching/ista555-fall13/readings/PennTreebankConstituents.html width=700 height=350></iframe>')
 
 # <markdowncell>
-# *searchtree()* is a tiny function that searches a syntax tree. We'll use the sample sentence and *searchtree()* to practice our Tregex queries. We can feed it either *tags* (S, NP, VBZ, DT etc.) or *tokens* enclosed in forward slashes.
+# Note that the tags are a little bit different from the last parser we were using:
+
+# <codecell>
+quicktree("Melbourne has been transformed over the let 18 months in preparation for the visitors")
+
+# <markdowncell>
+# Neither parse is perfect, but the one we just generated has a major flaw: *Melbourne* is parsed as an adverb! Stanford CoreNLP correctly identifies it as a proper noun, and also, did a better job of handling the 'let' mistake.
+
+# <markdowncell>
+# *searchtree()* is a tiny function that searches a syntax tree. We'll use the sample sentence and *searchtree()* to practice our Tregex queries. We can feed it either *tags* (S, NP, VBZ, DT, etc.) or *tokens* enclosed in forward slashes.
 
 # <codecell>
 # any plural noun
@@ -591,7 +832,7 @@ query = r'NP'
 searchtree(melbtree, query)
 
 # <markdowncell>
-# To make things more specific, we can create queries with multiple criteria to match, and specify the relationship between each criterion we want to match. Tregex will print everything matching the leftmost criterion.
+# To make things more specific, we can create queries with multiple criteria to match, and specify the relationship between each criterion we want to match. Tregex will print everything matching **the leftmost criterion**.
 
 # <codecell>
 # NP with 18 as a descendent
@@ -599,17 +840,23 @@ query = r'NP << /18/'
 searchtree(melbtree, query)
 
 # <markdowncell>
-# Using an exclamation mark negates the relationship. Try producing a query for a *noun phrase* (NP) without a *Melb* descendent
+# Using an exclamation mark negates the relationship. Try producing a query for a *noun phrase* (NP) without a *Melb* descendent:
 
 # <codecell>
 query = r'NP !<< /Melb.?/'
 searchtree(melbtree, query)
+
+# <markdowncell>
+# The dollar specifies a sibling relationship between two parts of the tree---that is, two words or tags that are horizontally aligned.
 
 # <codecell>
 # NP with a sister VP
 # This corresponds to 'subject' in many grammars
 query = r'NP $ VP'
 searchtree(melbtree, query)
+
+# <markdowncell>
+# Try changing the **more than** symbols to **less than**, and see how it affects the results.
 
 # <codecell>
 # Prepositional phrase in other prepositional phrases
@@ -637,7 +884,7 @@ searchtree(melbtree, query)
 # <markdowncell>
 # Here are two more trees for you to query, from 1969 and 1973.
 
-#      *We continue to place a high value on economic aid through the Colombo Plan, involving considerable aid to Asian students in Australia.*
+#      We continue to place a high value on economic aid through the Colombo Plan, involving considerable aid to Asian students in Australia.
 
 # <markdowncell>
 # <br>
@@ -645,10 +892,13 @@ searchtree(melbtree, query)
 # <br>
 
 # <codecell>
-colombotree = r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB place) (NP (NP (DT a) (JJ high) (NN value)) (PP (IN on) (NP (JJ economic) (NN aid)))) (PP (IN through) (NP (DT the) (NNP Colombo) (NNP Plan))) (, ,) (S (VP (VBG involving) (NP (JJ considerable) (NN aid)) (PP (TO to) (NP (NP (JJ Asian) (NNS students)) (PP (IN in) (NP (NNP Australia))))))))))) (. .)))'
+colombotree = r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB place) (NP (NP (DT a) (JJ high) '
+    r'(NN value)) (PP (IN on) (NP (JJ economic) (NN aid)))) (PP (IN through) (NP (DT the) (NNP Colombo) (NNP Plan))) '
+    r'(, ,) (S (VP (VBG involving) (NP (JJ considerable) (NN aid)) (PP (TO to) (NP (NP (JJ Asian) (NNS students)) 
+        r'(PP (IN in) (NP (NNP Australia))))))))))) (. .)))'
 
 # <markdowncell>
-#      *As a result, wool industry and the research bodies are in a state of wonder and doubt about the future.*
+#      As a result, wool industry and the research bodies are in a state of wonder and doubt about the future.
 
 # <markdowncell>
 # <br>
@@ -656,7 +906,9 @@ colombotree = r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB
 # <br>
 
 # <codecell>
-wooltree = r'(ROOT (S (PP (IN As) (NP (DT a) (NN result))) (, ,) (NP (NP (NN wool) (NN industry)) (CC and) (NP (DT the) (NN research) (NNS bodies))) (VP (VBP are) (PP (IN in) (NP (NP (DT a) (NN state)) (PP (IN of) (NP (NN wonder) (CC and) (NN doubt))))) (PP (IN about) (NP (DT the) (NN future)))) (. .)))'
+wooltree = r'(ROOT (S (PP (IN As) (NP (DT a) (NN result))) (, ,) (NP (NP (NN wool) (NN industry)) (CC and) '
+                 r'(NP (DT the) (NN research) (NNS bodies))) (VP (VBP are) (PP (IN in) (NP (NP (DT a) (NN state)) '
+                    r'(PP (IN of) (NP (NN wonder) (CC and) (NN doubt))))) (PP (IN about) (NP (DT the) (NN future)))) (. .)))'
 
 # <markdowncell>
 # Try a few queries in the cells below.
@@ -676,22 +928,21 @@ searchtree(colombotree, query)
 # <codecell>
 #
 
-
-# So, now we understand the basics of a Tregex query (don't worry! Most of the queries are already written for you). We can start our investigation of the Fraser Corpus by generating some general information about it. First, let's define a query to find every word in the corpus. Run the cell below to define the *allwords_query* as the Tregex query.
+# <markdowncell>
+# So, now we understand the basics of a Tregex query (don't worry---many queries have already been written for you. We can start our investigation of the Fraser Corpus by generating some general information about it. First, let's define a query to find every word in the corpus. Run the cell below to define the *allwords_query* as the Tregex query.
 
 # > *When writing Tregex queries or Regular Expressions, remember to always use **r'...'** quotes!*
 
 # <codecell>
 # any token containing letters or numbers (i.e. no punctuation):
-# we specify here that it cannot have any descendents,
+# we specify here that it cannot have any descendants,
 # just to be sure we only get tokens, not tags.
-
 allwords_query = r'/[A-Za-z0-9]/ !< __' 
 
 # <markdowncell>
 # Next, we perform interrogations with *interrogator()*. Its most important arguments are:
 #
-# 1. **path to corpus**
+# 1. **path to corpus** (the *path* variable)
 #
 # 2. Tregex **options**:
 #   * **'-t'**: return only words
@@ -732,7 +983,7 @@ plotter('Word counts in each subcorpus', allwords.totals)
 # <markdowncell>
 # Great! So, we can see that the number of words per year varies quite a lot. That's worth keeping in mind.
 
-# Next, let's plot something more specific, using the '-t' option.
+# Next, let's plot something more specific, using the **-t** option.
 
 # <codecell>
 query = r'/(?i)\baustral.?/' # australia, australian, australians, etc.
@@ -742,7 +993,7 @@ aust = interrogator(path, '-t', query) # -t option to get matching words, not ju
 # We now have a list of words matching the query stores in the *aust* variable's *results* branch:
 
 # <codecell>
-pprint.pprint(aust.results[:3]) # just the first few entries
+aust.results[:3] # just the first few entries
 
 # <markdowncell>
 # *Your turn!* Try this exercise again with a different term. 
@@ -791,7 +1042,7 @@ plotter('Austral*', aust.results, fract_of = allwords.totals, num_to_plot = 3, y
 plotter('Austral*', aust.results, fract_of = allwords.totals, num_to_plot = 3, yearspan = [1960,1969])
 
 # <markdowncell>
-# *Challenge* Use these examples to construct a plot that shows you something about the way in which Fraser talks about 'government' during the 1970s
+# **Challenge:**: Use these examples to construct a plot that shows you something about the way in which Fraser talks about 'government' during the 1970s
 
 # <headingcell level=3>
 # Viewing and editing results
@@ -830,7 +1081,7 @@ quickview(aust.results, n = 20)
 tally(aust.results, [0, 3])
 
 # <markdowncell> 
-# *Your turn* Use 'all' to tally the result for the first 11 items in aust.results
+# **Your turn**: Use 'all' to tally the result for the first 11 items in aust.results
 
 # <codecell>
 tally(aust.results[:10], 'all')
@@ -900,7 +1151,7 @@ conc(os.path.join(path,'1966'), r'/(?i)\baustral.?/') # adj containing a risk wo
 
 # <codecell>
 randoms = conc(os.path.join(path,'1963'), r'/(?i)\baustral.?/', random = 5)
-pprint.pprint(randoms)
+randoms
 
 # <markdowncell>
 # *conc()* takes another argument, window, which alters the amount of co-text appearing either side of the match.
@@ -915,10 +1166,10 @@ conc(os.path.join(path,'1981'), r'/(?i)\baustral.?/', random = 5, window = 50)
 conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, trees = True)
 
 # <markdowncell>
-# The final *conc()* argument is a *csv = 'filename'*, which will produce a comma-separated spreadsheet with the results of your query. 
+# The final *conc()* argument is a *csv = 'filename'*, which will produce a comma-separated spreadsheet with the results of your query.
+
 # You can copy and paste this data into Excel, or use it with another tool of your choice. CSV is a really useful file format!
 
-# <codecell>
 # <codecell>
 conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, trees = True, csvmake = 'conc.txt')
 
@@ -951,14 +1202,14 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 # * Experiential meanings are made through **transitivity choices**.
 # * Interpersonal meanings are made through **mood choices**
 
-# Here's one visualisation of it. We're concerned with the two lefthand columns. Each level is an abstraction of the one below it.
+# Here's one visualisation of it. We're concerned with the two left-hand columns. Each level is an abstraction of the one below it.
 
 # <br>
 # <img style="float:left" src="https://raw.githubusercontent.com/interrogator/sfl_corpling/master/cmc-2014/images/egginsfixed.jpg" />
 # <br>
 
 # <markdowncell>
-# > According to SFL, if provided with a short description of a Field, Tenor and Mode, you an usually deduce the genre. If a conversation about *furtniture* is happening between *a salesperson and a customer*, in a *face-to-face setting*, we can understand it to be the *buying/selling of furniture*. Altering one of the three dimensions, and the genre is different: change the Field to *wine* and, and now wine is the thing being sold. Change *a customer* to *a group of customers*, and it might be an auction ...
+# > According to SFL, if provided with a short description of a Field, Tenor and Mode, you an usually deduce the genre. If a conversation about *furniture* is happening between *a salesperson and a customer*, in a *face-to-face setting*, we can understand it to be the *buying/selling of furniture*. Altering one of the three dimensions, and the genre is different: change the Field to *wine* and, and now wine is the thing being sold. Change *a customer* to *a group of customers*, and it might be an auction ...
 
 # Transitivity choices include fitting together configurations of:
 
@@ -976,7 +1227,7 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 
 # "*The consideration of interest is the potential for a participant of a certain demographic to be in Group A or Group B*".
 
-# Notice how not only are there many nouns (*consideration, interest, potential, etc.), but that the verbs are very simple (*is*, *to be*).
+# Notice how not only are there many nouns (*consideration*, *interest*, *potential*, etc.), but that the verbs are very simple (*is*, *to be*).
 
 # In comparison, informal speech is characterised by smaller clauses, and thus more verbs.
 
@@ -1004,7 +1255,7 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 # Interpersonal features
 
 # <markdowncell>
-# We'll start with interpersonal features of language in the corpus. First,  we can devise a couple of simple metrics that can teach us about the interpersonal tone of Fraser's speeches over time.
+# We'll start with interpersonal features of language in the corpus. First, we can devise a couple of simple metrics that can teach us about the interpersonal tone of Fraser's speeches over time.
 
 # <codecell>
 # number of content words per clause
@@ -1022,9 +1273,9 @@ plotter('Lexical density', opencount.totals,
 
 # Modals are very easily and accurately located, as there are only a few possible words, and they occur in predicable places within clauses.
 
-#Most grammars tag them with 'MD'.
+# Most grammars tag them with 'MD'.
 
-#If modality interests you, later, it could be a good set of results to manipulate and plot.
+# If modality interests you, later, it could be a good set of results to manipulate and plot.
 
 # <codecell>
 query = r'MD < __'
@@ -1149,9 +1400,8 @@ plotter('Processes', processes.results[2:], fract_of = processes.totals)
 # write a call to conc() that gets concordances for 'believe' in 1973
 #
 #
-# Here's a query that uses the parser info
+# Here's a query that gets only 'believe' verbs that are the main verb of a clause:
 # r'/VB.?/ < /(?i)believ.?/ >># VP >+(VP) VP'
-
 
 # <markdowncell>
 # For discussion: what events are being discussed when *believe* is the process? Why use *believe* here?
@@ -1161,7 +1411,7 @@ plotter('Processes', processes.results[2:], fract_of = processes.totals)
 
 # <codecell>
 # any noun phrase headed by a proper noun
-pn_query = 'NP <# NNP'
+pn_query = r'NP <# NNP'
 
 # <markdowncell>
 # To make for more accurate results the *interrogator()* function has an option, *titlefilter*, which uses a regular expression to strip determiners (*a*, *an*, *the*, etc.), titles (*Mr*, *Mrs*, *Dr*, etc.) and first names from the results. This will ensure that the results for *Prime Minister* also include *the Prime Minister*, and *Fraser* results will include the *Malcolm* variety. The option is turned on in the cell below:
@@ -1255,6 +1505,10 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 # 4. Have an open discussion about what we've done
 # 5. Summarise and say goodbye!
 
+# This lesson is pretty light on content and structure. Please do jump in at any point, and tell us about your research, and whether or not what you've learned here will be of much use.
+
+# Or, ask us if Python can do a certain thing. Maybe we have some tips!
+
 # <headingcell level=2>
 # Managing resources and results
 
@@ -1270,16 +1524,42 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 
 # <markdowncell>
 
-# 1. Most importantly, **write comments on your code**. You **will** forget what bits of code are supposed to do. Using others' code is much easier if it's commented up. A related point is to name your variables meaningfully: *variablexxy* does not tell us much about what it will contain.
+# 1. Most importantly, **write comments on your code**. You **will** forget what bits of code are supposed to do. Using others' code is much easier if it's commented up. 
+# 2. A related point is to name your variables meaningfully: *variablexxy* does not tell us much about what it will contain. *For image in images:*  is a very comprehensible line.
+# 3. Also, write docstrings for your functions. Help messages come in very handy for not only others, but yourself. Simply stating what
 # 2. **Version control**. When editing your code, you may sometimes break it. [Here](https://drclimate.wordpress.com/2012/11/16/version-control/)'s a write-up about version control from Damien Irving.
-# 3. **Share your code**. You are often doing novel things when you code, and sharing what you've done can save somebody else a lot of work. *Github* is free for open-source projects. Github provides version control, which is especially useful when you are working with a team.
+# 3. **Share your code**. You are often doing novel things when you code, and sharing what you've done can save somebody else a lot of work. *GitHub* is free for open-source projects. GitHub provides version control, which is especially useful when you are working with a team.
+
+# <headingcell level=4>
+# Developing as a programmer
+
+# <markdowncell>
+# We've only scratched the surface of Python, to be honest. In fact, we've only been treating Python as a programming language. Many of its users, however, see it as more than just a programming language: it is an ideology and culture, as well. 
+
+# You'll notice on Stack Overflow, people will remark that some solutions are more 'pythonic' than others. By this, they typically mean that the code is easy to read and broken into discrete functions. More broadly, *pythonic* refers to code that adheres to the *Zen of Python*:
+
+# <codecell>
+import this
+
+# <markdowncell>
+# So, as you explore Python more and more, you learn not only new ways to get tasks done, but also what ways are better to others. While at first you'll be content with making code that works, you'll later want to make sure your code is elegant as well. Fixing up your old code becomes a form of procrastination from thesis writing. Luckily, of all the kinds of procrastination, it's one of the better kinds.
+
+# Another change you might notice is a switch toward *defensive programming*, where you write code to handle potential errors, and to provide useful messages when people do something wrong. This is a really awesome thing to do.
+
+# Some code authors also try to use *test-driven development*. From [the wikipedia article](http://en.wikipedia.org/wiki/Test-driven_development):
+
+# > First the developer writes an (initially failing) automated test case that defines a desired improvement or new function, then produces the minimum amount of code to pass that test, and finally refactors the new code to acceptable standards.
+
+# This helps stop feature-creep, builds your confidence, and encourages the division of long code into well-defined functions.
+
+# Oh, and you'll probably start dreaming in code. *Not* a joke.
 
 # <headingcell level=3>
 # Your data
 
 # <markdowncell>
 # It should now be clear to you that you have data!
-# Think about how you structure it. Without necessarily becoming an archivist, do think about your metadata. It will help you to manage your data later
+# Think about how you structure it. Without necessarily becoming an archivist, do think about your metadata. It will help you to manage your data later.
 # *Cloud computing* offers you access to more storage and compute-power than you might want to own. Plus you're unlikely to spill coffee on it.
 
 # <headingcell level=3>
@@ -1288,7 +1568,7 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 # <markdowncell>
 # [*Figshare*](http://www.figshare.com) is a site for storing tables and figures. It's particularly useful for working with large datasets, as we often generate far more raw tables and statistics than we can possibly publish.
 
-# It's becoming more and more common to link journal publications to additional online resources such as Github code or Figshares.
+# It's becoming more and more common to link journal publications to additional online resources such as GitHub code or Figshares. It's also more and more common to cite GitHub and Figshare---always nice to bump up your citation count!
 
 # <headingcell level=2>
 # Other uses of NLTK
@@ -1310,9 +1590,9 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 
 # <markdowncell>
 # * Explore the site. Sign up for it, maybe.
-# * Download it: Wget, curl, crawlers ...
-# * Extract relevant data and metadata: *Beautiful Soup*
-# * **Structure your data**
+# * Download it: *Wget*, *curl*, *crawlers, spiders* ...
+# * Extract relevant data and metadata: Python's *Beautiful Soup* library.
+# * **Structure your data!**
 # * Annotate your data, save these annotations
 # * Start querying!
 
@@ -1334,17 +1614,29 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 # <markdowncell>
 # What you've learned here isn't much good unless you can pull things out of it and put them into your own research workflow.
 
+# It's important to remember that IPython code may be a little different from vanilla Python, as it can contain Magics, shell commands, and the like.
+
+# Perhaps the coolest thing about programming is you are simultaneously researching and developing. The functions that you write can be uploaded to the web and used by others who encounter the problem that necessitated your writing the function in the first place.
+
+# In reality, NLTK is nothing more than a lot of Python functions, coupled with some datasets (corpora, stopword lists, etc.). You can even visit NLTK on GitHub, fork their repository, and start playing around with the code! If you find bugs in the code, or if you think documentation is lacking, you can either write directly to the people who maintain the code, or fix the problem yourself and request that they review your fix and integrate it into NLTK.
+
 # <headingcell level=3>
 # Using IPython locally
 
 # <markdowncell>
-# You may also want to use IPython locally. To do this, you need to install it. There are many ways to install it, and these vary depending on your OS and what you already have installed. See the [IPython website](http://ipython.org/ipython-doc/2/install/install.html#installnotebook) for detailed instructions.
+# We've done everything on the cloud so far, and it's been pretty good to us. You may also want to use IPython locally. To do this, you need to install it. There are many ways to install it, and these vary depending on your OS and what you already have installed. See the [IPython website](http://ipython.org/ipython-doc/2/install/install.html#installnotebook) for detailed instructions.
 
-# Open up Terminal, navigate to the notebook directory and type:
+# > *[Anaconda](http://continuum.io/downloads)* is a large package of Python-based tools (including IPython and Matplotlib) that is easy to install. 
 
-# > **ipython notebook filename.ipynb**
+# Once you have IPython installed, it's very easy to start using it. All you need to do is open up Terminal, navigate to the notebook directory and type:
 
-# This will open up a blank notebook.
+#      ipython notebook filename.ipynb
+
+# This will open up a blank notebook, exactly the same as the kind of notebook we've been using on the cloud. The only difference will be that if you enter:
+
+#      os.listdir('.')
+
+# you'll get a list of files in the directory of your notebook file, rather than a directory of your part of the cloud.
 
 # <headingcell level=2>
 # Next steps - keep going!
@@ -1361,6 +1653,7 @@ Image(url='http://starecat.com/content/wp-content/uploads/two-states-of-every-pr
 # * Googling your error messages. This will often lead you to Stack Overflow, the major online community for sharing coding questions.
 # * NLTK also has a Google group where people share their experiences and ask for help
 # * Keep in touch! Your community is a wonderful resource.
+
 
 # <headingcell level=2>
 # Summaries and goodbye
@@ -1381,6 +1674,7 @@ Image(url='http://starecat.com/content/wp-content/uploads/two-states-of-every-pr
 
 # <markdowncell>
 # The work you have been doing today on the Fraser corpus is actually pretty cutting edge. Very little analysis like this has been undertaken on an Australian political corpus.
+
 # You have produced publishable work today. Really. Be proud. And if you feel like writing up your findings, do it!
 
 # <headingcell level=2>
@@ -1391,11 +1685,7 @@ Image(url='http://starecat.com/content/wp-content/uploads/two-states-of-every-pr
 
 # Please let us know how you found the course.
 
-# <markdowncell>
-# 
-
-# <headingcell level=2>
-# Solutions
+# Also, [submit a pull request](https://github.com/resbaz/lessons) and improve our teaching materials! 
 
 # <headingcell level=2>
 # Bibliography
@@ -1411,5 +1701,32 @@ Image(url='http://starecat.com/content/wp-content/uploads/two-states-of-every-pr
 # <a id="ref:sinclair"></a>
 # Sinclair, J. (2004). Trust the text: Language, corpus and discourse. Routledge. Available at
 # [http://books.google.com.au/books/about/Trust_the_Text.html?id=n6xU2lyVoeQC&redir_esc=y](http://books.google.com.au/books/about/Trust_the_Text.html?id=n6xU2lyVoeQC&redir_esc=y).
+
+# <headingcell level=3>
+# Workspace
+
 # <markdowncell>
+# Here are a few blank cells, in case you need them for anything:
+
+# <codecell>
+# 
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
 # 

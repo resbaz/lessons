@@ -16,28 +16,30 @@ In this session, you will learn how to use IPython Notebooks, as well as how to 
 * Getting up and running
 * What exactly are *Python*, *IPython* and *NLTK*?
 * Introductions to *IPython Notebook*
-* Overview of basic Python concepts: *significant whitespace*, *input/output types*, *commands and arguments*, *functions*, *importing libraries*
+* Overview of basic Python concepts: *significant whitespace*, *input/output types*, *commands and arguments*, etc.
 * Introduction to NLTK
 * Quickstart: *US Inaugural Addresses Corpus*
-* **Activity**: plot key terms in the inaugural addresses longitudinally
+*  Plot key terms in the inaugural addresses longitudinally
 * Discussion: *Why might we want to use NLTK? What are its limitations?*
 
-# Session 2: NLTK basics
+# Session 2: Functions, lists and variables
 
-In this session, we provide an overview of research areas using NLTK, such as *Corpus linguistics*, *Natural language processing*, *Distance reading*. We then engage with common uses of NLTK within these areas, such as regular expression searching, sentence segmentation, tokenisation and word stemming. Often, NLTK has inbuilt methods for performing these tasks. As a learning exercise, however, we will sometimes build basic tools from scratch.
+In this session, we devote more time to the fundamentals of Python, learning how to create and manipulate different kinds of data. So that you can use NLTK with confidence, we devote much of the session to:
+
+* Working with variables
+* Writing functions
+* Creating frequency distributions
+
+# Session 3: Common NLTK tasks
+
+We've now got a basic understanding of Python. There's still a lot more to learn, though! This final session on the first day of ResBaz involves using the skills we've already learned to perform common kinds of analysis on real data. Key tasks covered are:
+
 
 * Overview of common tasks, and why we need them
 * Using our own data (from web and from disk)
 * Searching with [Regular Expressions](http://www.regular-expressions.info/) and then by NLTK stemmer
 * Sentence splitting: trivial or not?
 * Tokenisation: defining a word and operationalising this definition
-* Word and keyword lists
-* Stemming: finding a word's *stem form*
-
-# Session 3: Common NLTK tasks
-
-We've now got a basic understanding of NLTK and Python. There's still a lot more to learn, though! This final session on the first day of ResBaz involves using the skills we've already learned to perform common kinds of analysis on real data. Key tasks covered are:
-
 * Keywording
 * Clustering
 * Collocation

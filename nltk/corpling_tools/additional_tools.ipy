@@ -69,33 +69,6 @@ def quickview(lst, n = 50, topics = False):
             out.append(subout)
     return out
 
-def topix_search(topic_subcorpora, options, query, **kwargs):
-    """Interrogates each topic subcorpus."""
-    results = [] # make empty list of results and totals
-    totals = []
-    for topic in topic_subcorpora: # for topic name
-        print "Doing " + topic + " ..."
-        topic_subcorpora_path = os.path.join(path,topic) # get topic path
-        # interrogate with any arguments passed in:
-        result = interrogator(topic_subcorpora_path, options, query, **kwargs)
-        results.append(result.results) # add to results
-        totals.append(result.totals)
-    # now we should have 3x results and 3x totals, and a query
-    outputnames = collections.namedtuple('interrogation', ['query', 'results', 'totals'])
-    query_options = [query, options] 
-    output = outputnames(query_options, results, totals)
-    return results
-
-def topix_plot(title, results, fract_of = False, **kwargs):
-    """Plots results from subcorpus interrogation."""
-    for topic in topic_subcorpora:
-        newtitle = title + ' in ' + str(topic) + ' articles' # semi-automatic titles (!)
-        if not fract_of: # if counting ratios/percentages, 
-            plotter(newtitle, results.results[topic_subcorpora.index(topic)], **kwargs)
-        else:
-            plotter(newtitle, results[topic_subcorpora.index(topic)], 
-                fract_of = fract_of.totals[topic_subcorpora.index(topic)], **kwargs)
-
 def conc(corpus, query, random = False, window = 30, trees = False, csvmake = False): 
     """A concordancer for Tregex queries"""
     # add sorting?
@@ -355,3 +328,23 @@ def searchtree(tree, query):
     result = !$tregex_command
     ! rm "tmp.tree"
     return result
+
+def quicktree(sentence):
+    """Parse a sentence and return a visual representation in IPython"""
+    from nltk import Tree
+    from nltk.draw.util import CanvasFrame
+    from nltk.draw import TreeWidget
+    from stat_parser import Parser
+    from IPython.display import display
+    from IPython.display import Image
+    parser = Parser()
+    parsed = parser.parse(sentence)
+    cf = CanvasFrame()
+    tc = TreeWidget(cf.canvas(),parsed)
+    cf.add_widget(tc,10,10) # (10,10) offsets
+    cf.print_to_file('tree.ps')
+    cf.destroy()
+    ! convert tree.ps tree.png
+    ! rm tree.ps
+    return Image(filename='tree.png')
+    ! rm tree.png

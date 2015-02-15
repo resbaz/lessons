@@ -57,6 +57,7 @@ nltk.download("book", download_dir=user_nltk_dir) # download book materials to d
 # <codecell>
 from nltk.book import *  # asterisk means 'everything'
 
+# <markdowncell>
 # Importing the book has assigned variable names to ten corpora. We can call these names easily: 
 
 # <codecell>
@@ -214,7 +215,7 @@ for i in ['very', 'really', 'truly']:  # repeat three times, quite arbitrarily
 # Input/Output Types
 
 # <markdowncell>
-# * Python understands different *types* of input, including *string*, *unicode string*, *integer*, *item*, *tuple*, *dict*.
+# * Python understands different *types* of input, including *string*, *unicode string*, *integer*, *item*, *tuple* and *dict*.
 # * Different types of information behave in different ways, and the ways they are represented visually are different as well.
 # * You need to always make sure your input types are correct, or Python won't know what to do with them.
 # * For example, if you're trying to do maths, you'll want to be working with *integers*:
@@ -256,6 +257,14 @@ print type(var)
 secondnumber = '2'
 1 + int(secondnumber)
 
+# <markdowncell>
+# ... and sometimes it's not so easy:
+
+# <codecell>
+adjectives = ['wicked', 'radical', 'awesome']
+more_adjectives = str(adjectives) + 'overwhelmed'
+print more_adjectives
+
 # <headingcell level=3>
 # Basic syntax
 
@@ -289,8 +298,6 @@ print answer
 
 # You can get more information on IPython, including how to install it on your own machine, at the [IPython Homepage](http://ipython.org).
 
-# > **Note**: not everybody uses *IPython*, so later in the course we'll explain how to convert your work here into 'regular python' scripts.
-
 # <markdowncell>
 # So, the last thing to do in this session is to discuss what you all make of IPython. Can anyone see potential for Python in their own research? What are you working on, anyway? 
 
@@ -321,7 +328,7 @@ print answer
 # will auto-complete that command, saving you typing (i.e. time and mistakes!). 
  
 # <markdown cell>
-# *Challenge!*
+# **Challenge!**
 
 # Using a function, determine which of the nine texts in the NLTK Book has the highest lexical diversity score.
 
@@ -346,7 +353,6 @@ lexical_diversity(text2)
 # Python treats a text as a long list of words. First, we'll make some lists of our own, to give you an idea of how a list behaves.
 
 # <codecell>
-
 sent1 = ['Call', 'me', 'Ishmael', '.']
 
 # <codecell>
@@ -380,7 +386,7 @@ fruitsalad.append('orange')  # add orange
 print 'Our fruit salad contains: ' + str(fruitsalad)
 
 # <markdowncell>
-# If we want to print our ingredients in a nicer looking form, we might use a function like **join**
+# If we want to print our ingredients in a nicer looking form, we might use a function like *join()*
 
 # <codecell>
 fruitsalad = []
@@ -435,6 +441,7 @@ sent = ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
 sent[0]
 sent[8]
 
+# <markdowncell>
 # Note that the first element in the list is zero. This is because we are telling Python to go zero steps forward in the list. If we use an index that is too large (that is, we ask for something that doesn't exist), we'll get an error.
 
 # We can modify elements in a list by assigning new data to one of its index values. We can also replace a slice with new material.
@@ -467,7 +474,9 @@ opening = ['It', 'was', 'a', 'dark', 'and', 'stormy', 'night', ';', 'the', 'rain
 clause = opening[0:7]
 alphabetised = sorted(clause)
 
+# <markdowncell>
 # Note that assigning a variable just causes Python to remember that information without generating any output. 
+
 # If you want Python to show you the result, you have to ask for it (this is a good thing when you assign a variable to a very long list!).
 
 # <codecell>
@@ -500,26 +509,27 @@ fdist1.plot(50, cumulative = True)
 # Create a function called "Common_Words" and use it to compare the 15 most common words of four of the texts in the NLTK book. 
 # Discuss what you found with your neighbour.
 
-# <codecell>
+# <markdowncell>
 # As well as counting individual words, we can count other features of vocabulary, such as how often words of different lengths occur. We do this by putting together a number of the commands we've already learned.
-# We could start like this: [len(w) for w in text1], but this would print the length of every word in the whole book, so let's skip that bit!
+
+# We could start like this: 
+
+#      [len(w) for w in text1]
+
+# ... but this would print the length of every word in the whole book, so let's skip that bit!
 
 # <codecell>
-
 fdist2= FreqDist(len(w) for w in text1)
 
 # <codecell>
-
 fdist2.max()
 
 # <codecell>
-
 fdist2.freq(3)
 
 # <markdowncell>
 # These last two commands tell us that the most common word length is 3, and that these 3 letter words account for about 20% of the book. 
 # We can see this just by visually inspecting the list produced by *fdist2.most_common()*, but if this list were too long to inspect readily, or we didn't want to print it, there are other ways to explore it.  
-
 
 # <markdowncell> 
 # It is possible to select the longest words in a text, which may tell you something about its vocabulary and style
@@ -529,11 +539,10 @@ v = set(text4)
 long_words = [word for word in v if len(word) > 15]
 sorted(long_words)
 
-
 # <markdowncell>
 # We can fine-tune our selection even further by adding other conditions. For instance, we might want to find long words that occur frequently (or rarely).  
 
-# *Challenge!*
+# **Challenge!**
 
 # Can you find all the words in a text that are more than seven letters long and occur more than seven times?
 
@@ -543,20 +552,21 @@ sorted(w for w in set(text5) if len(w) > 7 and fdist5[w] > 7)
 
 # <markdowncell>
 # There are a number of functions defined for NLTK's frequency distributions:
-
-# * fdist = FreqDist(samples)   create a frequency distribution containing the given samples
-# * fdist[sample] += 1  increment the count for this sample
-# * fdist['monstrous']  count of the number of times a given sample occurred
-# * fdist.freq('monstrous')     frequency of a given sample
-# * fdist.N()   total number of samples
-# * fdist.most_common(n)    the n most common samples and their frequencies
-# * for sample in fdist:    iterate over the items in fdist, when in the loop, we refer to each item as sample
-# * fdist.max()     sample with the greatest count
-# * fdist.tabulate()    tabulate the frequency distribution
-# * fdist.plot()    graphical plot of the frequency distribution
-# * fdist.plot(cumulative=True)     cumulative plot of the frequency distribution
-# * fdist1 |= fdist2    update fdist1 with counts from fdist2
-# * fdist1 < fdist2     test if samples in fdist1 occur less frequently than in fdist2
+#
+#  | Function | Purpose  |
+#  |--------------|------------|
+#  | fdist = FreqDist(samples) | create a frequency distribution containing the given samples |
+#  | fdist[sample] += 1 | increment the count for this sample |
+#  | fdist['monstrous']  | count of the number of times a given sample occurred |
+#  | fdist.freq('monstrous') | frequency of a given sample |
+#  | fdist.N()  |  total number of samples |
+#  | fdist.most_common(n)   |  the n most common samples and their frequencies |
+#  | for sample in fdist:   |  iterate over the items in fdist, when in the loop, we refer to each item as sample |
+#  | fdist.max() | sample with the greatest count |
+#  | fdist.tabulate()   |  tabulate the frequency distribution |
+#  | fdist.plot()  |   graphical plot of the frequency distribution |
+#  | fdist.plot(cumulative=True) | cumulative plot of the frequency distribution |
+#  | fdist1 < fdist2 | test if samples in fdist1 occur less frequently than in fdist2 |
 
 
 # <markdowncell>
@@ -567,13 +577,15 @@ text4.collocations()
 
 # <markdowncell>
 # We can also use numerical operators to refine the types of searches we ask Python to run. We can use the following relational operators:
-
-# * <       less than
-# * <=      less than or equal to
-# * ==      equal to (note this is two "=" signs, not one)
-# * !=      not equal to
-# * \>      greater than
-# * \>=     greater than or equal to
+#
+#  |  Relational | Meaning |
+#  |--------------:|:------------|
+#  | <    |  less than |
+#  | <=   |   less than or equal to |
+#  | ==  |    equal to (note this is two "=" signs, not one) |
+#  | !=   |   not equal to |
+#  | \>   |   greater than |
+#  | \>= |   greater than or equal to |
 
 # <markdowncell>
 # *Challenge!*
@@ -585,20 +597,30 @@ text4.collocations()
 # 3. Words of exactly four characters
 
 # <codecell>
+# Words longer than four characters:
+#
 
+# <codecell>
+# Words of four or more characters:
+#
 
+# <codecell>
+# Words of exactly four characters:
+#
 # <markdowncell>
 # We can also look for features such as letter combinations, upper and lowercase letters, and digits. Some operators you might like to use are:
-
-# * s.startswith(t) test if s starts with t
-# * s.endswith(t)   test if s ends with t
-# * t in s          test if t is a substring of s
-# * s.islower()     test if s contains cased characters and all are lowercase
-# * s.isupper()     test if s contains cased characters and all are uppercase
-# * s.isalpha()     test if s is non-empty and all characters in s are alphabetic
-# * s.isalnum()     test if s is non-empty and all characters in s are alphanumeric
-# * s.isdigit()     test if s is non-empty and all characters in s are digits
-# * s.istitle()     test if s contains cased characters and is titlecased (i.e. all words in s have initial capitals)
+#
+#
+#  | Operator  | Purpose  |
+#  |--------------|------------|
+#  | s.endswith(t)  |  test if s ends with t | 
+#  | t in s         |  test if t is a substring of s | 
+#  | s.islower()    |  test if s contains cased characters and all are lowercase | 
+#  | s.isupper()    |  test if s contains cased characters and all are uppercase | 
+#  | s.isalpha()    |  test if s is non-empty and all characters in s are alphabetic | 
+#  | s.isalnum()    |  test if s is non-empty and all characters in s are alphanumeric | 
+#  | s.isdigit()    |  test if s is non-empty and all characters in s are digits | 
+#  | s.istitle()    |  test if s contains cased characters and is titlecased (i.e. all words in s have initial capitals) | 
 
 # <codecell>
 sorted(w for w in set(text1) if w.endswith('ableness'))
@@ -607,15 +629,28 @@ sorted(w for w in set(text1) if w.endswith('ableness'))
 sorted(n for n in sent7 if n.isdigit())
 
 # <markdowncell>
+# Have a play around with some of these operators in the cells below.
+
+# <codecell>
+#
+
+# <codecell>
+#
+
+# <codecell>
+# You can insert more cells via the menu bar if you need to!
+
+# <markdowncell>
 # **Bonus!**
 
-# You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using **len(set(text1)**. 
+# You'll remember right at the beginning we started looking at the size of the vocabulary of a text, but there were two problems with the results we got from using:
+
+#      len(set(text1)).
 
 # This count includes items of punctuation and treats capitalised and non-capitalised words as different things (*This* vs *this*). We can now fix these problems. We start by getting rid of capitalised words, then we get rid of the punctuation and numbers.
 
 # <codecell>
 len(set(word.lower() for word in text1))
-
 
 # <codecell>
 len(set(word.lower() for word in text1 if word.isalpha()))
@@ -651,7 +686,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 
 # Alongside the development of GUIs, there has also been a shift from *general, balanced corpora* (corpora seeking to represent a language generally) toward *specialised corpora* (corpora containing texts of one specific type, from one speaker, etc.). More and more commonly, texts are taken from the Web.
 
-# > **Note:** We'll discuss building corpora from online texts in Session 6.
+# > **Note:** We'll discuss building corpora from online texts in a bit more detail tomorrow afternoon.
 
 # After a long period of resistance, corpus linguistics has gained acceptence within a number of research areas. A few popular applications are within:
 
@@ -665,7 +700,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # Corpora and discourse
 
 # <markdowncell>
-# As hardware, software and data become more and more available, people have started using corpus linguistic methods for discourse-analytic work. Paul Baker refers the combination of corpus linguistics and (critical) discourse analysis as a *useful methodological synergy*. Corpora bring objectivity and empiricism to a qualitative, interpretative tradition, while discourse-analytic methods provide corpus linguistics with a means of contextualising abstracted results.
+# As hardware, software and data become more and more available, people have started using corpus linguistic methods for discourse-analytic work. Paul Baker refers the combination of corpus linguistics and (critical) discourse analysis as a [*useful methodological synergy*](#ref:baker). Corpora bring objectivity and empiricism to a qualitative, interpretative tradition, while discourse-analytic methods provide corpus linguistics with a means of contextualising abstracted results.
 
 # Within this area, researchers rely on corpora to varying extents. In *corpus-driven* discourse analysis, researchers interpret the corpus based on the findings of the corpus interrogation. In *corpus-assisted* discourse analysis, researchers may use corpora to provide evidence about the way a given person/idea/discourse is commonly represented by certain people/in certain publications etc.
 
@@ -688,7 +723,7 @@ len(set(word.lower() for word in text1 if word.isalpha()))
 # <codecell>
 from IPython.display import display
 from IPython.display import HTML
-HTML('<iframe src=http://www.ozpolitic.com/forum/YaBB.pl?board=global')
+HTML('<iframe src=http://www.ozpolitic.com/forum/YaBB.pl?board=global width=700 height=350></iframe>')
 
 # <markdowncell>
 # This file is available online, at the [ResBaz GitHub](https://github.com/resbaz). We can ask Python to get it for us. 
@@ -720,7 +755,8 @@ raw[:2000]
 # Before we go any further, we need to talk about Regular Expressions. Regular Expressions (regexes) are ways of searching for complex patterns in strings. Regexes are standardised across many programming languages, and can also be used in GUI text editors and word processers.
 
 # <codecell>
-import nltk # just in case (you should only need to import a library once per session, but nothing bad will happen if you do it again)
+import nltk # just in case (you should only need to import a library once per session, 
+    # but nothing bad will happen if you do it again)
 import re # import this before using regexes!
 
 # <markdowncell>
@@ -1083,7 +1119,7 @@ keys[1] # only n-grams
 # <markdowncell>
 # > *You shall know a word by the company it keeps.* - J.R. Firth, 1957
 
-# Collocation is a very common area of interest in corpus linguistics. Words pattern together in both expected and unexpected ways. In some contexts, *drug* and *medication* are synonymous, but it would be very rare to hear about *illicit* or *street medication*. Similarly, doctors are unlikely to perscribe the *correct* or *appropriate drug*.
+# Collocation is a very common area of interest in corpus linguistics. Words pattern together in both expected and unexpected ways. In some contexts, *drug* and *medication* are synonymous, but it would be very rare to hear about *illicit* or *street medication*. Similarly, doctors are unlikely to prescribe the *correct* or *appropriate drug*.
 
 # This kind of information may be useful to lexicographers, discourse analysts, or advanced language learners.
 
@@ -1237,9 +1273,7 @@ text.concordance("muslims")
 # <markdowncell>
 # You get no matches in the latter case, because all instances of *muslims* were stemmed to *muslim*.
 
-# A problem with the NLTK concordancer is that it only works with individual tokens.
-
-# What if we want to find words that end with **ment*, or words beginning with *poli**?
+# A problem with the NLTK concordancer is that it only works with individual tokens. What if we want to find words that end with **ment*, or words beginning with *poli**?
 
 # We already searched text with Regular Expressions. It's not much more work to build regex functionality into our own concordancer.
 
@@ -1314,6 +1348,9 @@ concordancer(raw, r'aus.*?')
 # Bibliography
 
 # <markdowncell>
+# <a id="ref:baker"></a>
+# Baker, P., Gabrielatos, C., Khosravinik, M., Krzyzanowski, M., McEnery, T., & Wodak, R. (2008). A useful methodological synergy? Combining critical discourse analysis and corpus linguistics to examine discourses of refugees and asylum seekers in the UK press. Discourse & Society, 19(3), 273-306.
+#
 # <a id="firth"></a>
 # Firth, J. (1957).  *A Synopsis of Linguistic Theory 1930-1955*. In: Studies in Linguistic Analysis, Philological Society, Oxford; reprinted in Palmer, F. (ed.) 1968 Selected Papers of J. R. Firth, Longman, Harlow.
 #
@@ -1323,4 +1360,31 @@ concordancer(raw, r'aus.*?')
 # <a id="ref:widdowson"></a>
 # Widdowson, H. G. (2000). On the limitations of linguistics applied. Applied Linguistics, 21(1), 3. Available at [http://applij.oxfordjournals.org/content/21/1/3.short](http://applij.oxfordjournals.org/content/21/1/3.short).
 
+# <headingcell level=3>
+# Workspace
+
 # <markdowncell>
+# Here are a few blank cells, in case you need them for anything:
+
+# <codecell>
+# 
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+#
+# <codecell>
+# 
