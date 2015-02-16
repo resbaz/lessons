@@ -401,6 +401,7 @@ text = nltk.word_tokenize("We can put any text we like here, and NLTK will tag e
 # <codecell>
 #
 
+# <markdowncell>
 # > In the legal profession, during the discovery process, a legal team may receive hundreds of thousands of pages of text. Searching of POS-tagged data can locate documents likely to contain important information, or at the very least, can sort texts in order of their relevance. This can save countless hours of work.
 
 # Part of speech tagging still has some limitations, though. The problem is that words in a sentence are related in complicated ways. If we are interested in modal auxiliaries that modify the verb *tag*, we would like our search to match:
@@ -1032,8 +1033,8 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 
 # With this basic theory of language, we can create two research questions:
 
-# 2. **What are the major things being spoken about in Fraser's speeches, and how do they change?**
 # 1. **How does Malcolm Fraser's tone change over time?**
+# 2. **What are the major things being spoken about in Fraser's speeches, and how do they change?**
 
 # As our corpus is well-structured and parsed, we can create queries to answer these questions, and then visualise the results.
 
