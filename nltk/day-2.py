@@ -110,7 +110,8 @@ from nltk.text import Text
 # Actually, since we'll be referring to this path quite a bit, let's make it into a variable. This makes our code easier to use on other projects (and saves typing)
 
 # <codecell> 
-#
+# call your variable corpus_path
+# 
 
 # <markdowncell>
 # We can now tell Python to get the contents of a file in the file list and print it:
@@ -215,6 +216,7 @@ commonwords = {'the': 4023, 'of': 3809, 'a': 3098}
 
 # <markdowncell>
 # Now that we're confident that the function works, let's find out a bit about the corpus.
+
 # As a start, it would be useful to know which years the texts are from. Are they evenly distributed over time? A graph will tell us!
 
 # <codecell>
@@ -234,10 +236,8 @@ import matplotlib
 # Discussion
 
 # <markdowncell>
-# We've got messy data! What's the lesson here?
-# <br>
-#
-# <markdowncell>
+# *We've got messy data! What's the lesson here?*
+
 # **Bonus chellenge**: Build a frequency distribution graph that includes speeches without an exact date.
 # Hint: you'll need to tell Python to ignore the 'c' and just take the digits
 
@@ -254,10 +254,40 @@ import matplotlib
 
 # We can use our metadata parser to help with this task. Then, after structuring our corpus by date, we want the metadata gone, so that when we count language features in the files, we are not also counting the metadata.
 
-# So, let's try this:
+# So, let's try the code below. See if you understand what each line is doing before you run it.
 
 # <codecell>
-#
+import re
+# a path to our soon-to-be organised corpus
+newpath = 'corpora/fraser-annual'
+#if not os.path.exists(newpath):
+    #os.makedirs(newpath)
+files = os.listdir(corpus_path)
+# define a regex to match year portion of date
+yearfinder = re.compile('[0-9]{4}')
+for filename in files:
+    # split file contents at end of metadata
+    data = open(os.path.join(corpus_path, filename)).read().split("<!--end metadata-->")
+    # use our metadata parser to get metadata
+    metadata = parse_metadata(data[0])
+    #look up date field of dict entry
+    date = metadata.get('Date')
+    # search date for year
+    yearmatch = re.search(yearfinder, str(date))
+    #get the year as a string
+    year = str(yearmatch.group())
+    # make a directory with the year name
+    subcorpus_directory = os.path.join(newpath, year)
+    if not os.path.exists(subcorpus_directory):
+        os.makedirs(subcorpus_directory)
+    # make a new file with the same name as the old one in the new dir
+    newfile_path = os.path.join(newpath, year, filename)
+    # open the newfile for editing
+    newfile = open(newfile_path,"w")
+    # write the content portion, without metadata
+    newfile.write(data[1])
+    # stop editing the file
+    newfile.close()
 
 # <markdowncell>
 # Did it work? How can we check?
@@ -279,15 +309,36 @@ import matplotlib
 # So, let's do it a much more sustainable way.
 
 # <codecell>
-#
+import os
+# path to our new corpus
+corpus = 'corpora/fraser-annual'
+# and make an empty list to store all our output:
+all_text = []
+# for each annual addition
+for subcorpus in os.listdir(corpus):
+    # an empty list to contain all the text from our subcorpus
+    subcorpus_text = []
+    subcorpus_path = os.path.join(corpus, subcorpus)
+    for txtfile in os.listdir(subcorpus_path):
+        # get the path to the file
+        filepath = os.path.join(subcorpus_path, txtfile)
+        # read the file
+        data = open(filepath).read()
+        data = data.lower() # make it lowercase!
+        # add the data from each file to subcorpus text
+        subcorpus_text.append(data)
+    # after going through each file, turn all the texts into a string
+    subcorpus_text = '\n'.join(subcorpus_text)
+    all_text.append(subcorpus_text)
 
 # <markdowncell>
-# So now we have each subcorpus as a list item in *all_text*. We can generate keywords for each:
+# So now we have each subcorpus as a list item in *all_text*. We can generate keywords for each. It might take a while, so we'll add a *print* command that tells us where the code is up to:
 
 # <codecell>
-# reimport keyworder ...
-#
-
+import sys
+sys.path.insert(0, 'spindle-code-master/keywords')
+from keywords import keywords_and_ngrams 
+# keywords for each?
 
 # <markdowncell>
 # ... and do whatever we like with our results. In the cell below, why don't you try to develop a way of printing some useful results?
@@ -295,96 +346,9 @@ import matplotlib
 # **Challenge**: print the year of each subcorpus before printing its top n keywords.
 
 # <codecell>
+subcorpora = os.listdir(corpus)
 # print top 10 keywords and bigrams from each subcorpus, maybe?
-#
-
-# <headingcell level=3>
-# Collocation in Fraser's speeches
-
-# <markdowncell>
-# We've already done collocation, too. Below are the bits of code we've already used to do sentence segmentation, tokenisation, keywording and collocation. Your challenge is to use these bits of code to get collocates for each subcorpus. If there's time, you can try to stop results including punctuation from matching.
-
-# > **Hint**: use some of the code from above to loop through each subcorpus. You'll need to indent a lot of the existing code!
-
-# <codecell>
-# code to loop through the data and store all data as list of strings
-for subcorpus in os.listdir(corpus):
-    # print a working message
-    print 'Doing ' + str(subcorpus)
-    subcorpus_text = []
-    # for each textfile in the folder:
-    for txtfile in os.listdir(os.path.join(corpus, subcorpus)):
-        # get the text from the file
-        data = open(os.path.join(corpus, subcorpus, txtfile)).read()
-        # make sure it's utf-8
-        data = data.decode('utf-8', 'ignore')
-        #make it lowercase
-        data = data.lower()
-        # add this text to a list of all text
-        subcorpus_text.append(data)
-    # turn subcorpus text into a single string
-    subcorpus_text = '\n'.join(subcorpus_text) # make into string
-
-# <codecell>
-# code to do sentence segmentation
-# load sentence tokenizer:
-sent_tokenizer=nltk.data.load('tokenizers/punkt/english.pickle')
-# tokenize 'raw'
-sents = sent_tokenizer.tokenize(raw)
-
-# <codecell>
-# code to do tokenisation of sents
-tokenized_sents = [nltk.word_tokenize(i) for i in sents]
-
-# <codecell>
-# code to put all tokens in a list 
-allwords = []
-for sent in tokenized_sents:
-    for word in sent:
-        allwords.append(word)
-
-# <codecell>
-# code for doing collocation of 'tokens', removing stopwords
-from nltk.collocations import *
-# get statistical tests
-bigram_measures = nltk.collocations.BigramAssocMeasures()
-# load the collocation searcher with window of 5
-finder = BigramCollocationFinder.from_words(tokens, window_size=5)
-# load stopword list
-ignored_words = nltk.corpus.stopwords.words('english')
-# find results 2 and over, not stopword
-finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words)
-finder.apply_freq_filter(2)
-# get the best bigrams
-result = sorted(finder.nbest(bigram_measures.raw_freq, 30))
-print result
-
-# <codecell>
-# stop punctuation matches:
-regex = r'[A-Za-z0-9]'
-finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or not re.match(regex, w))
-
-# <codecell>
-#
-
-# <codecell>
-#
-
-# <codecell>
-#
-
-# <codecell>
-#
-
-# <codecell>
-#
-
-# <markdowncell>
-# If you're having trouble, you can load a solution here:
-
-# <codecell>
-% load corpling_tools/fraser-collocation.ipy
-
+# ... what next?
 
 # <headingcell level=2>
 # Adding information to the corpus
@@ -398,6 +362,7 @@ finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or n
 
 # <codecell>
 #
+
 # <markdowncell>
 # So, each word in the 1961 *Brown Corpus* is tagged for its part of speech, as well as some additional information. The tag descriptions are available here:
 
@@ -405,9 +370,9 @@ finder.apply_word_filter(lambda w: len(w) < 2 or w.lower() in ignored_words or n
 HTML('<iframe src=http://en.wikipedia.org/wiki/Brown_Corpus#Part-of-speech_tags_used width=700 height=350></iframe>')
 
 # <markdowncell>
-# So, we can pretty easily make lists containing all words of a given type. Below, we'll print the first 50 adverbs. Try changing the 'RB' to another kind of tag, and see what results turn up. 
+# So, we can pretty easily make lists containing all words of a given type. Below, we'll print the first 50 adverbs. Try changing the 'RB' to another kind of tag (in the list above), and see what results turn up. 
 
-# > JJ and RB are shorthand for adjective and adverb.
+# > JJ and RB are shorthand for adjective and adverb. It's linguistics jargon from the 50s that we're stuck with now.
 
 # <codecell>
 #
@@ -421,13 +386,13 @@ HTML('<iframe src=http://en.wikipedia.org/wiki/Brown_Corpus#Part-of-speech_tags_
 # Part-of-speech tagging
 
 # <markdowncell>
-# Part-of-speech (POS) tagging is the process of assigning each token a label. One of the well-known tagsets is the Brown Tagset, used to annotate the Brown Corpus in the 1960s. 
+#  Part-of-speech (POS) tagging is the process of assigning each token a label. Often, these labels are similar to what was used to tag the Brown Corpus.
 
 # > **Note:** It is generally considered good practice to train your tagger by exposing it to well-annotated language of a similar variety. For reasons of scope, however, training taggers and parsers is not covered in these sessions.
 
 # <codecell>
-text = word_tokenize("We can put any text we like here, and NLTK will tag each word with its part of speech.")
-#
+text = nltk.word_tokenize("We can put any text we like here, and NLTK will tag each word with its part of speech.")
+# get the POS for each token ...
 #
 
 # <markdowncell>
@@ -436,34 +401,16 @@ text = word_tokenize("We can put any text we like here, and NLTK will tag each w
 # <codecell>
 #
 
-# <markdowncell>
-# It's possible, but tricky, to design more complex queries with tagged data. Below, we find words based on the adjacency of other words:
-
-# <codecell>
-for index, word_and_tag in enumerate(tagged):
-    # let's print all modal auxiliaries ...
-    if word_and_tag[1] == 'MD':
-        print 'modal: ', word_and_tag[0]
-        # print modals adjacent to verb
-        if tagged[index + 1][1] == 'VB':
-            print 'to the left of a verb: ', word_and_tag[0]
-            # if the word to the right is 'tag'
-            if tagged[index + 1][0] == 'tag':
-                print ' ... and the verb is tag: ', word_and_tag[0]
-
-# <markdowncell>
-#  This is a fairly sophisticated approach. Through sentence segmentation and part of speech tagging, we could (for example) write a few lines of code to pull out any sentence containing a person's name, combined with a certain word of interest.
-
 # > In the legal profession, during the discovery process, a legal team may receive hundreds of thousands of pages of text. Searching of POS-tagged data can locate documents likely to contain important information, or at the very least, can sort texts in order of their relevance. This can save countless hours of work.
 
-# Part of speech tagging still has some limitations, though. The problem is that adjacency is not the only way in which words in a sentence are related to one another. If we are interested in modal auxiliaries that modify the verb *tag*, we would like our search to match:
+# Part of speech tagging still has some limitations, though. The problem is that words in a sentence are related in complicated ways. If we are interested in modal auxiliaries that modify the verb *tag*, we would like our search to match:
 
 # * it **will** tag ...
 # * it **could** potentially tag
 # * it **can**'t always easily tag
 # * and so on...
 
-# In order to match these examples, we have to develop annotations not only of words, but groups of words. If we recognise *will tag*, *could potentially tag*, and *can't always easily tag* as verbal groups (VPs), it makes it much easier to search for the modal auxiliaries within them.
+# In order to match these examples, we have to develop annotations not only of words, but groups of words. If we recognise *will tag*, *could potentially tag*, and *can't always easily tag* as verb phrases (VPs), it makes it much easier to search for the modal auxiliaries within them.
 
 # The idea of mapping out the grammatical relationships between words in a sentence is a very, very old idea indeed. Hundreds of different models of grammar have been proposed. Right now, we'll focus on a very influential and well-known model of language called *phrase structure grammar*.
 
@@ -511,7 +458,7 @@ os.chdir('pyStatParser')
 os.chdir('..')
 
 # <codecell>
-#import parser
+# import parser
 #
 
 # <markdowncell>
@@ -604,8 +551,7 @@ quicktree("It depends upon what the meaning of the word is is.")
 
 # Before we get started, we have to install Java, as some of our tools rely on some Java code. You'll very likely have Java installed on your local machine, but we need it on the cloud. To make it work, you should run the following line of code in the cloud Terminal:
 
-# <codecell>
-! sudo yum install java
+#      sudo yum install java
 
 # <markdowncell>
 # OK, that's out of the way. Next, let's import the functions we'll be using to investigate the corpus. These functions have been designed specifically for our investigation, but they will work with any parsed dataset.
@@ -631,15 +577,16 @@ quicktree("It depends upon what the meaning of the word is is.")
 import os # for joining paths
 from IPython.display import display, clear_output # for clearing huge lists of output
 # import functions to be used here:
-%run corpling_tools/interrogator.ipy
-%run corpling_tools/resbazplotter.ipy
-%run corpling_tools/additional_tools.ipy
+%run corpling_tools/interrogator.ipy # interrogate the corpus
+%run corpling_tools/resbazplotter.ipy # visualise interrogations
+%run corpling_tools/additional_tools.ipy # manipulate results, concordance
 
 # <markdowncell>
 # We also need to set the path to our corpus as a variable. If you were using this interface for your own corpora, you would change this to the path to your data.
 
 # <codecell>
-path = 'corpora/fraser-corpus-annotated' # path to corpora from our current working directory.
+# path to corpora from our current working directory.
+# name it 'path'
 
 # <headingcell level=3>
 # Interrogating the corpus
@@ -753,10 +700,10 @@ searchtree(melbtree, query)
 # <br>
 
 # <codecell>
-colombotree = r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB place) (NP (NP (DT a) (JJ high) '
+colombotree = (r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB place) (NP (NP (DT a) (JJ high) '
     r'(NN value)) (PP (IN on) (NP (JJ economic) (NN aid)))) (PP (IN through) (NP (DT the) (NNP Colombo) (NNP Plan))) '
-    r'(, ,) (S (VP (VBG involving) (NP (JJ considerable) (NN aid)) (PP (TO to) (NP (NP (JJ Asian) (NNS students)) 
-        r'(PP (IN in) (NP (NNP Australia))))))))))) (. .)))'
+    r'(, ,) (S (VP (VBG involving) (NP (JJ considerable) (NN aid)) (PP (TO to) (NP (NP (JJ Asian) (NNS students)) '
+        r'(PP (IN in) (NP (NNP Australia))))))))))) (. .)))')
 
 # <markdowncell>
 #      As a result, wool industry and the research bodies are in a state of wonder and doubt about the future.
@@ -767,9 +714,9 @@ colombotree = r'(ROOT (S (NP (PRP We)) (VP (VBP continue) (S (VP (TO to) (VP (VB
 # <br>
 
 # <codecell>
-wooltree = r'(ROOT (S (PP (IN As) (NP (DT a) (NN result))) (, ,) (NP (NP (NN wool) (NN industry)) (CC and) '
+wooltree = (r'(ROOT (S (PP (IN As) (NP (DT a) (NN result))) (, ,) (NP (NP (NN wool) (NN industry)) (CC and) '
                  r'(NP (DT the) (NN research) (NNS bodies))) (VP (VBP are) (PP (IN in) (NP (NP (DT a) (NN state)) '
-                    r'(PP (IN of) (NP (NN wonder) (CC and) (NN doubt))))) (PP (IN about) (NP (DT the) (NN future)))) (. .)))'
+                    r'(PP (IN of) (NP (NN wonder) (CC and) (NN doubt))))) (PP (IN about) (NP (DT the) (NN future)))) (. .)))')
 
 # <markdowncell>
 # Try a few queries in the cells below.
@@ -790,7 +737,7 @@ searchtree(colombotree, query)
 #
 
 # <markdowncell>
-# So, now we understand the basics of a Tregex query (don't worry---many queries have already been written for you. We can start our investigation of the Fraser Corpus by generating some general information about it. First, let's define a query to find every word in the corpus. Run the cell below to define the *allwords_query* as the Tregex query.
+# So, now we understand the basics of a Tregex query (*don't worry---many queries have already been written for you in the coming sections!*). We can start our investigation of the Fraser Corpus by generating some general information about it. First, let's define a query to find every word in the corpus. Run the cell below to define the *allwords_query* as the Tregex query.
 
 # > *When writing Tregex queries or Regular Expressions, remember to always use **r'...'** quotes!*
 
@@ -854,7 +801,7 @@ aust = interrogator(path, '-t', query) # -t option to get matching words, not ju
 # We now have a list of words matching the query stores in the *aust* variable's *results* branch:
 
 # <codecell>
-aust.results[:3] # just the first few entries
+# print the first three results?
 
 # <markdowncell>
 # *Your turn!* Try this exercise again with a different term. 
@@ -894,13 +841,17 @@ aust.results[:3] # just the first few entries
 # <codecell>
 # maybe we want to get rid of all those non-words?
 
-
 # <codecell>
 # or see only the 1960s?
 
-
 # <markdowncell>
-# **Challenge:**: Use these examples to construct a plot that shows you something about the way in which Fraser talks about 'government' during the 1970s
+# **Your Turn**: mess with these variables, and see what you can plot. Try using some really infrequent results, if you like!
+
+# <codecell>
+#
+
+# <codecell>
+#
 
 # <headingcell level=3>
 # Viewing and editing results
@@ -931,21 +882,21 @@ aust.results[:3] # just the first few entries
 # <markdowncell>
 # *tally()* displays the total occurrences of results. Its first argument is the list you want tallies from. For its second argument, you can use:
 
+# * a single integer, which will be interpreted as the index of the item you want to ally
 # * a list of indices for results you want to tally
-# * a single integer, which will be interpreted as the index of the item you want
-# * a regular expression to search for
-# * a string, 'all', which will tally every result. This could be very many results, so it may be worth limiting the number of items you pass to it with [:n],
+# * a string, 'all', which will tally every result. This could be very many results, so it may be worth limiting the number of items you pass to it with [:n]:
+
 # <codecell>
-#
+# 
+
+# <codecell>
+
 
 # <markdowncell> 
 # **Your turn**: Use 'all' to tally the result for the first 11 items in aust.results
 
 # <codecell>
 #
-
-# <markdowncell>
-# The Regular Expression option is useful for merging results (see below).
 
 # <headingcell level=4>
 # surgeon()
@@ -1019,23 +970,7 @@ aust.results[:3] # just the first few entries
 conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, trees = True)
 
 # <markdowncell>
-# The final *conc()* argument is a *csv = 'filename'*, which will produce a comma-separated spreadsheet with the results of your query.
-
-# You can copy and paste this data into Excel, or use it with another tool of your choice. CSV is a really useful file format!
-
-# <codecell>
-conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, trees = True, csvmake = 'conc.txt')
-
-# <codecell>
-# get the first ten lines of the csv file:
-! cat 'conc.txt' | head -n 10
-# and to delete it:
-# ! rm conc.txt
-
-# <markdowncell>
-# OK, they're all the functions we need.
-
-# Now you're familiar with the corpus and functions, it's time to explore the corpus in a more structured way. To do this, we need a little bit of linguistic knowledge, however.
+# OK, they're all the functions we need. Now you're familiar with the corpus and functions, it's time to explore the corpus in a more structured way. To do this, we need a little bit of linguistic knowledge, however.
 
 # <headingcell level=3>
 # Some linguistics...
@@ -1062,8 +997,6 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 # <br>
 
 # <markdowncell>
-# > According to SFL, if provided with a short description of a Field, Tenor and Mode, you an usually deduce the genre. If a conversation about *furniture* is happening between *a salesperson and a customer*, in a *face-to-face setting*, we can understand it to be the *buying/selling of furniture*. Altering one of the three dimensions, and the genre is different: change the Field to *wine* and, and now wine is the thing being sold. Change *a customer* to *a group of customers*, and it might be an auction ...
-
 # Transitivity choices include fitting together configurations of:
 
 # * Participants (*a man, green bikes*)
@@ -1078,14 +1011,14 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 
 # Lexical density is usually a good indicator of the general tone of texts. The language of academia, for example, often has a huge number of nouns to verbs. We can approximate an academic tone simply by making nominally dense clauses: 
 
-# "*The consideration of interest is the potential for a participant of a certain demographic to be in Group A or Group B*".
+#       The consideration of interest is the potential for a participant of a certain demographic to be in Group A or Group B*.
 
 # Notice how not only are there many nouns (*consideration*, *interest*, *potential*, etc.), but that the verbs are very simple (*is*, *to be*).
 
 # In comparison, informal speech is characterised by smaller clauses, and thus more verbs.
 
-# A: "*Did you feel like dropping by?*"
-# B: "*I thought I did, but now I don't think I want to*"
+#       A: Did you feel like dropping by?
+#       B: I thought I did, but now I don't think I want to
 
 # Here, we have only a few, simple nouns (*you*, *I*), with more expressive verbs (*feel*, *dropping by*, *think*, *want*)
 
@@ -1108,14 +1041,16 @@ conc(os.path.join(path,'1954'), r'/(?i)\baustral.?/', random = 5, window = 30, t
 # Interpersonal features
 
 # <markdowncell>
-# We'll start with interpersonal features of language in the corpus. First, we can devise a couple of simple metrics that can teach us about the interpersonal tone of Fraser's speeches over time.
+# We'll start with interpersonal features of language in the corpus. First, we can devise a couple of simple metrics that can teach us about the interpersonal tone of Fraser's speeches over time. We don't have time to run all of these queries right now, but there should be some time later to explore the parts of this material that interest you.
 
 # <codecell>
 # number of content words per clause
 #
 
 # <codecell>
-#
+# plot lexical density
+plotter('Lexical density', opencount.totals, 
+        fract_of = clausecount.totals, y_label = 'Lexical Density Score', multiplier = 1)
 
 # <markdowncell>
 # We can also look at the use of modals auxiliaries (*would could, may, etc.*) over time. This can be interesting, as modality is responsible for communicating certainty, probability, obligation, etc.
@@ -1145,66 +1080,27 @@ query = r'ROOT <<- /.?\?.?/'
 # <codecell>
 # questions plotter
 
+# <markdowncell>
+# We're going to skip the ideas below, but return to them later in this session, when there's some free time!
+
 # <codecell>
 # ratio of open/closed class words
 closedwords = r'/\b(DT|IN|CC|EX|W|MD|TO|PRP)+.?\b/'
-#
+closedcount = interrogator(path, '-C', closedwords)
 
 # <codecell>
-#
+plotter('Open/closed word classes', opencount.totals, 
+        fract_of = closedcount.totals, y_label = 'Open/closed ratio', multiplier = 1)
 
 # <codecell>
 # ratio of nouns/verbs
-#
+nouns = r'/NN.?/ < __'
+verbs = r'/VB.?/ < __'
+nouncount = interrogator(path, '-C', nouns)
+verbcount = interrogator(path, '-C', verbs)
 
 # <codecell>
-#
-
-# <markdowncell>
-# Finally, to determine the diversity of nouns and verbs in each year, we can use a few different functions together, combined with a lemmatiser, and a bit of hacking of our functions. First, let's get lemmatised results for all nouns and all verbs:
-
-# <codecell>
-# these queries take a few minutes each!
-#
-
-# <markdowncell>
-# Now, let's devise a function that will turn any result over zero occurrences to 1, to indicate its presence in that year.
-
-# <codecell>
-def diversity_counter(results):
-    """takes interrogator -t results and creates diversity score"""
-    # make a copy of the list
-    newlist = list(results)
-    # turn each count over zero into 1
-    for entry in newlist: # for each word and its data
-        data = entry[1:] # get the year and number of occurrences sections
-        for year_count in data: # for each of these
-            if year_count[1] > 0: # if there are more than zero occurrences
-                year_count[1] = 1 # change the total to 1
-    return newlist
-
-# <markdowncell>
-# Run our lists through this new function:
-
-# <codecell>
-#
-
-# <markdowncell>
-# ... now merge all entries in both lists, and give the noun part a new name for our plotter:
-
-# <codecell>
-#
-#
-clear_output() # this just stops the display of thousands of merged items...
-
-# <codecell>
-# plot the total noun diversity against the first num_different_verbs entry, 
-# which is now a score of verbal density.
-plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns, 
-    fract_of = num_different_verbs[0], multiplier = 1, num_to_plot = 1, y_label = 'N/V Diversity Score')
-
-# <markdowncell>
-# A key strength of coding is that you can often hack functions to do things that they were never designed to do. Moreover, once you've written the function, it can be called again and again with ease. If the hack proves useful, it could easily be built in as a new argument accepted by *interrogator()* or *plotter()*.
+plotter('Noun/verb ratio', nouncount.totals, fract_of = verbcount.totals, multiplier = 1)
 
 # <headingcell level=4>
 # Experiential features of Fraser's speech
@@ -1213,7 +1109,8 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 # We now turn our attention to what is being spoken about in the corpus. First, we can get the heads of grammatical participants:
 
 # <codecell>
-# heads of participants (heads of NPS not in prepositional phrases)
+# heads of participants (heads of noun phrases not in prepositional phrases)
+# i.e. the CAT ate its FOOD at the window
 #
 
 # <codecell>
@@ -1236,10 +1133,9 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 
 # <codecell>
 # write a call to conc() that gets concordances for 'believe' in 1973
+# here's a query to get you started: r'/VB.?/ < /believe/'
 #
 #
-# Here's a query that gets only 'believe' verbs that are the main verb of a clause:
-# r'/VB.?/ < /(?i)believ.?/ >># VP >+(VP) VP'
 
 # <markdowncell>
 # For discussion: what events are being discussed when *believe* is the process? Why use *believe* here?
@@ -1252,7 +1148,7 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 #
 
 # <markdowncell>
-# To make for more accurate results the *interrogator()* function has an option, *titlefilter*, which uses a regular expression to strip determiners (*a*, *an*, *the*, etc.), titles (*Mr*, *Mrs*, *Dr*, etc.) and first names from the results. This will ensure that the results for *Prime Minister* also include *the Prime Minister*, and *Fraser* results will include the *Malcolm* variety. The option is turned on in the cell below:
+# To make for more accurate results the *interrogator()* function has an option, *titlefilter*, which uses a regular expression to strip determiners (*a*, *an*, *the*, etc.), titles (*Mr*, *Mrs*, *Dr*, etc.) and first names from the results. This will ensure that the results for *Prime Minister* also include *the Prime Minister*, and *Fraser* results will include the *Malcolm* variety. We can turn it on in the cell below:
 
 # <codecell>
 # Proper noun groups
@@ -1268,7 +1164,7 @@ plotter('Unique noun lemmas / unique verb lemmas', num_different_nouns,
 #
 
 # <markdowncell>
-#  You can now use the *merger()* and *surgeon()* options to make new lists to plot. Here's one example: we'll use *merger()* to merge places in Victoria, and then *surgeon()* to create a list of places in Australia.
+#  You can now use the *merger()* and *surgeon()* options to make new lists to plot. Here's one pre-fab example: we'll use *merger()* to merge places in Victoria, and then *surgeon()* to create a list of places in Australia.
 
 # <codecell>
 merged = merger(propernouns.results, [9, 13, 27, 36, 78, 93], newname = 'places in victoria')
@@ -1329,7 +1225,6 @@ plotter('Places in Australia', ausparts, fract_of = propernouns.totals)
 # The final session will look to the future: we hope to have a conversation about what you can do with the kind of skills you've learned here.
 
 # *See you soon!*
-
 
 # <headingcell level=1>
 # Session 6: Getting the most out of what we've learned
