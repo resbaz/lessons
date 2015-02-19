@@ -1,3 +1,8 @@
+The founders of Authorea (Alberto Pepe and Nate Jenkins) prepared a lesson for the Research Bazaar conference,
+which can be found [here](https://www.authorea.com/users/3/articles/18566/_show_article).
+
+Alternatively, Nick Wong prepared the following lesson plan for a workshop he ran in late 2014.
+
 ## Authorea lesson plan
 
 This course will aim to teach the basic functionality of [Authorea](https://authorea.com/) for scientists engaged in 
