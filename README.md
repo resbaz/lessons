@@ -24,7 +24,7 @@ Note that the materials in the Software Carpentry [bc repo](https://github.com/s
 
 ### Contributing new material
 
-If you'd like to contribute new matieral to our lessons repo, follow these steps:  
+If you'd like to contribute new material to our lessons repo, follow these steps:
 
 1. [Fork](https://help.github.com/articles/fork-a-repo) the lessons repository.
 2. Create a new branch and make all your changes/edits on that branch (i.e. do not make your changes on the `master` branch, as this makes it difficult to merge later on). If your edits are for a particular discipline and bootcamp, make that explicit in the branch name (e.g. `2014-02-30-meteorology-bootcamp`).
