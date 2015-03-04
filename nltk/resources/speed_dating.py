@@ -8,13 +8,20 @@
 
 # <markdowncell>
 # <br>
-# > Welcome to Python and the *IPython Notebook*! Today, we're demonstrating NLTK, a library for working with natural language.
+# > Welcome to *Python* and the *IPython Notebook*! Today, we're demonstrating NLTK, a library for working with natural language.
 
 # <headingcell level=1>
 # Tell me a little about yourself
 
 # <markdowncell>
 # > Whatever your area of study, Python can speed up repetitive tasks and ensure that whatever you do can quickly be redone, by anyone.
+
+# <codecell>
+departments = ['History', 'Politics', 'Anthropology', 'Linguistics', 'Psychology']
+
+for department in departments:
+    print "You work in the %s department!? How interesting!" % department
+
 
 # <headingcell level=1>
 # What line of work are you in?
@@ -23,28 +30,31 @@
 # > The NLTK library of Python provides a powerful way of working with **language as data**.
 
 # <codecell>
+%run demo.ipy
 import nltk
 from nltk.book import text4 as speeches
+
+# <codecell>
 print speeches[:100]
 
 # <headingcell level=1>
-# What's so great about that?
+# Fascinating! Tell me more ...
 
 # <markdowncell>
 # > We can quickly harvest and visualise information from large bodies of text.
 
 # <codecell>
 from nltk.draw import dispersion_plot
-text4.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"])
+speeches.dispersion_plot(["citizens", "democracy", "freedom", "duties", "America"])
 
 # <headingcell level=1>
 # You probably say that to everyone!
 
 # <markdowncell>
-# > You can work with your own texts, too:
+# > Of course, you can work with your own texts, too:
 
 # <codecell>
-sentence = "That's a lovely dress you're wearing."
+sentence = "Your eyes look beautiful in the moonlight."
 
 # <codecell>
 parsetree(sentence)
@@ -53,16 +63,18 @@ parsetree(sentence)
 # Let's talk politics ...
 
 # <markdowncell>
-# > We have been investigating a corpus of speeches made by Malcolm Fraser between 1951 and 1981. 
+# > We have been investigating a corpus of speeches made by Malcolm Fraser between 1954 and 1982. 
 
-# > Every word has been annotated with its word class, and every clause has been annotated with grammatical structure information
+# > Every word has been annotated with its word class, and every clause has been annotated with grammatical structure information.
+
+# > Let's search it for modal auxiliaries, like *can*, *may*, *would* and *should*:
 
 # <codecell>
-corpus = 'fraser-corpus-annotated'
+corpus = '../corpora/fraser-corpus-annotated'
 modal_words = 'MD'
 
 # <codecell>
-modals = interrogator(corpus, '-t', modal_words)
+modals = interrogator(corpus, 'words', modal_words)
 
 # <codecell>
 plotter('Modals in Fraser Speeches', modals.results, fract_of = modals.totals)
@@ -71,25 +83,6 @@ plotter('Modals in Fraser Speeches', modals.results, fract_of = modals.totals)
 # Call me, eh?
 
 # <markdowncell>
-# Sign up for free Python, IPython and NLTK lessons!
+# > Sign up for free Python, IPython and NLTK lessons!
 
 # <markdowncell>
-# 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# <codecell>
-% run corpling_tools/interrogator.ipy
-% run corpling_tools/plotter.ipy
-% run corpling_tools/additional_tools.ipy
