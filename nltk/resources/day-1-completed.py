@@ -464,10 +464,10 @@ sent
 
 # <markdowncell>
 # *Challenge*
-# 1. Create a list called 'Opening' that consists of the phrase "It was a dark and stormy night; the rain fell in torrents"
-# 2. Create a variable called 'clause' that contains the contents of 'Opening', up to the semi-colon
-# 3. Create a variable called 'alphabetised' that sorts 'clause' alphabetically
-# 4. Print 'alphabetised' 
+#1. Create a list called 'opening' that consists of the phrase "It was a dark and stormy night; the rain fell in torrents"
+#2. Create a variable called 'clause' that contains the contents of 'opening', up to the semi-colon
+#3. Create a variable called 'alphabetised' that contains the contents of 'clause' sorted alphabetically
+#4. Print 'alphabetised' 
 
 # <codecell>
 
