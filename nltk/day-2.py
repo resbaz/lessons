@@ -61,6 +61,7 @@ HTML('<iframe src=http://www.unimelb.edu.au/malcolmfraser/ width=700 height=350>
 # Every week, between 1954 until 1983, Malcolm Fraser made a talk to his electorate that was broadcast on Sunday evening on local radio.  
 
 # The speeches were transcribed years ago. Optical Character Recognition (OCR) was used to digitise the transcripts. This means that the texts are not of perfect quality. 
+# Explain what OCR is and how humanities researchers might use it to digitise their source matieral.
 
 # Some have been manually corrected, which has removed extraneous characters and mangled words, but even so there are still some quirks in the formatting. 
 
