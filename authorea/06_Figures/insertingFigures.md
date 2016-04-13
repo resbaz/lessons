@@ -4,7 +4,7 @@ To insert a figure, simply hover your mouse over a text block and select the ins
 Alternatively, you can or simply click and drag your figure into the document (Authorea accepts most 
 file formats for pictures). 
 
-Within the caption field, Authorea accepts the ```/label``` encoding which gives the figure a label
+Within the caption field, Authorea accepts the ```\label``` encoding which gives the figure a label
 for cross referencing using ```\ref{}```.
 
 ##### Challenge 
