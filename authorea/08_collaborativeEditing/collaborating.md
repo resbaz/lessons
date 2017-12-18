@@ -21,7 +21,7 @@ It is also possible use chat as a means of communicating to your co-authors.
 ##### Challenge
 
 Lock a section of your manuscript and see if your co-author can edit it or not from their computer. Initiate a chat 
-and incourge your co-author to edit the manuscript. Click on the history tab and see what your co-author did.
+and encourage your co-author to edit the manuscript. Click on the history tab and see what your co-author did.
 
 ----  
 Next up is [commenting on a manuscript](../09_commenting/commenting.md)
