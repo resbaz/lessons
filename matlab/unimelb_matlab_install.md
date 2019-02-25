@@ -4,7 +4,7 @@ Staff and students at the University of Melbourne are able to install Matlab on 
 
 ## 1. Create a MathWorks account  
 
-* At the [MathWorks website](http://www.mathworks.com.au/), select the "Log In" link in the top right hand corner
+* At the [MathWorks website](http://www.mathworks.com.au/), select the "Sign In" link in the top right hand corner
 * Select "Create Account"
 * Enter your personal details, noting that you'll need to use your university email address in order to obtain Matlab for free
 * When asked how you will use MathWorks software, select "Academic use"
