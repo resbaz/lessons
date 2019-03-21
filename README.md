@@ -1,6 +1,8 @@
 Lessons
 =======
 
+[![Join the chat at https://gitter.im/resbaz/lessons](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/resbaz/lessons?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This repository contains the teaching materials used by the Research Bazaar.  
 
 In many cases the directories in this repo simply contain a README file with a link to the [Software Carpentry](http://software-carpentry.org/) lessons that we use. In other cases there are lessons that we have developed ourselves, or additional files that compliment the Software Carpentry materials.
